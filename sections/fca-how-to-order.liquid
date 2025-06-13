@@ -312,19 +312,24 @@
           {%- for block in section.blocks -%}
             <div class="fca-how-to-order__slide" data-slide="{{ forloop.index0 }}">
               <div class="fca-how-to-order__image-column">
-                <div class="fca-how-to-order__step-number">{{ forloop.index | prepend: '0' }}</div>
                 {%- case forloop.index -%}
                   {%- when 1 -%}
+                    {%- assign step_number = '01' -%}
                     {%- assign image_name = 'number1.png' -%}
                   {%- when 2 -%}
-                    {%- assign image_name = 'number2.png' -%}
+                    {%- assign step_number = '04' -%}
+                    {%- assign image_name = 'number4.png' -%}
                   {%- when 3 -%}
+                    {%- assign step_number = '03' -%}
                     {%- assign image_name = 'number3.png' -%}
                   {%- when 4 -%}
-                    {%- assign image_name = 'number4.png' -%}
+                    {%- assign step_number = '02' -%}
+                    {%- assign image_name = 'number2.png' -%}
                   {%- else -%}
+                    {%- assign step_number = '01' -%}
                     {%- assign image_name = 'number1.png' -%}
                 {%- endcase -%}
+                <div class="fca-how-to-order__step-number">{{ step_number }}</div>
                 <img src="{{ image_name | asset_url }}" 
                      alt="{{ block.settings.title | escape }}" 
                      class="fca-how-to-order__step-image">
