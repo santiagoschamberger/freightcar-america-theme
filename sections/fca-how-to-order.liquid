@@ -93,40 +93,47 @@
     min-width: 100%;
     flex-shrink: 0;
     display: grid;
-    grid-template-columns: 892px 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0;
     align-items: center;
     position: relative;
     padding: 0;
-    height: 196px;
+    height: 400px;
+  }
+
+  .fca-how-to-order__image-column {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fca-how-to-order__step-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .fca-how-to-order__content-column {
+    background: #FFFFFF;
+    padding: 60px 80px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
   }
 
   .fca-how-to-order__step-number {
-    background: #F0F0F0;
-    height: 196px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 60px;
     font-family: 'Outage', sans-serif;
     font-weight: 700;
-    font-size: 280px;
-    line-height: 0.26;
+    font-size: 120px;
+    line-height: 0.8;
     color: rgba(0, 32, 91, 0.1);
-    border-radius: 8px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .fca-how-to-order__step {
-    background: #FFFFFF;
-    border-radius: 8px;
-    padding: 24px 40px;
-    width: 502px;
-    margin-left: -60px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-    position: relative;
+    margin: 0 0 20px 0;
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 
   .fca-how-to-order__step-title {
@@ -266,29 +273,27 @@
       display: flex;
       flex-direction: column;
       grid-template-columns: none;
-      padding: 0 20px;
-      gap: 20px;
+      padding: 0;
+      gap: 0;
+    }
+
+    .fca-how-to-order__image-column {
+      width: 100%;
+      height: 250px;
+      order: 1;
+    }
+
+    .fca-how-to-order__content-column {
+      width: 100%;
+      padding: 40px 30px;
+      order: 2;
+      height: auto;
     }
 
     .fca-how-to-order__step-number {
-      width: 100%;
-      height: 140px;
-      background: #F0F0F0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding-left: 20px;
-      font-size: 120px;
-      line-height: 0.72;
-      border-radius: 8px;
-      margin: 0;
-    }
-
-    .fca-how-to-order__step {
-      margin: 0;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: none;
+      font-size: 80px;
+      top: 10px;
+      right: 10px;
     }
 
     .fca-how-to-order__navigation {
@@ -317,20 +322,22 @@
     .fca-how-to-order__slide {
       min-width: 100%;
       flex-shrink: 0;
-      padding: 0 16px;
-      gap: 15px;
+      padding: 0;
+      gap: 0;
+    }
+
+    .fca-how-to-order__image-column {
+      height: 200px;
+    }
+
+    .fca-how-to-order__content-column {
+      padding: 30px 20px;
     }
 
     .fca-how-to-order__step-number {
-      width: 100%;
-      height: 120px;
-      padding-left: 16px;
-      font-size: 100px;
-    }
-
-    .fca-how-to-order__step {
-      padding: 30px 20px;
-      margin: 0;
+      font-size: 60px;
+      top: 10px;
+      right: 10px;
     }
 
     .fca-how-to-order__step-title {
@@ -361,7 +368,18 @@
       <div class="fca-how-to-order__slides" id="howToOrderSlides">
         {%- for block in section.blocks -%}
           <div class="fca-how-to-order__slide" {{ block.shopify_attributes }}>
-            <div class="fca-how-to-order__step">
+            <div class="fca-how-to-order__image-column">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                     alt="{{ block.settings.title | escape }}" 
+                     class="fca-how-to-order__step-image">
+              {%- else -%}
+                <div class="fca-how-to-order__step-image" style="background: #F0F0F0; display: flex; align-items: center; justify-content: center; color: #999;">
+                  <span>No image selected</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="fca-how-to-order__content-column">
               <div class="fca-how-to-order__step-number">
                 {%- assign step_number = forloop.index | prepend: '0' | slice: -2, 2 -%}
                 {{ step_number }}
@@ -480,6 +498,11 @@
       "type": "step",
       "name": "Order Step",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image"
+        },
         {
           "type": "text",
           "id": "title",
