@@ -62,7 +62,7 @@
   }
 
   /* Red highlight class for title text */
-  .red-highlight {
+  .red-highlighted {
     color: #D31244;
     display: inline;
   }
@@ -70,7 +70,9 @@
   .fca-how-to-order__slider {
     position: relative;
     height: 400px;
-    overflow: hidden;
+    overflow: visible;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
   .fca-how-to-order__slides {
@@ -83,26 +85,27 @@
     min-width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
-    padding: 0 20px;
+    padding: 0;
+    height: 196px;
   }
 
   .fca-how-to-order__step {
     background: #FFFFFF;
     border-radius: 8px;
-    padding: 48px 60px;
-    max-width: 502px;
-    margin-left: 432px;
-    margin-right: 0;
-    position: relative;
+    padding: 24px 40px;
+    width: 502px;
+    position: absolute;
+    right: 0;
+    top: 48px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    z-index: 2;
   }
 
   .fca-how-to-order__step-number {
     position: absolute;
-    left: -200px;
+    left: 0;
     top: 0;
     width: 892px;
     height: 196px;
@@ -110,7 +113,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 40px;
+    padding-left: 60px;
     font-family: 'Outage', sans-serif;
     font-weight: 700;
     font-size: 280px;
@@ -126,7 +129,7 @@
     font-size: 24px;
     line-height: 1.08;
     color: #D31244;
-    margin: 0 0 16px 0;
+    margin: 0 0 12px 0;
     position: relative;
     z-index: 1;
   }
@@ -147,7 +150,11 @@
     align-items: center;
     justify-content: center;
     gap: 40px;
-    margin-top: 60px;
+    margin-top: 80px;
+    position: relative;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .fca-how-to-order__progress {
@@ -215,7 +222,7 @@
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    margin-top: 40px;
+    margin-top: 60px;
   }
 
   .fca-how-to-order__button:hover {
@@ -242,22 +249,31 @@
     }
 
     .fca-how-to-order__slider {
-      height: 350px;
+      height: auto;
+      overflow: hidden;
+    }
+
+    .fca-how-to-order__slide {
+      height: auto;
+      flex-direction: column;
+      padding: 0 20px;
     }
 
     .fca-how-to-order__step {
-      margin: 40px 20px 0 20px;
+      position: relative;
+      right: auto;
+      top: auto;
+      margin: 40px 0 0 0;
       padding: 40px 30px;
+      width: 100%;
       max-width: none;
-      margin-left: 20px;
-      margin-right: 20px;
     }
 
     .fca-how-to-order__step-number {
       position: absolute;
       left: 0;
       top: 0;
-      width: calc(100% - 40px);
+      width: 100%;
       height: 140px;
       background: #F0F0F0;
       display: flex;
@@ -292,11 +308,13 @@
       height: 320px;
     }
 
+    .fca-how-to-order__slide {
+      padding: 0 16px;
+    }
+
     .fca-how-to-order__step {
       padding: 30px 20px;
-      margin: 30px 16px 0 16px;
-      margin-left: 16px;
-      margin-right: 16px;
+      margin: 30px 0 0 0;
     }
 
     .fca-how-to-order__step-title {
@@ -308,7 +326,7 @@
     }
 
     .fca-how-to-order__step-number {
-      width: calc(100% - 32px);
+      width: 100%;
       height: 120px;
       padding-left: 16px;
       font-size: 100px;
