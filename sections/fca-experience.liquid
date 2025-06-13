@@ -36,6 +36,19 @@
     margin: 0;
   }
 
+  /* Red highlight class for title text */
+  .fca-experience .red-highlight {
+    color: #D31244;
+    display: inline;
+    background: none;
+    padding: 0;
+    clip-path: none;
+  }
+
+  .fca-experience .red-highlight::before {
+    display: none;
+  }
+
   .fca-experience__description {
     font-family: 'Gotham', sans-serif;
     font-weight: 400;
@@ -103,7 +116,15 @@
   <div class="fca-experience__container">
     <div class="fca-experience__title-column">
       {%- if section.settings.title != blank -%}
-        <h2 class="fca-experience__title">{{ section.settings.title }}</h2>
+        <h2 class="fca-experience__title">
+          {%- if section.settings.red_highlight_text != blank -%}
+            {%- assign red_replacement = '<span class="red-highlight">' | append: section.settings.red_highlight_text | append: '</span>' -%}
+            {%- assign highlighted_title = section.settings.title | replace: section.settings.red_highlight_text, red_replacement -%}
+            {{ highlighted_title }}
+          {%- else -%}
+            {{ section.settings.title }}
+          {%- endif -%}
+        </h2>
       {%- endif -%}
     </div>
 
@@ -132,6 +153,13 @@
       "id": "title",
       "label": "Title",
       "default": "Our Experience, Your Advantage"
+    },
+    {
+      "type": "text",
+      "id": "red_highlight_text",
+      "label": "Text to Highlight (Red)",
+      "default": "ADVANTAGE",
+      "info": "This text will be highlighted in red in the title"
     },
     {
       "type": "textarea",
