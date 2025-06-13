@@ -159,13 +159,19 @@
     <div class="fca-hero__content">
       {%- if section.settings.title != blank -%}
         <h1 class="fca-hero__title">
-          {{ section.settings.title }}
+          {{ section.settings.title | newline_to_br }}
         </h1>
       {%- endif -%}
       
       {%- if section.settings.description != blank -%}
         <div class="fca-hero__description">
-          {{ section.settings.description }}
+          {%- if section.settings.highlight_text != blank -%}
+            {%- assign highlight_replacement = '<span class="red-highlight">' | append: section.settings.highlight_text | append: '</span>' -%}
+            {%- assign highlighted_description = section.settings.description | replace: section.settings.highlight_text, highlight_replacement -%}
+            {{ highlighted_description }}
+          {%- else -%}
+            {{ section.settings.description }}
+          {%- endif -%}
         </div>
       {%- endif -%}
       
@@ -191,18 +197,25 @@
       "info": "Recommended size: 1440x730px"
     },
     {
-      "type": "richtext",
+      "type": "textarea",
       "id": "title",
       "label": "Title",
-      "default": "<p>Setting a<br>New Standard</p>",
-      "info": "Use <br> for line breaks"
+      "default": "Setting a\nNew Standard",
+      "info": "Use line breaks to split the title across multiple lines"
     },
     {
-      "type": "richtext",
+      "type": "textarea",
       "id": "description",
       "label": "Description",
-      "default": "<p><span class=\"red-highlight\">FreightCar America's</span> delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.</p>",
-      "info": "Use <span class=\"red-highlight\">text</span> to add red background to specific words"
+      "default": "FreightCar America's delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
+      "info": "The first word/phrase will automatically have a red background highlight"
+    },
+    {
+      "type": "text",
+      "id": "highlight_text",
+      "label": "Text to Highlight (Red Background)",
+      "default": "FreightCar America's",
+      "info": "This text will be highlighted with red background in the description"
     },
     {
       "type": "text",
@@ -220,8 +233,9 @@
     {
       "name": "FCA Hero Section",
       "settings": {
-        "title": "<p>Setting a<br>New Standard</p>",
-        "description": "<p><span class=\"red-highlight\">FreightCar America's</span> delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.</p>",
+        "title": "Setting a\nNew Standard",
+        "description": "FreightCar America's delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
+        "highlight_text": "FreightCar America's",
         "button_text": "Request an account"
       }
     }
