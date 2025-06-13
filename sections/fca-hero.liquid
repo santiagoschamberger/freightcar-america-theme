@@ -4,7 +4,7 @@
     min-height: 730px;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)){% if section.settings.background_image %}, url('{{ section.settings.background_image | image_url }}'){% endif %};
+    background: {% if section.settings.background_image %}url('{{ section.settings.background_image | image_url }}'){% else %}#000{% endif %};
     background-size: cover;
     background-position: center;
     color: white;
@@ -23,9 +23,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 41px;
-    text-align: center;
+    text-align: left;
   }
 
   .fca-hero__title {
@@ -51,12 +51,29 @@
     text-align: left;
   }
 
-  /* Red highlight class for specific words */
+  /* Red highlight class with curved shape effect */
   .red-highlight {
     background-color: #D31244;
-    padding: 2px 6px;
-    display: inline;
+    padding: 4px 8px 4px 6px;
+    display: inline-block;
     position: relative;
+    color: white;
+    clip-path: polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%);
+    margin-right: 4px;
+  }
+
+  /* Alternative curved effect using pseudo-elements */
+  .red-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid #D31244;
+    border-top: 15px solid transparent;
+    border-bottom: 16px solid transparent;
+    z-index: 1;
   }
 
   .fca-hero__button {
@@ -115,6 +132,8 @@
 
     .fca-hero__content {
       gap: 30px;
+      align-items: center;
+      text-align: center;
     }
 
     .fca-hero__title {
@@ -150,6 +169,11 @@
     .fca-hero__button {
       font-size: 16px;
       padding: 16px 18px 14px;
+    }
+
+    .red-highlight::before {
+      border-top: 12px solid transparent;
+      border-bottom: 13px solid transparent;
     }
   }
 {%- endstyle -%}
