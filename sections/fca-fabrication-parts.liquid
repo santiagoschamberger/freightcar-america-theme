@@ -194,6 +194,12 @@
       min-height: auto;
     }
 
+    {% if section.settings.mobile_background_image %}
+      .fca-fabrication {
+        background-image: url('{{ section.settings.mobile_background_image | image_url }}') !important;
+      }
+    {% endif %}
+
     .fca-fabrication__content {
       width: 100%;
       padding: 60px 20px;
@@ -334,8 +340,14 @@
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image",
+      "label": "Background Image (Desktop)",
       "info": "Recommended size: 1440x746px or larger"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Background Image (Mobile)",
+      "info": "Optional: Different image for mobile devices. If not set, desktop image will be used."
     },
     {
       "type": "text",
