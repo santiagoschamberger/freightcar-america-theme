@@ -80,8 +80,8 @@
   }
 
   .fca-how-to-order__slide {
-    display: grid;
-    grid-template-columns: 40% 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 0;
     align-items: center;
     height: 400px;
@@ -91,11 +91,13 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+    flex: 0 0 auto;
   }
 
   .fca-how-to-order__step-image {
     width: 100%;
     height: 100%;
+    max-width: 400px;
     object-fit: contain;
     object-position: center;
     display: block;
@@ -109,6 +111,7 @@
     flex-direction: column;
     justify-content: center;
     position: relative;
+    flex: 1;
   }
 
   .fca-how-to-order__step-title {
@@ -244,7 +247,6 @@
     .fca-how-to-order__slide {
       display: flex;
       flex-direction: column;
-      grid-template-columns: none;
       height: auto;
     }
 
@@ -252,6 +254,7 @@
       width: 100%;
       height: 250px;
       order: 1;
+      flex: none;
     }
 
     .fca-how-to-order__content-column {
@@ -259,6 +262,7 @@
       padding: 40px 30px;
       order: 2;
       height: auto;
+      flex: none;
     }
 
     .fca-how-to-order__navigation {
