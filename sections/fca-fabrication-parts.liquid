@@ -1,6 +1,9 @@
 {%- style -%}
   .fca-fabrication {
     background: #00205B;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 0;
     color: white;
     min-height: 746px;
@@ -9,43 +12,21 @@
   }
 
   .fca-fabrication__container {
+    max-width: 1440px;
+    margin: 0 auto;
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: stretch;
-  }
-
-  .fca-fabrication__wrapper {
-    display: flex;
-    width: 100%;
     align-items: center;
     min-height: 746px;
-    max-width: 1440px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .fca-fabrication__wrapper--image-right {
-    flex-direction: row;
-  }
-
-  .fca-fabrication__wrapper--image-left {
-    flex-direction: row-reverse;
   }
 
   .fca-fabrication__content {
-    flex: 0 0 auto;
     width: 552px;
     padding: 102px 0 102px 101px;
     display: flex;
     flex-direction: column;
     gap: 46px;
-    z-index: 2;
-    position: relative;
-  }
-
-  .fca-fabrication__wrapper--image-left .fca-fabrication__content {
-    padding: 102px 101px 102px 0;
   }
 
   .fca-fabrication__header {
@@ -152,37 +133,13 @@
     box-shadow: 0 4px 12px rgba(211, 18, 68, 0.3);
   }
 
-  .fca-fabrication__image {
-    position: absolute;
-    top: 0;
-    height: 746px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-  }
 
-  .fca-fabrication__wrapper--image-right .fca-fabrication__image {
-    right: 0;
-    width: 100vw;
-    margin-right: calc(-50vw + 50%);
-  }
-
-  .fca-fabrication__wrapper--image-left .fca-fabrication__image {
-    left: 0;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-  }
 
   /* Responsive Design */
   @media (max-width: 1200px) {
     .fca-fabrication__content {
-      width: 45%;
-      padding: 80px 0 80px 60px;
-    }
-
-    .fca-fabrication__wrapper--image-left .fca-fabrication__content {
-      padding: 80px 60px 80px 0;
+      width: 70%;
+      padding: 80px 60px;
     }
     
     .fca-fabrication__title {
@@ -199,29 +156,9 @@
       min-height: auto;
     }
 
-    .fca-fabrication__wrapper,
-    .fca-fabrication__wrapper--image-right,
-    .fca-fabrication__wrapper--image-left {
-      flex-direction: column;
-      position: static;
-    }
-
     .fca-fabrication__content {
       width: 100%;
       padding: 60px 20px;
-      order: 1;
-      position: static;
-      z-index: auto;
-    }
-
-    .fca-fabrication__wrapper--image-left .fca-fabrication__content {
-      padding: 60px 20px;
-    }
-
-    .fca-fabrication__image,
-    .fca-fabrication__wrapper--image-right .fca-fabrication__image,
-    .fca-fabrication__wrapper--image-left .fca-fabrication__image {
-      display: none;
     }
 
     .fca-fabrication__title {
@@ -272,58 +209,51 @@
   }
 {%- endstyle -%}
 
-<section class="fca-fabrication">
+<section class="fca-fabrication"{% if section.settings.background_image %} style="background-image: url('{{ section.settings.background_image | image_url }}');"{% endif %}>
   <div class="fca-fabrication__container">
-    <div class="fca-fabrication__wrapper fca-fabrication__wrapper--image-{{ section.settings.image_position | default: 'right' }}">
-      <div class="fca-fabrication__content">
-        <div class="fca-fabrication__header">
-          {%- if section.settings.title != blank -%}
-            <h2 class="fca-fabrication__title">{{ section.settings.title }}</h2>
-          {%- endif -%}
-          
-          {%- if section.settings.description != blank -%}
-            <p class="fca-fabrication__description">{{ section.settings.description }}</p>
-          {%- endif -%}
-        </div>
-
-        {%- if section.blocks.size > 0 -%}
-          <ul class="fca-fabrication__features">
-            {%- for block in section.blocks -%}
-              <li class="fca-fabrication__feature" {{ block.shopify_attributes }}>
-                <div class="fca-fabrication__feature-icon">
-                  {%- if block.settings.icon != blank -%}
-                    {{ block.settings.icon }}
-                  {%- else -%}
-                    <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-                      <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
-                      <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
-                      <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
-                    </svg>
-                  {%- endif -%}
-                </div>
-                <div class="fca-fabrication__feature-content">
-                  {%- if block.settings.title != blank -%}
-                    <h3>{{ block.settings.title }}</h3>
-                  {%- endif -%}
-                  {%- if block.settings.description != blank -%}
-                    <p>{{ block.settings.description }}</p>
-                  {%- endif -%}
-                </div>
-              </li>
-            {%- endfor -%}
-          </ul>
+    <div class="fca-fabrication__content">
+      <div class="fca-fabrication__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="fca-fabrication__title">{{ section.settings.title }}</h2>
         {%- endif -%}
         
-        {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
-          <a href="{{ section.settings.button_url }}" class="fca-fabrication__button">
-            {{ section.settings.button_text }}
-          </a>
+        {%- if section.settings.description != blank -%}
+          <p class="fca-fabrication__description">{{ section.settings.description }}</p>
         {%- endif -%}
       </div>
 
-      {%- if section.settings.image != blank -%}
-        <div class="fca-fabrication__image" style="background-image: url('{{ section.settings.image | image_url }}');">
-        </div>
+      {%- if section.blocks.size > 0 -%}
+        <ul class="fca-fabrication__features">
+          {%- for block in section.blocks -%}
+            <li class="fca-fabrication__feature" {{ block.shopify_attributes }}>
+              <div class="fca-fabrication__feature-icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon }}
+                {%- else -%}
+                  <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                    <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
+                    <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
+                    <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+              <div class="fca-fabrication__feature-content">
+                {%- if block.settings.title != blank -%}
+                  <h3>{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <p>{{ block.settings.description }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="fca-fabrication__button">
+          {{ section.settings.button_text }}
+        </a>
       {%- endif -%}
     </div>
   </div>
@@ -349,25 +279,9 @@
     },
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "Image",
-      "info": "Recommended size: 899x749px"
-    },
-    {
-      "type": "select",
-      "id": "image_position",
-      "label": "Image Position",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "right"
+      "id": "background_image",
+      "label": "Background Image",
+      "info": "Recommended size: 1440x746px or larger"
     },
     {
       "type": "text",
@@ -413,7 +327,6 @@
       "settings": {
         "title": "Running Repair Parts You Can Rely On",
         "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
-        "image_position": "right",
         "button_text": "view our parts catalog"
       },
       "blocks": [
