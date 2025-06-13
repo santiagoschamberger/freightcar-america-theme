@@ -1,0 +1,154 @@
+{%- style -%}
+  .fca-hero {
+    position: relative;
+    min-height: 730px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{{ section.settings.background_image | asset_url }}');
+    background-size: cover;
+    background-position: center;
+    color: white;
+  }
+
+  .fca-hero__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .fca-hero__content {
+    max-width: 1085px;
+    margin-left: 165px;
+  }
+
+  .fca-hero__title {
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1.11;
+    margin-bottom: 40px;
+    color: white;
+  }
+
+  .fca-hero__description {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.45;
+    letter-spacing: 2%;
+    margin-bottom: 40px;
+    max-width: 1085px;
+  }
+
+  .fca-hero__button {
+    display: inline-block;
+    background: #D31244;
+    color: white;
+    padding: 20px 24px 17px;
+    text-decoration: none;
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .fca-hero__button:hover {
+    background: #BF0D3D;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .fca-hero {
+      min-height: 600px;
+      padding: 60px 0;
+    }
+
+    .fca-hero__content {
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .fca-hero__title {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .fca-hero__description {
+      font-size: 18px;
+      line-height: 1.56;
+      margin-bottom: 30px;
+    }
+
+    .fca-hero__button {
+      font-size: 16px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="fca-hero">
+  <div class="fca-hero__container">
+    <div class="fca-hero__content">
+      {%- if section.settings.title != blank -%}
+        <h1 class="fca-hero__title">{{ section.settings.title }}</h1>
+      {%- endif -%}
+      
+      {%- if section.settings.description != blank -%}
+        <p class="fca-hero__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="fca-hero__button">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FCA Hero Section",
+  "tag": "section",
+  "class": "section-fca-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "background_image",
+      "label": "Background Image",
+      "default": "hero-background.jpg"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Setting a New Standard"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "FreightCar America's delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Request an account"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/pages/request-account"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FCA Hero Section"
+    }
+  ]
+}
+{% endschema %} 

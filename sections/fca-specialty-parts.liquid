@@ -1,0 +1,219 @@
+{%- style -%}
+  .fca-specialty {
+    background: #326295;
+    padding: 100px 0;
+    color: white;
+  }
+
+  .fca-specialty__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .fca-specialty__image {
+    width: 100%;
+    height: 746px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .fca-specialty__content {
+    padding-left: 79px;
+  }
+
+  .fca-specialty__title {
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.43;
+    margin-bottom: 40px;
+    color: white;
+  }
+
+  .fca-specialty__description {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.44;
+    margin-bottom: 40px;
+    max-width: 391px;
+  }
+
+  .fca-specialty__parts {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .fca-specialty__part {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+
+  .fca-specialty__part-icon {
+    width: 20px;
+    height: 16px;
+    background: linear-gradient(45deg, #5784CC, #D31244);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.35));
+  }
+
+  .fca-specialty__part-name {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.44;
+    color: white;
+    margin: 0;
+  }
+
+  .fca-specialty__button {
+    display: inline-block;
+    background: #D31244;
+    color: white;
+    padding: 20px 24px 17px;
+    text-decoration: none;
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .fca-specialty__button:hover {
+    background: #BF0D3D;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .fca-specialty__container {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .fca-specialty__content {
+      padding-left: 20px;
+      order: 2;
+    }
+
+    .fca-specialty__title {
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .fca-specialty__image {
+      height: 400px;
+      order: 1;
+    }
+
+    .fca-specialty__button {
+      font-size: 16px;
+      display: block;
+      text-align: center;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+{%- endstyle -%}
+
+<section class="fca-specialty">
+  <div class="fca-specialty__container">
+    {%- if section.settings.image != blank -%}
+      <div class="fca-specialty__image-container">
+        <img src="{{ section.settings.image | asset_url }}" 
+             alt="{{ section.settings.title }}" 
+             class="fca-specialty__image">
+      </div>
+    {%- endif -%}
+
+    <div class="fca-specialty__content">
+      {%- if section.settings.title != blank -%}
+        <h2 class="fca-specialty__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.description != blank -%}
+        <p class="fca-specialty__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <ul class="fca-specialty__parts">
+        <li class="fca-specialty__part">
+          <div class="fca-specialty__part-icon"></div>
+          <h3 class="fca-specialty__part-name">Side Frames, Bolsters, Couplers</h3>
+        </li>
+        <li class="fca-specialty__part">
+          <div class="fca-specialty__part-icon"></div>
+          <h3 class="fca-specialty__part-name">Cushion Units, Draft Gears</h3>
+        </li>
+        <li class="fca-specialty__part">
+          <div class="fca-specialty__part-icon"></div>
+          <h3 class="fca-specialty__part-name">Air Brake Valve Unit Exchange</h3>
+        </li>
+        <li class="fca-specialty__part">
+          <div class="fca-specialty__part-icon"></div>
+          <h3 class="fca-specialty__part-name">Auto Rack Components</h3>
+        </li>
+      </ul>
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="fca-specialty__button">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FCA Specialty Parts",
+  "tag": "section",
+  "class": "section-fca-specialty",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "SPECIALTY PARTS SOURCING"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "We use our industry connections and inventory management to source the parts you need, including:"
+    },
+    {
+      "type": "text",
+      "id": "image",
+      "label": "Image",
+      "default": "specialty-parts.jpg"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Submit a specialty parts request"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/pages/specialty-parts-request"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FCA Specialty Parts"
+    }
+  ]
+}
+{% endschema %} 

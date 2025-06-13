@@ -1,0 +1,197 @@
+{%- style -%}
+  .fca-fabrication {
+    background: #00205B;
+    padding: 100px 0;
+    color: white;
+  }
+
+  .fca-fabrication__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .fca-fabrication__content {
+    padding-left: 133px;
+    max-width: 700px;
+  }
+
+  .fca-fabrication__title {
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.43;
+    margin-bottom: 40px;
+    color: white;
+  }
+
+  .fca-fabrication__description {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.44;
+    margin-bottom: 60px;
+    max-width: 569px;
+  }
+
+  .fca-fabrication__features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .fca-fabrication__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .fca-fabrication__feature-icon {
+    width: 20px;
+    height: 16px;
+    background: linear-gradient(45deg, #5784CC, #D31244);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.35));
+  }
+
+  .fca-fabrication__feature-content h3 {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.44;
+    color: #5784CC;
+    margin: 0 0 4px 0;
+  }
+
+  .fca-fabrication__feature-content p {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .fca-fabrication__button {
+    display: inline-block;
+    background: #D31244;
+    color: white;
+    padding: 20px 24px 17px;
+    text-decoration: none;
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .fca-fabrication__button:hover {
+    background: #BF0D3D;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .fca-fabrication__content {
+      padding-left: 20px;
+    }
+
+    .fca-fabrication__title {
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .fca-fabrication__button {
+      font-size: 16px;
+      display: block;
+      text-align: center;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+{%- endstyle -%}
+
+<section class="fca-fabrication">
+  <div class="fca-fabrication__container">
+    <div class="fca-fabrication__content">
+      {%- if section.settings.title != blank -%}
+        <h2 class="fca-fabrication__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.description != blank -%}
+        <p class="fca-fabrication__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <ul class="fca-fabrication__features">
+        <li class="fca-fabrication__feature">
+          <div class="fca-fabrication__feature-icon"></div>
+          <div class="fca-fabrication__feature-content">
+            <h3>Quality You Can Trust</h3>
+            <p>Every part undergoes a strict four-step process to meet specifications before shipping.</p>
+          </div>
+        </li>
+        <li class="fca-fabrication__feature">
+          <div class="fca-fabrication__feature-icon"></div>
+          <div class="fca-fabrication__feature-content">
+            <h3>Tailored Solutions</h3>
+            <p>Collaborate directly with our engineering team to create custom parts that enhance performance.</p>
+          </div>
+        </li>
+        <li class="fca-fabrication__feature">
+          <div class="fca-fabrication__feature-icon"></div>
+          <div class="fca-fabrication__feature-content">
+            <h3>Quick Turnaround Time</h3>
+            <p>We deliver the right part, to spec, exactly when you need it.</p>
+          </div>
+        </li>
+      </ul>
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="fca-fabrication__button">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FCA Fabrication Parts",
+  "tag": "section",
+  "class": "section-fca-fabrication",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Fabrication of Parts for Every Need"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet's requirements."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Submit a fabrication request"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/pages/fabrication-request"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FCA Fabrication Parts"
+    }
+  ]
+}
+{% endschema %} 
