@@ -4,7 +4,7 @@
     min-height: 780px;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{{ section.settings.background_image | asset_url }}');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)){% if section.settings.background_image %}, url('{{ section.settings.background_image | image_url }}'){% endif %};
     background-size: cover;
     background-position: center;
     color: white;
@@ -169,10 +169,9 @@
       "default": "How to Order"
     },
     {
-      "type": "text",
+      "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image",
-      "default": "how-to-order.jpg"
+      "label": "Background Image"
     }
   ],
   "presets": [

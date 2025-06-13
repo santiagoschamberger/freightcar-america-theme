@@ -130,7 +130,7 @@
   <div class="fca-specialty__container">
     {%- if section.settings.image != blank -%}
       <div class="fca-specialty__image-container">
-        <img src="{{ section.settings.image | asset_url }}" 
+        <img src="{{ section.settings.image | image_url }}" 
              alt="{{ section.settings.title }}" 
              class="fca-specialty__image">
       </div>
@@ -192,10 +192,9 @@
       "default": "We use our industry connections and inventory management to source the parts you need, including:"
     },
     {
-      "type": "text",
+      "type": "image_picker",
       "id": "image",
-      "label": "Image",
-      "default": "specialty-parts.jpg"
+      "label": "Image"
     },
     {
       "type": "text",

@@ -10,7 +10,6 @@
     "fca_hero": {
       "type": "fca-hero",
       "settings": {
-        "background_image": "hero-background.jpg",
         "title": "Setting a New Standard",
         "description": "FreightCar America's delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
         "button_text": "Request an account",
@@ -22,7 +21,6 @@
       "settings": {
         "title": "Running Repair Parts You Can Rely On",
         "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
-        "image": "running-repair-parts.jpg",
         "button_text": "view our parts catalog",
         "button_url": "/collections/running-repair-parts"
       }
@@ -41,7 +39,6 @@
       "settings": {
         "title": "SPECIALTY PARTS SOURCING",
         "description": "We use our industry connections and inventory management to source the parts you need, including:",
-        "image": "specialty-parts.jpg",
         "button_text": "Submit a specialty parts request",
         "button_url": "/pages/specialty-parts-request"
       }
@@ -49,8 +46,7 @@
     "fca_how_to_order": {
       "type": "fca-how-to-order",
       "settings": {
-        "title": "How to Order",
-        "background_image": "how-to-order.jpg"
+        "title": "How to Order"
       }
     },
     "fca_experience": {

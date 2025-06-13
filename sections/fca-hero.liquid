@@ -4,7 +4,7 @@
     min-height: 730px;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{{ section.settings.background_image | asset_url }}');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)){% if section.settings.background_image %}, url('{{ section.settings.background_image | image_url }}'){% endif %};
     background-size: cover;
     background-position: center;
     color: white;
@@ -115,10 +115,9 @@
   "class": "section-fca-hero",
   "settings": [
     {
-      "type": "text",
+      "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image",
-      "default": "hero-background.jpg"
+      "label": "Background Image"
     },
     {
       "type": "text",

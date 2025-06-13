@@ -178,7 +178,7 @@
 
     {%- if section.settings.image != blank -%}
       <div class="fca-running-repair__image-container">
-        <img src="{{ section.settings.image | asset_url }}" 
+        <img src="{{ section.settings.image | image_url }}" 
              alt="{{ section.settings.title }}" 
              class="fca-running-repair__image">
       </div>
@@ -205,10 +205,9 @@
       "default": "Minimize downtime with our ready-to-ship, high-quality running repair parts."
     },
     {
-      "type": "text",
+      "type": "image_picker",
       "id": "image",
-      "label": "Image",
-      "default": "running-repair-parts.jpg"
+      "label": "Image"
     },
     {
       "type": "text",
