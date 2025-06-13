@@ -1,19 +1,50 @@
 {%- style -%}
   .fca-fabrication {
     background: #00205B;
-    padding: 100px 0;
+    padding: 0;
     color: white;
+    min-height: 746px;
+    display: flex;
+    align-items: center;
   }
 
   .fca-fabrication__container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .fca-fabrication__wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    min-height: 746px;
+  }
+
+  .fca-fabrication__wrapper--image-right {
+    flex-direction: row;
+  }
+
+  .fca-fabrication__wrapper--image-left {
+    flex-direction: row-reverse;
   }
 
   .fca-fabrication__content {
-    padding-left: 133px;
-    max-width: 700px;
+    flex: 0 0 auto;
+    width: 653px;
+    padding: 102px 101px;
+    display: flex;
+    flex-direction: column;
+    gap: 46px;
+  }
+
+  .fca-fabrication__header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   .fca-fabrication__title {
@@ -21,7 +52,7 @@
     font-weight: 700;
     font-size: 42px;
     line-height: 1.43;
-    margin-bottom: 40px;
+    margin: 0;
     color: white;
   }
 
@@ -30,31 +61,46 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 1.44;
-    margin-bottom: 60px;
-    max-width: 569px;
+    margin: 0;
+    color: white;
   }
 
   .fca-fabrication__features {
     list-style: none;
     padding: 0;
-    margin-bottom: 40px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 503px;
   }
 
   .fca-fabrication__feature {
     display: flex;
     align-items: flex-start;
     gap: 30px;
-    margin-bottom: 40px;
+    position: relative;
   }
 
   .fca-fabrication__feature-icon {
-    width: 20px;
+    width: 19.84px;
     height: 16px;
-    background: linear-gradient(45deg, #5784CC, #D31244);
-    border-radius: 2px;
     flex-shrink: 0;
     margin-top: 2px;
     filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.35));
+    position: relative;
+  }
+
+  .fca-fabrication__feature-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fca-fabrication__feature-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
 
   .fca-fabrication__feature-content h3 {
@@ -63,7 +109,7 @@
     font-size: 18px;
     line-height: 1.44;
     color: #5784CC;
-    margin: 0 0 4px 0;
+    margin: 0;
   }
 
   .fca-fabrication__feature-content p {
@@ -72,10 +118,13 @@
     font-size: 16px;
     line-height: 1.5;
     margin: 0;
+    color: white;
   }
 
   .fca-fabrication__button {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     background: #D31244;
     color: white;
     padding: 20px 24px 17px;
@@ -84,18 +133,63 @@
     font-weight: 700;
     font-size: 20px;
     line-height: 1;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    align-self: flex-start;
   }
 
   .fca-fabrication__button:hover {
     background: #BF0D3D;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 18, 68, 0.3);
+  }
+
+  .fca-fabrication__image {
+    flex: 1;
+    height: 746px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .fca-fabrication__content {
+      width: 50%;
+      padding: 80px 60px;
+    }
+    
+    .fca-fabrication__title {
+      font-size: 36px;
+    }
+    
+    .fca-fabrication__description {
+      font-size: 16px;
+    }
   }
 
   @media (max-width: 768px) {
+    .fca-fabrication {
+      min-height: auto;
+    }
+
+    .fca-fabrication__wrapper,
+    .fca-fabrication__wrapper--image-right,
+    .fca-fabrication__wrapper--image-left {
+      flex-direction: column;
+    }
+
     .fca-fabrication__content {
-      padding-left: 20px;
+      width: 100%;
+      padding: 60px 20px;
+      order: 1;
+    }
+
+    .fca-fabrication__image {
+      width: 100%;
+      height: 400px;
+      order: 2;
     }
 
     .fca-fabrication__title {
@@ -103,55 +197,102 @@
       text-align: center;
     }
 
+    .fca-fabrication__description {
+      text-align: center;
+    }
+
+    .fca-fabrication__features {
+      max-width: 100%;
+      gap: 24px;
+    }
+
+    .fca-fabrication__feature {
+      gap: 20px;
+    }
+
+    .fca-fabrication__button {
+      align-self: center;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .fca-fabrication__content {
+      padding: 40px 16px;
+      gap: 32px;
+    }
+
+    .fca-fabrication__title {
+      font-size: 28px;
+    }
+
+    .fca-fabrication__description {
+      font-size: 16px;
+    }
+
+    .fca-fabrication__image {
+      height: 300px;
+    }
+
     .fca-fabrication__button {
       font-size: 16px;
-      display: block;
-      text-align: center;
-      max-width: 300px;
-      margin: 0 auto;
+      padding: 16px 20px 14px;
     }
   }
 {%- endstyle -%}
 
 <section class="fca-fabrication">
   <div class="fca-fabrication__container">
-    <div class="fca-fabrication__content">
-      {%- if section.settings.title != blank -%}
-        <h2 class="fca-fabrication__title">{{ section.settings.title }}</h2>
-      {%- endif -%}
-      
-      {%- if section.settings.description != blank -%}
-        <p class="fca-fabrication__description">{{ section.settings.description }}</p>
-      {%- endif -%}
+    <div class="fca-fabrication__wrapper fca-fabrication__wrapper--image-{{ section.settings.image_position | default: 'right' }}">
+      <div class="fca-fabrication__content">
+        <div class="fca-fabrication__header">
+          {%- if section.settings.title != blank -%}
+            <h2 class="fca-fabrication__title">{{ section.settings.title }}</h2>
+          {%- endif -%}
+          
+          {%- if section.settings.description != blank -%}
+            <p class="fca-fabrication__description">{{ section.settings.description }}</p>
+          {%- endif -%}
+        </div>
 
-      <ul class="fca-fabrication__features">
-        <li class="fca-fabrication__feature">
-          <div class="fca-fabrication__feature-icon"></div>
-          <div class="fca-fabrication__feature-content">
-            <h3>Quality You Can Trust</h3>
-            <p>Every part undergoes a strict four-step process to meet specifications before shipping.</p>
-          </div>
-        </li>
-        <li class="fca-fabrication__feature">
-          <div class="fca-fabrication__feature-icon"></div>
-          <div class="fca-fabrication__feature-content">
-            <h3>Tailored Solutions</h3>
-            <p>Collaborate directly with our engineering team to create custom parts that enhance performance.</p>
-          </div>
-        </li>
-        <li class="fca-fabrication__feature">
-          <div class="fca-fabrication__feature-icon"></div>
-          <div class="fca-fabrication__feature-content">
-            <h3>Quick Turnaround Time</h3>
-            <p>We deliver the right part, to spec, exactly when you need it.</p>
-          </div>
-        </li>
-      </ul>
-      
-      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
-        <a href="{{ section.settings.button_url }}" class="fca-fabrication__button">
-          {{ section.settings.button_text }}
-        </a>
+        {%- if section.blocks.size > 0 -%}
+          <ul class="fca-fabrication__features">
+            {%- for block in section.blocks -%}
+              <li class="fca-fabrication__feature" {{ block.shopify_attributes }}>
+                <div class="fca-fabrication__feature-icon">
+                  {%- if block.settings.icon != blank -%}
+                    {{ block.settings.icon }}
+                  {%- else -%}
+                    <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                      <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
+                      <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
+                      <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
+                    </svg>
+                  {%- endif -%}
+                </div>
+                <div class="fca-fabrication__feature-content">
+                  {%- if block.settings.title != blank -%}
+                    <h3>{{ block.settings.title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.description != blank -%}
+                    <p>{{ block.settings.description }}</p>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        
+        {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+          <a href="{{ section.settings.button_url }}" class="fca-fabrication__button">
+            {{ section.settings.button_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.image != blank -%}
+        <div class="fca-fabrication__image" style="background-image: url('{{ section.settings.image | image_url }}');">
+        </div>
       {%- endif -%}
     </div>
   </div>
@@ -159,7 +300,7 @@
 
 {% schema %}
 {
-  "name": "FCA Fabrication Parts",
+  "name": "FCA Text with Image",
   "tag": "section",
   "class": "section-fca-fabrication",
   "settings": [
@@ -167,19 +308,41 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "Fabrication of Parts for Every Need"
+      "default": "Running Repair Parts You Can Rely On"
     },
     {
       "type": "textarea",
       "id": "description",
       "label": "Description",
-      "default": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet's requirements."
+      "default": "Minimize downtime with our ready-to-ship, high-quality running repair parts."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Recommended size: 899x749px"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
     },
     {
       "type": "text",
       "id": "button_text",
       "label": "Button Text",
-      "default": "Submit a fabrication request"
+      "default": "view our parts catalog"
     },
     {
       "type": "url",
@@ -187,9 +350,64 @@
       "label": "Button URL"
     }
   ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description",
+          "default": "Feature description goes here."
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Custom Icon (SVG)",
+          "info": "Paste SVG code here. Leave empty to use default icon."
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "FCA Fabrication Parts"
+      "name": "FCA Text with Image",
+      "settings": {
+        "title": "Running Repair Parts You Can Rely On",
+        "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
+        "image_position": "right",
+        "button_text": "view our parts catalog"
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Fast Delivery",
+            "description": "Parts ready to ship in two days for quick, reliable service."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Certified Quality",
+            "description": "All parts meet M1003 standards for precision and durability."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Highly Competitive Pricing",
+            "description": "Providing value without compromising on quality."
+          }
+        }
+      ]
     }
   ]
 }
