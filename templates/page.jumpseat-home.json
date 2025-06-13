@@ -6,9 +6,70 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "fca_hero": {
+      "type": "fca-hero",
+      "settings": {
+        "background_image": "hero-background.jpg",
+        "title": "Setting a New Standard",
+        "description": "FreightCar America's delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
+        "button_text": "Request an account",
+        "button_url": "/pages/request-account"
+      }
+    },
+    "fca_running_repair": {
+      "type": "fca-running-repair-parts",
+      "settings": {
+        "title": "Running Repair Parts You Can Rely On",
+        "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
+        "image": "running-repair-parts.jpg",
+        "button_text": "view our parts catalog",
+        "button_url": "/collections/running-repair-parts"
+      }
+    },
+    "fca_fabrication": {
+      "type": "fca-fabrication-parts",
+      "settings": {
+        "title": "Fabrication of Parts for Every Need",
+        "description": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet's requirements.",
+        "button_text": "Submit a fabrication request",
+        "button_url": "/pages/fabrication-request"
+      }
+    },
+    "fca_specialty": {
+      "type": "fca-specialty-parts",
+      "settings": {
+        "title": "SPECIALTY PARTS SOURCING",
+        "description": "We use our industry connections and inventory management to source the parts you need, including:",
+        "image": "specialty-parts.jpg",
+        "button_text": "Submit a specialty parts request",
+        "button_url": "/pages/specialty-parts-request"
+      }
+    },
+    "fca_how_to_order": {
+      "type": "fca-how-to-order",
+      "settings": {
+        "title": "How to Order",
+        "background_image": "how-to-order.jpg"
+      }
+    },
+    "fca_experience": {
+      "type": "fca-experience",
+      "settings": {
+        "title": "Our Experience, Your Advantage",
+        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
+        "button_text": "Start Your Order Today",
+        "button_url": "/pages/start-order"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "fca_hero",
+    "fca_running_repair",
+    "fca_fabrication",
+    "fca_specialty",
+    "fca_how_to_order",
+    "fca_experience"
   ]
 }
