@@ -36,10 +36,10 @@
     min-height: 780px;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)){% if section.settings.background_image %}, url('{{ section.settings.background_image | image_url }}'){% endif %};
+    background: {% if section.settings.background_image %}url('{{ section.settings.background_image | image_url }}'){% else %}#FFFFFF{% endif %};
     background-size: cover;
     background-position: center;
-    color: white;
+    color: #00205B;
     overflow: hidden;
   }
 
@@ -59,6 +59,12 @@
     text-align: center;
     margin-bottom: 80px;
     color: #122F5B;
+  }
+
+  /* Red highlight class for title text */
+  .red-highlight {
+    color: #D31244;
+    display: inline;
   }
 
   .fca-how-to-order__slider {
@@ -83,27 +89,35 @@
   }
 
   .fca-how-to-order__step {
-    background: rgba(255, 255, 255, 0.95);
+    background: #FFFFFF;
     border-radius: 8px;
-    padding: 60px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: 260px;
+    padding: 48px 60px;
+    max-width: 502px;
+    margin-left: 432px;
+    margin-right: 0;
     position: relative;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
   }
 
   .fca-how-to-order__step-number {
     position: absolute;
-    left: -80px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: -200px;
+    top: 0;
+    width: 892px;
+    height: 196px;
+    background: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 40px;
     font-family: 'Outage', sans-serif;
     font-weight: 700;
     font-size: 280px;
     line-height: 0.26;
     color: rgba(0, 32, 91, 0.1);
-    z-index: 1;
+    z-index: 0;
+    border-radius: 8px;
   }
 
   .fca-how-to-order__step-title {
@@ -112,7 +126,9 @@
     font-size: 24px;
     line-height: 1.08;
     color: #D31244;
-    margin: 0 0 20px 0;
+    margin: 0 0 16px 0;
+    position: relative;
+    z-index: 1;
   }
 
   .fca-how-to-order__step-description {
@@ -122,6 +138,8 @@
     line-height: 1.3;
     color: #00205B;
     margin: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .fca-how-to-order__navigation {
@@ -144,11 +162,17 @@
     border-radius: 50%;
     background: #D9D9D9;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
   }
 
   .fca-how-to-order__progress-dot.active {
     background: #D31244;
+    transform: scale(1.1);
+  }
+
+  .fca-how-to-order__progress-dot:hover {
+    transform: scale(1.05);
   }
 
   .fca-how-to-order__arrow {
@@ -207,6 +231,10 @@
       padding: 60px 0;
     }
 
+    .fca-how-to-order__container {
+      padding: 0 20px;
+    }
+
     .fca-how-to-order__title {
       font-size: 32px;
       margin-bottom: 40px;
@@ -214,19 +242,31 @@
     }
 
     .fca-how-to-order__slider {
-      height: 300px;
+      height: 350px;
     }
 
     .fca-how-to-order__step {
-      margin: 0;
+      margin: 40px 20px 0 20px;
       padding: 40px 30px;
       max-width: none;
+      margin-left: 20px;
+      margin-right: 20px;
     }
 
     .fca-how-to-order__step-number {
-      font-size: 100px;
-      left: -20px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(100% - 40px);
+      height: 140px;
+      background: #F0F0F0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 20px;
+      font-size: 120px;
       line-height: 0.72;
+      border-radius: 8px;
     }
 
     .fca-how-to-order__navigation {
@@ -240,8 +280,23 @@
   }
 
   @media (max-width: 480px) {
+    .fca-how-to-order__container {
+      padding: 0 16px;
+    }
+
+    .fca-how-to-order__title {
+      font-size: 28px;
+    }
+
+    .fca-how-to-order__slider {
+      height: 320px;
+    }
+
     .fca-how-to-order__step {
       padding: 30px 20px;
+      margin: 30px 16px 0 16px;
+      margin-left: 16px;
+      margin-right: 16px;
     }
 
     .fca-how-to-order__step-title {
@@ -253,8 +308,10 @@
     }
 
     .fca-how-to-order__step-number {
-      font-size: 80px;
-      left: -15px;
+      width: calc(100% - 32px);
+      height: 120px;
+      padding-left: 16px;
+      font-size: 100px;
     }
   }
 {%- endstyle -%}
@@ -262,7 +319,15 @@
 <section class="fca-how-to-order">
   <div class="fca-how-to-order__container">
     {%- if section.settings.title != blank -%}
-      <h2 class="fca-how-to-order__title">{{ section.settings.title }}</h2>
+      <h2 class="fca-how-to-order__title">
+        {%- if section.settings.red_highlight_text != blank -%}
+          {%- assign red_replacement = '<span class="red-highlight">' | append: section.settings.red_highlight_text | append: '</span>' -%}
+          {%- assign highlighted_title = section.settings.title | replace: section.settings.red_highlight_text, red_replacement -%}
+          {{ highlighted_title }}
+        {%- else -%}
+          {{ section.settings.title }}
+        {%- endif -%}
+      </h2>
     {%- endif -%}
     
     <div class="fca-how-to-order__slider">
@@ -360,6 +425,13 @@
       "default": "How to Order"
     },
     {
+      "type": "text",
+      "id": "red_highlight_text",
+      "label": "Text to Highlight (Red)",
+      "default": "ORDER",
+      "info": "This text will be highlighted in red in the title"
+    },
+    {
       "type": "image_picker",
       "id": "background_image",
       "label": "Background Image"
@@ -401,6 +473,7 @@
       "name": "FCA How to Order",
       "settings": {
         "title": "How to Order",
+        "red_highlight_text": "ORDER",
         "button_text": "Request an account"
       },
       "blocks": [
