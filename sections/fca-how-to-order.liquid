@@ -44,11 +44,11 @@
   }
 
   .fca-how-to-order__container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 20px;
     width: 100%;
+    margin: 0 auto;
+    padding: 0;
     position: relative;
+    overflow: hidden;
   }
 
   .fca-how-to-order__title {
@@ -59,6 +59,7 @@
     text-align: center;
     margin-bottom: 80px;
     color: #122F5B;
+    padding: 0 20px;
   }
 
   /* Red highlight class for title text */
@@ -349,7 +350,7 @@
     
     <div class="fca-how-to-order__slider">
       <div class="fca-how-to-order__slides" id="howToOrderSlides">
-        {%- assign step_images = 'number1,number2,number3,number4' | split: ',' -%}
+        {%- assign step_images = 'number1.png,number2.png,number3.png,number4.png' | split: ',' -%}
         {%- for block in section.blocks -%}
           <div class="fca-how-to-order__slide" {{ block.shopify_attributes }}>
             <div class="fca-how-to-order__image-column">
@@ -387,7 +388,7 @@
     </div>
 
     {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
-      <div style="text-align: center;">
+      <div style="text-align: center; padding: 0 20px;">
         <a href="{{ section.settings.button_url }}" class="fca-how-to-order__button">
           {{ section.settings.button_text }}
         </a>
