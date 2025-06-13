@@ -3598,3 +3598,16 @@ details-disclosure > details {
 .card-information {
     /* display: none; */
 }
+
+/* Mobile Button Font Size Override - 15px for FCA Section CTAs */
+@media screen and (max-width: 749px) {
+  /* Custom FCA section buttons only */
+  .fca-hero__button,
+  .fca-how-to-order__button,
+  .fca-fabrication__button,
+  .fca-fabrication-right__button,
+  .fca-specialty__button,
+  .fca-running-repair__button {
+    font-size: 15px !important;
+  }
+}
