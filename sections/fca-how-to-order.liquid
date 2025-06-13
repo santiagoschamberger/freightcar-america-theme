@@ -77,7 +77,7 @@
   .fca-how-to-order__slider {
     position: relative;
     height: 400px;
-    overflow: visible;
+    overflow: hidden;
     max-width: 1440px;
     margin: 0 auto;
   }
@@ -86,10 +86,12 @@
     display: flex;
     transition: transform 0.5s ease-in-out;
     height: 100%;
+    width: 100%;
   }
 
   .fca-how-to-order__slide {
     min-width: 100%;
+    flex-shrink: 0;
     display: grid;
     grid-template-columns: 892px 1fr;
     gap: 0;
@@ -258,6 +260,8 @@
     }
 
     .fca-how-to-order__slide {
+      min-width: 100%;
+      flex-shrink: 0;
       height: auto;
       display: flex;
       flex-direction: column;
@@ -311,6 +315,8 @@
     }
 
     .fca-how-to-order__slide {
+      min-width: 100%;
+      flex-shrink: 0;
       padding: 0 16px;
       gap: 15px;
     }
