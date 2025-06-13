@@ -417,10 +417,27 @@
     function updateSlider() {
       if (!slidesContainer) return;
       
+      // Ensure currentSlide is within bounds
+      if (currentSlide >= totalSlides) {
+        currentSlide = 0;
+      } else if (currentSlide < 0) {
+        currentSlide = totalSlides - 1;
+      }
+      
       slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
       
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function resetSlider() {
+      currentSlide = 0;
+      if (slidesContainer) {
+        slidesContainer.style.transform = 'translateX(0%)';
+      }
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === 0);
       });
     }
 
@@ -545,6 +562,7 @@
     window.goToSlide = goToSlide;
     window.nextSlide = nextSlide;
     window.prevSlide = prevSlide;
+    window.resetSlider = resetSlider;
 
     // Add keyboard support for dots
     dots.forEach((dot, index) => {
@@ -556,8 +574,20 @@
       });
     });
 
-    // Start auto-advance
-    startAutoAdvance();
+    // Initialize slider on first load
+    resetSlider();
+    
+    // Start auto-advance after a short delay
+    setTimeout(startAutoAdvance, 1000);
+    
+    // Reset slider if window is resized (helps with responsive issues)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateSlider();
+      }, 250);
+    });
   });
 </script>
 
