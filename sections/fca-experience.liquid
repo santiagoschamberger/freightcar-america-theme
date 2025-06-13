@@ -1,66 +1,28 @@
 {%- style -%}
   .fca-experience {
     background: white;
-    padding: 100px 0;
+    padding: 60px 0;
     position: relative;
     overflow: hidden;
-  }
-
-  .fca-experience::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #5784CC 0%, #D31244 100%);
-    z-index: 2;
-  }
-
-  .fca-experience__decorative-lines {
-    position: absolute;
-    top: 8px;
-    left: 0;
-    right: 0;
-    height: 4px;
-    z-index: 1;
-  }
-
-  .fca-experience__line {
-    position: absolute;
-    height: 4px;
-  }
-
-  .fca-experience__line--blue {
-    background: #5784CC;
-    left: -36px;
-    right: 0;
-  }
-
-  .fca-experience__line--red {
-    background: #D31244;
-    left: -106px;
-    right: 0;
-  }
-
-  .fca-experience__line--white {
-    background: white;
-    left: -71px;
-    right: 0;
+    border-top: 4px solid #5784CC;
   }
 
   .fca-experience__container {
-    max-width: 1440px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 30% 70%;
     gap: 60px;
-    align-items: center;
+    align-items: flex-start;
   }
 
-  .fca-experience__content {
-    padding-left: 116px;
+  .fca-experience__title-column {
+    padding-right: 20px;
+  }
+
+  .fca-experience__content-column {
+    padding-left: 20px;
   }
 
   .fca-experience__title {
@@ -69,8 +31,7 @@
     font-size: 32px;
     line-height: 1.375;
     color: #00205B;
-    margin-bottom: 30px;
-    max-width: 366px;
+    margin: 0;
   }
 
   .fca-experience__description {
@@ -80,7 +41,6 @@
     line-height: 1.57;
     color: #00205B;
     margin-bottom: 40px;
-    max-width: 754px;
   }
 
   .fca-experience__button {
@@ -103,71 +63,49 @@
     color: white;
   }
 
-  .fca-experience__progress {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 60px;
-  }
-
-  .fca-experience__progress-dot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #D9D9D9;
-  }
-
-  .fca-experience__progress-dot.active {
-    background: #D31244;
-  }
-
   @media (max-width: 768px) {
-    .fca-experience__container {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      text-align: center;
+    .fca-experience {
+      padding: 40px 0;
     }
 
-    .fca-experience__content {
-      padding-left: 20px;
+    .fca-experience__container {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      text-align: left;
+    }
+
+    .fca-experience__title-column {
+      padding-right: 0;
+    }
+
+    .fca-experience__content-column {
+      padding-left: 0;
     }
 
     .fca-experience__title {
       font-size: 28px;
-      max-width: none;
+      margin-bottom: 20px;
     }
 
     .fca-experience__description {
-      max-width: none;
+      margin-bottom: 30px;
     }
 
     .fca-experience__button {
       font-size: 18px;
-      display: block;
-      max-width: 300px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .fca-experience__progress {
-      justify-content: center;
     }
   }
 {%- endstyle -%}
 
 <section class="fca-experience">
-  <div class="fca-experience__decorative-lines">
-    <div class="fca-experience__line fca-experience__line--blue"></div>
-    <div class="fca-experience__line fca-experience__line--red"></div>
-    <div class="fca-experience__line fca-experience__line--white"></div>
-  </div>
-
   <div class="fca-experience__container">
-    <div class="fca-experience__content">
+    <div class="fca-experience__title-column">
       {%- if section.settings.title != blank -%}
         <h2 class="fca-experience__title">{{ section.settings.title }}</h2>
       {%- endif -%}
-      
+    </div>
+
+    <div class="fca-experience__content-column">
       {%- if section.settings.description != blank -%}
         <p class="fca-experience__description">{{ section.settings.description }}</p>
       {%- endif -%}
@@ -177,13 +115,6 @@
           {{ section.settings.button_text }}
         </a>
       {%- endif -%}
-    </div>
-
-    <div class="fca-experience__progress">
-      <div class="fca-experience__progress-dot active"></div>
-      <div class="fca-experience__progress-dot"></div>
-      <div class="fca-experience__progress-dot"></div>
-      <div class="fca-experience__progress-dot"></div>
     </div>
   </div>
 </section>
