@@ -1,4 +1,36 @@
 {%- style -%}
+  @font-face {
+    font-family: 'Outage';
+    src: url('{{ 'Outage.ttf' | asset_url }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Book.otf' | asset_url }}') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Medium.otf' | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Bold.otf' | asset_url }}') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
   .fca-hero {
     position: relative;
     min-height: 730px;
