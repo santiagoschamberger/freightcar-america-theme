@@ -1,4 +1,36 @@
 {%- style -%}
+  @font-face {
+    font-family: 'Outage';
+    src: url('{{ 'Outage.ttf' | asset_url }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Book.otf' | asset_url }}') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Medium.otf' | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Bold.otf' | asset_url }}') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
   .fca-how-to-order {
     position: relative;
     min-height: 780px;
@@ -8,6 +40,7 @@
     background-size: cover;
     background-position: center;
     color: white;
+    overflow: hidden;
   }
 
   .fca-how-to-order__container {
@@ -24,8 +57,29 @@
     font-size: 60px;
     line-height: 1.2;
     text-align: center;
-    margin-bottom: 120px;
+    margin-bottom: 80px;
     color: #122F5B;
+  }
+
+  .fca-how-to-order__slider {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  .fca-how-to-order__slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+  }
+
+  .fca-how-to-order__slide {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
   }
 
   .fca-how-to-order__step {
@@ -70,21 +124,18 @@
     margin: 0;
   }
 
-  .fca-how-to-order__arrow {
-    position: absolute;
-    right: 200px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+  .fca-how-to-order__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 60px;
   }
 
   .fca-how-to-order__progress {
     display: flex;
     align-items: center;
     gap: 16px;
-    justify-content: center;
-    margin-top: 60px;
   }
 
   .fca-how-to-order__progress-dot {
@@ -92,10 +143,62 @@
     height: 20px;
     border-radius: 50%;
     background: #D9D9D9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
   .fca-how-to-order__progress-dot.active {
     background: #D31244;
+  }
+
+  .fca-how-to-order__arrow {
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .fca-how-to-order__arrow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .fca-how-to-order__arrow svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .fca-how-to-order__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: #D31244;
+    color: white;
+    padding: 20px 24px 17px;
+    text-decoration: none;
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 40px;
+  }
+
+  .fca-how-to-order__button:hover {
+    background: #BF0D3D;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 18, 68, 0.3);
   }
 
   @media (max-width: 768px) {
@@ -106,11 +209,16 @@
 
     .fca-how-to-order__title {
       font-size: 32px;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    .fca-how-to-order__slider {
+      height: 300px;
     }
 
     .fca-how-to-order__step {
-      margin: 0 20px;
+      margin: 0;
       padding: 40px 30px;
       max-width: none;
     }
@@ -121,8 +229,32 @@
       line-height: 0.72;
     }
 
+    .fca-how-to-order__navigation {
+      margin-top: 40px;
+      gap: 20px;
+    }
+
     .fca-how-to-order__arrow {
       display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .fca-how-to-order__step {
+      padding: 30px 20px;
+    }
+
+    .fca-how-to-order__step-title {
+      font-size: 20px;
+    }
+
+    .fca-how-to-order__step-description {
+      font-size: 16px;
+    }
+
+    .fca-how-to-order__step-number {
+      font-size: 80px;
+      left: -15px;
     }
   }
 {%- endstyle -%}
@@ -133,28 +265,87 @@
       <h2 class="fca-how-to-order__title">{{ section.settings.title }}</h2>
     {%- endif -%}
     
-    <div class="fca-how-to-order__step">
-      <div class="fca-how-to-order__step-number">01</div>
-      <h3 class="fca-how-to-order__step-title">Create an Account</h3>
-      <p class="fca-how-to-order__step-description">
-        Set up a quick, secure account to manage your orders and track your parts.
-      </p>
+    <div class="fca-how-to-order__slider">
+      <div class="fca-how-to-order__slides" id="howToOrderSlides">
+        {%- for block in section.blocks -%}
+          <div class="fca-how-to-order__slide" {{ block.shopify_attributes }}>
+            <div class="fca-how-to-order__step">
+              <div class="fca-how-to-order__step-number">
+                {%- assign step_number = forloop.index | prepend: '0' | slice: -2, 2 -%}
+                {{ step_number }}
+              </div>
+              {%- if block.settings.title != blank -%}
+                <h3 class="fca-how-to-order__step-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="fca-how-to-order__step-description">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
     </div>
 
-    <div class="fca-how-to-order__arrow">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M10.67 8L18.67 16L10.67 24" stroke="#122F5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <div class="fca-how-to-order__navigation">
+      <div class="fca-how-to-order__progress">
+        {%- for block in section.blocks -%}
+          <div class="fca-how-to-order__progress-dot{% if forloop.first %} active{% endif %}" 
+               onclick="goToSlide({{ forloop.index0 }})"></div>
+        {%- endfor -%}
+      </div>
+
+      <button class="fca-how-to-order__arrow" onclick="nextSlide()" aria-label="Next slide">
+        <svg width="21" height="21" viewBox="0 0 21 21" fill="none">
+          <path d="M7 3.5L13.5 10.5L7 17.5" stroke="#122F5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
 
-    <div class="fca-how-to-order__progress">
-      <div class="fca-how-to-order__progress-dot active"></div>
-      <div class="fca-how-to-order__progress-dot"></div>
-      <div class="fca-how-to-order__progress-dot"></div>
-      <div class="fca-how-to-order__progress-dot"></div>
-    </div>
+    {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+      <div style="text-align: center;">
+        <a href="{{ section.settings.button_url }}" class="fca-how-to-order__button">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
+
+<script>
+  let currentSlide = 0;
+  const totalSlides = {{ section.blocks.size }};
+
+  function updateSlider() {
+    const slides = document.getElementById('howToOrderSlides');
+    const dots = document.querySelectorAll('.fca-how-to-order__progress-dot');
+    
+    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentSlide);
+    });
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateSlider();
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  }
+
+  // Auto-advance slides (optional)
+  setInterval(() => {
+    nextSlide();
+  }, 5000);
+</script>
 
 {% schema %}
 {
@@ -172,11 +363,76 @@
       "type": "image_picker",
       "id": "background_image",
       "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Request an account"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Order Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step Description",
+          "default": "Step description goes here."
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "FCA How to Order"
+      "name": "FCA How to Order",
+      "settings": {
+        "title": "How to Order",
+        "button_text": "Request an account"
+      },
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Create an Account",
+            "description": "Set up a quick, secure account to manage your orders and track your parts."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Browse Our Catalog",
+            "description": "Search through our extensive inventory of railcar parts and components."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Place Your Order",
+            "description": "Add items to your cart and complete your order with secure checkout."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Track & Receive",
+            "description": "Monitor your order status and receive your parts on time."
+          }
+        }
+      ]
     }
   ]
 }
