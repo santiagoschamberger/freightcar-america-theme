@@ -35,13 +35,37 @@
       }
     },
     "fca_specialty": {
-      "type": "fca-specialty-parts",
+      "type": "fca-fabrication-parts-right",
       "settings": {
         "title": "SPECIALTY PARTS SOURCING",
+        "blue_highlight_text": "SOURCING",
         "description": "We use our industry connections and inventory management to source the parts you need, including:",
         "button_text": "Submit a specialty parts request",
         "button_url": "/pages/specialty-parts-request"
-      }
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Side Frames, Bolsters, Couplers",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Cushion Units, Draft Gears",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Air Brake Valve Unit Exchange",
+            "description": ""
+          }
+        }
+      ]
     },
     "fca_how_to_order": {
       "type": "fca-how-to-order",
