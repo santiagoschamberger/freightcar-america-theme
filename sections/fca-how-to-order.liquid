@@ -78,7 +78,7 @@
     position: relative;
     height: 400px;
     overflow: hidden;
-    max-width: 1440px;
+    width: 100%;
     margin: 0 auto;
   }
 
@@ -111,6 +111,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: center;
     display: block;
   }
 
@@ -124,17 +125,7 @@
     position: relative;
   }
 
-  .fca-how-to-order__step-number {
-    font-family: 'Outage', sans-serif;
-    font-weight: 700;
-    font-size: 120px;
-    line-height: 0.8;
-    color: rgba(0, 32, 91, 0.1);
-    margin: 0 0 20px 0;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
+
 
   .fca-how-to-order__step-title {
     font-family: 'Gotham', sans-serif;
@@ -165,7 +156,7 @@
     gap: 40px;
     margin-top: 80px;
     position: relative;
-    max-width: 1440px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -290,11 +281,7 @@
       height: auto;
     }
 
-    .fca-how-to-order__step-number {
-      font-size: 80px;
-      top: 10px;
-      right: 10px;
-    }
+
 
     .fca-how-to-order__navigation {
       margin-top: 40px;
@@ -334,11 +321,7 @@
       padding: 30px 20px;
     }
 
-    .fca-how-to-order__step-number {
-      font-size: 60px;
-      top: 10px;
-      right: 10px;
-    }
+
 
     .fca-how-to-order__step-title {
       font-size: 20px;
@@ -366,24 +349,16 @@
     
     <div class="fca-how-to-order__slider">
       <div class="fca-how-to-order__slides" id="howToOrderSlides">
+        {%- assign step_images = 'number1,number2,number3,number4' | split: ',' -%}
         {%- for block in section.blocks -%}
           <div class="fca-how-to-order__slide" {{ block.shopify_attributes }}>
             <div class="fca-how-to-order__image-column">
-              {%- if block.settings.image != blank -%}
-                <img src="{{ block.settings.image | image_url: width: 800 }}" 
-                     alt="{{ block.settings.title | escape }}" 
-                     class="fca-how-to-order__step-image">
-              {%- else -%}
-                <div class="fca-how-to-order__step-image" style="background: #F0F0F0; display: flex; align-items: center; justify-content: center; color: #999;">
-                  <span>No image selected</span>
-                </div>
-              {%- endif -%}
+              {%- assign image_name = step_images[forloop.index0] -%}
+              <img src="{{ image_name | asset_url }}" 
+                   alt="{{ block.settings.title | escape }}" 
+                   class="fca-how-to-order__step-image">
             </div>
             <div class="fca-how-to-order__content-column">
-              <div class="fca-how-to-order__step-number">
-                {%- assign step_number = forloop.index | prepend: '0' | slice: -2, 2 -%}
-                {{ step_number }}
-              </div>
               {%- if block.settings.title != blank -%}
                 <h3 class="fca-how-to-order__step-title">{{ block.settings.title }}</h3>
               {%- endif -%}
