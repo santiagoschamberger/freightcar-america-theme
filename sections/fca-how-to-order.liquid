@@ -100,6 +100,7 @@
     position: relative;
     padding: 0;
     height: 400px;
+    overflow: hidden;
   }
 
   .fca-how-to-order__image-column {
@@ -405,6 +406,11 @@
     
     const slidesContainer = document.getElementById('howToOrderSlides');
     const dots = document.querySelectorAll('.fca-how-to-order__progress-dot');
+    
+    // Debug: Verify slide count
+    console.log('Total slides configured:', totalSlides);
+    console.log('Actual slides in DOM:', slidesContainer ? slidesContainer.children.length : 0);
+    console.log('Dots created:', dots.length);
     
     // Touch/swipe support
     let startX = 0;
