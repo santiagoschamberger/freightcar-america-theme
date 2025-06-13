@@ -42,6 +42,8 @@
     color: #00205B;
     overflow: hidden;
     padding: 80px 0;
+    border-bottom: 4px solid #D31244;
+    margin-bottom: 5px;
   }
 
   .fca-how-to-order__container {
@@ -77,15 +79,13 @@
 
   .fca-how-to-order__slider-container {
     position: relative;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 
   .fca-how-to-order__slider {
     position: relative;
     overflow: hidden;
     height: 400px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
 
   .fca-how-to-order__slides {
@@ -163,20 +163,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 40px;
-  }
-
-  .fca-how-to-order__progress {
-    display: flex;
-    align-items: center;
     gap: 16px;
+    margin-top: 40px;
   }
 
   .fca-how-to-order__progress-dot {
     width: 20px;
     height: 20px;
-    border-radius: 50%;
     background: #D9D9D9;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -184,45 +177,11 @@
   }
 
   .fca-how-to-order__progress-dot.active {
-    background: #5784CC;
-    transform: scale(1.1);
+    background: #D31244;
   }
 
   .fca-how-to-order__progress-dot:hover {
-    transform: scale(1.05);
-  }
-
-  .fca-how-to-order__arrow {
-    width: 32px;
-    height: 32px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .fca-how-to-order__arrow:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .fca-how-to-order__arrow--prev {
-    transform: rotate(180deg);
-  }
-
-  .fca-how-to-order__arrow--prev:hover {
-    transform: rotate(180deg) translateY(-2px);
-  }
-
-  .fca-how-to-order__arrow svg {
-    width: 21px;
-    height: 21px;
-    fill: #122F5B;
+    opacity: 0.8;
   }
 
   .fca-how-to-order__button {
@@ -295,12 +254,8 @@
     }
 
     .fca-how-to-order__navigation {
-      margin-bottom: 20px;
-      gap: 20px;
-    }
-
-    .fca-how-to-order__arrow {
-      display: none;
+      margin-top: 20px;
+      gap: 12px;
     }
   }
 
@@ -350,48 +305,17 @@
     {%- endif -%}
     
     <div class="fca-how-to-order__slider-container">
-      {%- if section.blocks.size > 1 -%}
-        <div class="fca-how-to-order__navigation">
-          <button class="fca-how-to-order__arrow fca-how-to-order__arrow--prev" id="prevBtn-{{ section.id }}" aria-label="Previous step">
-            <svg viewBox="0 0 24 24">
-              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-            </svg>
-          </button>
-          
-          <div class="fca-how-to-order__progress" id="progress-{{ section.id }}">
-            {%- for block in section.blocks -%}
-              <button class="fca-how-to-order__progress-dot{% if forloop.first %} active{% endif %}" 
-                      data-slide="{{ forloop.index0 }}" 
-                      aria-label="Go to step {{ forloop.index }}">
-              </button>
-            {%- endfor -%}
-          </div>
-          
-          <button class="fca-how-to-order__arrow fca-how-to-order__arrow--next" id="nextBtn-{{ section.id }}" aria-label="Next step">
-            <svg viewBox="0 0 24 24">
-              <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
-            </svg>
-          </button>
-        </div>
-      {%- endif -%}
-
       <div class="fca-how-to-order__slider" id="slider-{{ section.id }}">
         <div class="fca-how-to-order__slides" id="slides-{{ section.id }}">
           {%- for block in section.blocks -%}
             <div class="fca-how-to-order__slide" data-slide="{{ forloop.index0 }}">
               <div class="fca-how-to-order__image-column">
                 <div class="fca-how-to-order__step-number">{{ forloop.index | prepend: '0' }}</div>
-                {%- if block.settings.image != blank -%}
-                  <img src="{{ block.settings.image | image_url }}" 
-                       alt="{{ block.settings.title | escape }}" 
-                       class="fca-how-to-order__step-image">
-                {%- else -%}
-                  {%- assign step_images = 'number1.png,number2.png,number3.png,number4.png' | split: ',' -%}
-                  {%- assign image_name = step_images[forloop.index0] -%}
-                  <img src="{{ image_name | asset_url }}" 
-                       alt="{{ block.settings.title | escape }}" 
-                       class="fca-how-to-order__step-image">
-                {%- endif -%}
+                {%- assign step_images = 'number1.png,number2.png,number3.png,number4.png' | split: ',' -%}
+                {%- assign image_name = step_images[forloop.index0] -%}
+                <img src="{{ image_name | asset_url }}" 
+                     alt="{{ block.settings.title | escape }}" 
+                     class="fca-how-to-order__step-image">
               </div>
               <div class="fca-how-to-order__content-column">
                 {%- if block.settings.title != blank -%}
@@ -405,6 +329,17 @@
           {%- endfor -%}
         </div>
       </div>
+
+      {%- if section.blocks.size > 1 -%}
+        <div class="fca-how-to-order__navigation" id="progress-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            <button class="fca-how-to-order__progress-dot{% if forloop.first %} active{% endif %}" 
+                    data-slide="{{ forloop.index0 }}" 
+                    aria-label="Go to step {{ forloop.index }}">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
 
     {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
@@ -422,8 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const sectionId = '{{ section.id }}';
   const slider = document.getElementById('slider-' + sectionId);
   const slides = document.getElementById('slides-' + sectionId);
-  const prevBtn = document.getElementById('prevBtn-' + sectionId);
-  const nextBtn = document.getElementById('nextBtn-' + sectionId);
   const progressDots = document.querySelectorAll('#progress-' + sectionId + ' .fca-how-to-order__progress-dot');
   
   if (!slider || !slides) return;
@@ -454,15 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function goToSlide(slideIndex) {
     currentSlide = slideIndex;
     updateSlider();
-  }
-  
-  // Event listeners
-  if (nextBtn) {
-    nextBtn.addEventListener('click', nextSlide);
-  }
-  
-  if (prevBtn) {
-    prevBtn.addEventListener('click', prevSlide);
   }
   
   // Progress dots
@@ -499,9 +423,6 @@ document.addEventListener('DOMContentLoaded', function() {
       nextSlide();
     }
   });
-  
-  // Auto-play (optional - uncomment if needed)
-  // setInterval(nextSlide, 5000);
 });
 </script>
 
