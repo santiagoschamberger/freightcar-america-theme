@@ -62,9 +62,16 @@
   }
 
   /* Red highlight class for title text */
-  .red-highlighted {
+  .fca-how-to-order .red-highlight {
     color: #D31244;
     display: inline;
+    background: none;
+    padding: 0;
+    clip-path: none;
+  }
+
+  .fca-how-to-order .red-highlight::before {
+    display: none;
   }
 
   .fca-how-to-order__slider {
@@ -83,33 +90,18 @@
 
   .fca-how-to-order__slide {
     min-width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 892px 1fr;
+    gap: 0;
     align-items: center;
-    justify-content: flex-start;
     position: relative;
     padding: 0;
     height: 196px;
   }
 
-  .fca-how-to-order__step {
-    background: #FFFFFF;
-    border-radius: 8px;
-    padding: 24px 40px;
-    width: 502px;
-    position: absolute;
-    right: 0;
-    top: 48px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-  }
-
   .fca-how-to-order__step-number {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 892px;
-    height: 196px;
     background: #F0F0F0;
+    height: 196px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -119,8 +111,20 @@
     font-size: 280px;
     line-height: 0.26;
     color: rgba(0, 32, 91, 0.1);
-    z-index: 0;
     border-radius: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fca-how-to-order__step {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 24px 40px;
+    width: 502px;
+    margin-left: -60px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    position: relative;
   }
 
   .fca-how-to-order__step-title {
@@ -255,24 +259,14 @@
 
     .fca-how-to-order__slide {
       height: auto;
+      display: flex;
       flex-direction: column;
+      grid-template-columns: none;
       padding: 0 20px;
-    }
-
-    .fca-how-to-order__step {
-      position: relative;
-      right: auto;
-      top: auto;
-      margin: 40px 0 0 0;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: none;
+      gap: 20px;
     }
 
     .fca-how-to-order__step-number {
-      position: absolute;
-      left: 0;
-      top: 0;
       width: 100%;
       height: 140px;
       background: #F0F0F0;
@@ -283,6 +277,14 @@
       font-size: 120px;
       line-height: 0.72;
       border-radius: 8px;
+      margin: 0;
+    }
+
+    .fca-how-to-order__step {
+      margin: 0;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: none;
     }
 
     .fca-how-to-order__navigation {
@@ -310,11 +312,19 @@
 
     .fca-how-to-order__slide {
       padding: 0 16px;
+      gap: 15px;
+    }
+
+    .fca-how-to-order__step-number {
+      width: 100%;
+      height: 120px;
+      padding-left: 16px;
+      font-size: 100px;
     }
 
     .fca-how-to-order__step {
       padding: 30px 20px;
-      margin: 30px 0 0 0;
+      margin: 0;
     }
 
     .fca-how-to-order__step-title {
@@ -323,13 +333,6 @@
 
     .fca-how-to-order__step-description {
       font-size: 16px;
-    }
-
-    .fca-how-to-order__step-number {
-      width: 100%;
-      height: 120px;
-      padding-left: 16px;
-      font-size: 100px;
     }
   }
 {%- endstyle -%}
