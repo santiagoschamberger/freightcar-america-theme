@@ -25,6 +25,11 @@
   assign show_savings = show_savings | default: true
 -%}
 
+<!-- Test marker -->
+<div style="background: lime; padding: 5px; margin: 5px 0; font-size: 11px;">
+  DISCOUNT SNIPPET LOADED - Compare: {{ regular_price | money }} vs Price: {{ sale_price | money }}
+</div>
+
 {%- if regular_price and regular_price > sale_price -%}
   {%- liquid
     assign savings_amount = regular_price | minus: sale_price
