@@ -67,18 +67,6 @@
   endif
 -%}
 
-<!-- Debug info (remove this later) -->
-<div style="background: lime; padding: 5px; margin: 5px 0; font-size: 11px; line-height: 1.4;">
-  <strong>DISCOUNT DEBUG:</strong><br>
-  Product ID: {{ product.id }}<br>
-  Product Handle: {{ product.handle }}<br>
-  Variant SKU: {{ target_variant.sku }}<br>
-  Variant Price: {{ target_variant.price | money }}<br>
-  Calculated Discount %: {{ discount_percentage }}%<br>
-  Calculated Savings: {{ savings_amount | money }}<br>
-  Has Discount: {{ has_discount }}
-</div>
-
 {%- if has_discount and discount_percentage > 0 -%}
   <div class="discount-display{% if discount_class %} {{ discount_class }}{% endif %}">
     {%- if show_percentage and discount_percentage > 0 -%}
@@ -92,9 +80,5 @@
         Save {{ savings_amount | money }}
       </span>
     {%- endif -%}
-  </div>
-{%- else -%}
-  <div style="background: orange; padding: 5px; margin: 5px 0; font-size: 11px;">
-    No discount found for this product (ID: {{ product.id }}, SKU: {{ target_variant.sku }})
   </div>
 {%- endif -%} 
