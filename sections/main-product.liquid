@@ -29,6 +29,7 @@
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-discount-display.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
@@ -131,6 +132,9 @@
                     price_class: 'price--large'
                   -%}{% else %}<span class="bsscommerce-hv-message">Lock</span>{% endunless %}
                 </div>
+                {% unless bss_check_variant %}
+                  {% render 'discount-display', product: product, variant: bss_product__selected_or_first_available_variant %}
+                {% endunless %}
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>

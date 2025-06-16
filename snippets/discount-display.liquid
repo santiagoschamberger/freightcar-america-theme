@@ -1,0 +1,47 @@
+{% comment %}
+  Renders discount information (percentage and savings amount) for products
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - variant: {Object} Variant Liquid object (optional, defaults to selected_or_first_available_variant)
+  - show_percentage: {Boolean} Show discount percentage (default: true)
+  - show_savings: {Boolean} Show savings amount (default: true)
+  - discount_class: {String} CSS class for the discount element (optional)
+
+  Usage:
+  {% render 'discount-display', product: product %}
+{% endcomment %}
+
+{%- liquid
+  if variant
+    assign target_variant = variant
+  else
+    assign target_variant = product.selected_or_first_available_variant
+  endif
+
+  assign regular_price = target_variant.compare_at_price
+  assign sale_price = target_variant.price
+  assign show_percentage = show_percentage | default: true
+  assign show_savings = show_savings | default: true
+-%}
+
+{%- if regular_price and regular_price > sale_price -%}
+  {%- liquid
+    assign savings_amount = regular_price | minus: sale_price
+    assign discount_percentage = savings_amount | times: 100.0 | divided_by: regular_price | round
+  -%}
+  
+  <div class="discount-display{% if discount_class %} {{ discount_class }}{% endif %}">
+    {%- if show_percentage and discount_percentage > 0 -%}
+      <span class="discount-percentage">
+        {{ discount_percentage }}% OFF
+      </span>
+    {%- endif -%}
+    
+    {%- if show_savings -%}
+      <span class="discount-savings">
+        Save {{ savings_amount | money }}
+      </span>
+    {%- endif -%}
+  </div>
+{%- endif -%} 
