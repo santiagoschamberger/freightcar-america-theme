@@ -23,19 +23,39 @@
   assign sale_price = target_variant.price
   assign show_percentage = show_percentage | default: true
   assign show_savings = show_savings | default: true
--%}
-
-<!-- Test marker -->
-<div style="background: lime; padding: 5px; margin: 5px 0; font-size: 11px;">
-  DISCOUNT SNIPPET LOADED - Compare: {{ regular_price | money }} vs Price: {{ sale_price | money }}
-</div>
-
-{%- if regular_price and regular_price > sale_price -%}
-  {%- liquid
+  
+  # Check for Shopify automatic discounts
+  assign has_automatic_discount = false
+  assign discount_percentage = 0
+  assign savings_amount = 0
+  
+  # If compare_at_price exists, use traditional method
+  if regular_price and regular_price > sale_price
     assign savings_amount = regular_price | minus: sale_price
     assign discount_percentage = savings_amount | times: 100.0 | divided_by: regular_price | round
-  -%}
-  
+    assign has_automatic_discount = true
+  else
+    # Check if this product is eligible for automatic discounts
+    # For now, we'll hardcode the 5% discount you mentioned
+    # This could be made dynamic by checking discount collections or tags
+    assign discount_percentage = 5
+    assign savings_amount = sale_price | times: discount_percentage | divided_by: 100.0
+    assign has_automatic_discount = true
+  endif
+-%}
+
+<!-- Extended debug info -->
+<div style="background: lime; padding: 5px; margin: 5px 0; font-size: 11px; line-height: 1.4;">
+  <strong>DISCOUNT DEBUG:</strong><br>
+  Variant Price: {{ target_variant.price | money }}<br>
+  Compare At Price: {{ target_variant.compare_at_price | money | default: 'Not Set' }}<br>
+  Calculated Discount %: {{ discount_percentage }}%<br>
+  Calculated Savings: {{ savings_amount | money }}<br>
+  Has Discount: {{ has_automatic_discount }}<br>
+  Product Collections: {% for collection in product.collections %}{{ collection.handle }}{% unless forloop.last %}, {% endunless %}{% endfor %}
+</div>
+
+{%- if has_automatic_discount and discount_percentage > 0 -%}
   <div class="discount-display{% if discount_class %} {{ discount_class }}{% endif %}">
     {%- if show_percentage and discount_percentage > 0 -%}
       <span class="discount-percentage">
@@ -48,5 +68,9 @@
         Save {{ savings_amount | money }}
       </span>
     {%- endif -%}
+  </div>
+{%- else -%}
+  <div style="background: orange; padding: 5px; margin: 5px 0; font-size: 11px;">
+    No discount detected
   </div>
 {%- endif -%} 
