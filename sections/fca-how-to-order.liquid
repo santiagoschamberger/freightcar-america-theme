@@ -66,7 +66,7 @@
 
   /* Red highlight class for title text */
   .fca-how-to-order .red-highlight {
-    color: #D31244;
+    color: #D31244 !important;
     display: inline;
     background: none;
     padding: 0;
@@ -390,6 +390,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let currentSlide = 0;
   const totalSlides = slides.children.length;
+  let autoplayInterval;
+  const autoplayDelay = 4000; // 4 seconds between slides
   
   function updateSlider() {
     const translateX = -currentSlide * 100;
@@ -416,9 +418,30 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSlider();
   }
   
+  function startAutoplay() {
+    if (totalSlides > 1) {
+      autoplayInterval = setInterval(nextSlide, autoplayDelay);
+    }
+  }
+  
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
+  }
+  
+  function restartAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+  
   // Progress dots
   progressDots.forEach((dot, index) => {
-    dot.addEventListener('click', () => goToSlide(index));
+    dot.addEventListener('click', () => {
+      goToSlide(index);
+      restartAutoplay(); // Restart autoplay after manual interaction
+    });
   });
   
   // Touch/swipe support for mobile
@@ -427,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   slider.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
+    stopAutoplay(); // Pause autoplay during touch interaction
   });
   
   slider.addEventListener('touchend', (e) => {
@@ -440,16 +464,26 @@ document.addEventListener('DOMContentLoaded', function() {
         prevSlide();
       }
     }
+    restartAutoplay(); // Restart autoplay after touch interaction
   });
   
   // Keyboard navigation
   slider.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
       prevSlide();
+      restartAutoplay();
     } else if (e.key === 'ArrowRight') {
       nextSlide();
+      restartAutoplay();
     }
   });
+  
+  // Pause autoplay when user hovers over the slider
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
+  
+  // Start autoplay when page loads
+  startAutoplay();
 });
 </script>
 
