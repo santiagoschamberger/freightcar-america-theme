@@ -70,30 +70,36 @@
     }
   }
 
-  /* Custom layout for logo + menu in center */
+  /* Three column layout: logo | menu | icons */
   @media screen and (min-width: 990px) {
     .header--logo-menu-center {
-      grid-template-areas: 'logo menu-center icons';
+      grid-template-areas: 'logo menu icons';
       grid-template-columns: 1fr auto 1fr;
       column-gap: 2rem;
-    }
-
-    .header--logo-menu-center .header__logo-menu-wrapper {
-      grid-area: logo-menu-center;
-      display: flex;
       align-items: center;
-      gap: 2rem;
-      justify-self: center;
     }
 
     .header--logo-menu-center .header__heading,
     .header--logo-menu-center .header__heading-link {
-      justify-self: unset;
+      grid-area: logo;
+      justify-self: start;
       margin: 0;
     }
 
     .header--logo-menu-center .header__inline-menu {
+      grid-area: menu;
+      justify-self: center;
       margin-top: 0;
+    }
+
+    .header--logo-menu-center .header__icons {
+      grid-area: icons;
+      justify-self: end;
+    }
+
+    /* Remove the wrapper since we're using direct grid placement */
+    .header--logo-menu-center .header__logo-menu-wrapper {
+      display: contents;
     }
   }
 
