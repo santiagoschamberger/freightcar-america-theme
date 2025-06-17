@@ -400,22 +400,13 @@
                     aria-describedby="a11y-refresh-page-message"
                   >
                     {%- for option in results.sort_options -%}
-                      {%  if option.value == 'best-selling' %}
-                          {% continue %}
-                      {% endif %}
                       <option
                         value="{{ option.value | escape }}"
                         {% if option.value == sort_by %}
                           selected="selected"
                         {% endif %}
                       >
-                          {%  if option.value == 'manual' %}
-                              Best Selling
-                            {% else %}
-                            {{ option.name | escape }}
-                          {% endif %}
-                        
-                        
+                        {{ option.name | escape }}
                       </option>
                     {%- endfor -%}
                   </select>
