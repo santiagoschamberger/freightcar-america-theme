@@ -1,3 +1,310 @@
+{{ 'section-header.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .header {
+    padding-top: {{ section.settings.padding_top | times: 0.5 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 }}px;
+  }
+
+  .section-header {
+    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+
+{%- if settings.cart_type == "drawer" -%}
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
+  {%- liquid
+    assign logo_alt = settings.logo.alt | default: shop.name | escape
+    assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio
+  -%}
+
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if section.blocks.size > 0 %} header--has-app{% endif %}">
+    {%- if section.settings.menu != blank -%}
+      <nav class="header__inline-menu">
+        <ul class="list-menu list-menu--inline" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              {%- if link.links != blank -%}
+                <header-menu>
+                  <details id="Details-HeaderMenu-{{ forloop.index }}">
+                    <summary
+                      id="HeaderMenu-{{ link.handle }}"
+                      class="header__menu-item list-menu__item link focus-inset"
+                    >
+                      <span
+                        {%- if link.child_active %}
+                          class="header__active-menu-item"
+                        {% endif %}
+                      >
+                        {{- link.title | escape -}}
+                      </span>
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </summary>
+                    <ul
+                      id="HeaderMenu-MenuList-{{ forloop.index }}"
+                      class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
+                      role="list"
+                      tabindex="-1"
+                    >
+                      {%- for childlink in link.links -%}
+                        <li>
+                          <a
+                            id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                            href="{{ childlink.url }}"
+                            class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"
+                            {% if childlink.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ childlink.title | escape }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </details>
+                </header-menu>
+              {%- else -%}
+                <a
+                  id="HeaderMenu-{{ link.handle }}"
+                  href="{{ link.url }}"
+                  class="header__menu-item list-menu__item link link--text focus-inset"
+                  {% if link.current %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  <span
+                    {%- if link.current %}
+                      class="header__active-menu-item"
+                    {% endif %}
+                  >
+                    {{- link.title | escape -}}
+                  </span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    {%- if section.settings.menu_type_desktop == 'drawer' -%}
+      <header-drawer data-breakpoint="tablet">
+        <details id="Details-menu-drawer-container" class="menu-drawer-container">
+          <summary
+            class="header__icon header__icon--menu header__icon--summary link focus-inset"
+            aria-label="{{ 'sections.header.menu' | t }}"
+          >
+            <span>
+              <span class="svg-wrapper">
+                {{- 'icon-hamburger.svg' | inline_asset_content -}}
+              </span>
+              <span class="svg-wrapper">
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </span>
+            </span>
+          </summary>
+          <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
+            <div class="menu-drawer__inner-container">
+              <div class="menu-drawer__navigation-container">
+                <nav class="menu-drawer__navigation">
+                  <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+                    {%- for link in section.settings.menu.links -%}
+                      <li>
+                        {%- if link.links != blank -%}
+                          <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                            <summary
+                              id="HeaderDrawer-{{ link.handle }}"
+                              class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                            >
+                              {{ link.title | escape }}
+                              <span class="svg-wrapper">
+                                {{- 'icon-arrow.svg' | inline_asset_content -}}
+                              </span>
+                              <span class="svg-wrapper">
+                                {{- 'icon-caret.svg' | inline_asset_content -}}
+                              </span>
+                            </summary>
+                            <div
+                              id="link-{{ link.handle | escape }}"
+                              class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                              tabindex="-1"
+                            >
+                              <div class="menu-drawer__inner-submenu">
+                                <button
+                                  class="menu-drawer__close-button link link--text focus-inset"
+                                  aria-expanded="true"
+                                >
+                                  <span class="svg-wrapper">
+                                    {{- 'icon-arrow.svg' | inline_asset_content -}}
+                                  </span>
+                                  {{ link.title | escape }}
+                                </button>
+                                <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                                  {%- for childlink in link.links -%}
+                                    <li>
+                                      <a
+                                        id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                        href="{{ childlink.url }}"
+                                        class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                        {% if childlink.current %}
+                                          aria-current="page"
+                                        {% endif %}
+                                      >
+                                        {{ childlink.title | escape }}
+                                      </a>
+                                    </li>
+                                  {%- endfor -%}
+                                </ul>
+                              </div>
+                            </div>
+                          </details>
+                        {%- else -%}
+                          <a
+                            id="HeaderDrawer-{{ link.handle }}"
+                            href="{{ link.url }}"
+                            class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                            {% if link.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ link.title | escape }}
+                          </a>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </nav>
+                <div class="menu-drawer__utility-links">
+                  {%- if shop.customer_accounts_enabled -%}
+                    <a
+                      href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                      class="menu-drawer__account-link link focus-inset h5 medium-hide large-up-hide"
+                    >
+                      {%- if section.settings.enable_customer_avatar -%}
+                        <account-icon>
+                          {%- if customer and customer.has_avatar? -%}
+                            {{ customer | avatar }}
+                          {%- else -%}
+                            <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                          {%- endif -%}
+                        </account-icon>
+                      {%- else -%}
+                        <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                      {%- endif -%}
+                      {%- liquid
+                        if customer
+                          echo 'customer.account_fallback' | t
+                        else
+                          echo 'customer.log_in' | t
+                        endif
+                      -%}
+                    </a>
+                  {%- endif -%}
+                  {%- if localization.available_countries or localization.available_languages -%}
+                    <div class="menu-drawer__localization header-localization">
+                      {%- if localization.available_countries and localization.available_countries.size > 1 -%}
+                        <localization-form>
+                          {%- form 'localization', id: 'HeaderCountryMobileForm', class: 'localization-form' -%}
+                            <div>
+                              <h2 class="visually-hidden" id="HeaderCountryMobileLabel">
+                                {{ 'localization.country_label' | t }}
+                              </h2>
+                              {%- render 'country-localization', localPosition: 'HeaderCountryMobile' -%}
+                            </div>
+                          {%- endform -%}
+                        </localization-form>
+                      {% endif %}
+                      {%- if localization.available_languages and localization.available_languages.size > 1 -%}
+                        <localization-form>
+                          {%- form 'localization', id: 'HeaderLanguageMobileForm', class: 'localization-form' -%}
+                            <div>
+                              <h2 class="visually-hidden" id="HeaderLanguageMobileLabel">
+                                {{ 'localization.language_label' | t }}
+                              </h2>
+                              {%- render 'language-localization', localPosition: 'HeaderLanguageMobile' -%}
+                            </div>
+                          {%- endform -%}
+                        </localization-form>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </header-drawer>
+    {%- endif -%}
+
+    {%- if section.settings.logo_position == 'top-center' -%}
+      <div class="header__left-icons">
+        {%- if section.settings.menu_type_desktop == 'drawer' -%}
+          <details-disclosure class="header__icon header__icon--menu">
+            <details id="Details-menu-drawer-container" class="menu-drawer-container">
+              <summary
+                class="header__icon header__icon--menu header__icon--summary link focus-inset"
+                aria-label="{{ 'sections.header.menu' | t }}"
+              >
+                <span>
+                  <span class="svg-wrapper">
+                    {{- 'icon-hamburger.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="svg-wrapper">
+                    {{- 'icon-close.svg' | inline_asset_content -}}
+                  </span>
+                </span>
+              </summary>
+            </details>
+          </details-disclosure>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if request.page_type == 'index' -%}
+      <h1 class="header__heading">
+    {%- endif -%}
+        <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+          {%- if settings.logo != blank -%}
+            <div class="header__heading-logo-wrapper">
+              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+              {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+              {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
+              {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+              {{
+                settings.logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'header__heading-logo motion-reduce',
+                  widths: widths,
+                  height: logo_height,
+                  width: settings.logo_width,
+                  alt: logo_alt,
+                  sizes: sizes,
+                  preload: true
+              }}
+            </div>
+          {%- else -%}
+            <span class="h2">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+    {%- if request.page_type == 'index' -%}
+      </h1>
+    {%- endif -%}
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
       <div class="desktop-localization-wrapper">
