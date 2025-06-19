@@ -165,7 +165,7 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-top: 0px;
+    margin-top: 20px;
   }
 
   .fca-how-to-order__arrows {
@@ -173,7 +173,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 0px;
   }
 
   .fca-how-to-order__arrow {
@@ -303,16 +303,16 @@
       min-height: 200px;
     }
 
-    .fca-how-to-order__navigation {
-      margin-top: 20px;
+    .fca-how-to-order__arrows {
+      margin-top: 0px;
       margin-bottom: 20px;
-      gap: 12px;
+      gap: 15px;
     }
 
-    .fca-how-to-order__arrows {
+    .fca-how-to-order__navigation {
       margin-top: 10px;
       margin-bottom: 40px;
-      gap: 15px;
+      gap: 12px;
     }
 
     .fca-how-to-order__arrow {
@@ -413,15 +413,6 @@
       </div>
 
       {%- if section.blocks.size > 1 -%}
-        <div class="fca-how-to-order__navigation" id="progress-{{ section.id }}">
-          {%- for block in section.blocks -%}
-            <button class="fca-how-to-order__progress-dot{% if forloop.first %} active{% endif %}" 
-                    data-slide="{{ forloop.index0 }}" 
-                    aria-label="Go to step {{ forloop.index }}">
-            </button>
-          {%- endfor -%}
-        </div>
-        
         <div class="fca-how-to-order__arrows" id="arrows-{{ section.id }}">
           <button class="fca-how-to-order__arrow fca-how-to-order__arrow--prev" 
                   aria-label="Previous step">
@@ -431,6 +422,15 @@
                   aria-label="Next step">
             &#8250;
           </button>
+        </div>
+        
+        <div class="fca-how-to-order__navigation" id="progress-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            <button class="fca-how-to-order__progress-dot{% if forloop.first %} active{% endif %}" 
+                    data-slide="{{ forloop.index0 }}" 
+                    aria-label="Go to step {{ forloop.index }}">
+            </button>
+          {%- endfor -%}
         </div>
       {%- endif -%}
     </div>
@@ -458,8 +458,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let currentSlide = 0;
   const totalSlides = slides.children.length;
-  let autoplayInterval;
-  const autoplayDelay = 4000; // 4 seconds between slides
   
   function updateSlider() {
     const translateX = -currentSlide * 100;
@@ -492,29 +490,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSlider();
   }
   
-  function startAutoplay() {
-    if (totalSlides > 1) {
-      autoplayInterval = setInterval(nextSlide, autoplayDelay);
-    }
-  }
-  
-  function stopAutoplay() {
-    if (autoplayInterval) {
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-    }
-  }
-  
-  function restartAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
+
   
   // Progress dots
   progressDots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
       goToSlide(index);
-      restartAutoplay(); // Restart autoplay after manual interaction
     });
   });
   
@@ -523,14 +504,12 @@ document.addEventListener('DOMContentLoaded', function() {
     prevArrow.addEventListener('click', () => {
       if (currentSlide > 0) {
         prevSlide();
-        restartAutoplay();
       }
     });
     
     nextArrow.addEventListener('click', () => {
       if (currentSlide < totalSlides - 1) {
         nextSlide();
-        restartAutoplay();
       }
     });
   }
@@ -541,7 +520,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   slider.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
-    stopAutoplay(); // Pause autoplay during touch interaction
   });
   
   slider.addEventListener('touchend', (e) => {
@@ -555,29 +533,19 @@ document.addEventListener('DOMContentLoaded', function() {
         prevSlide();
       }
     }
-    restartAutoplay(); // Restart autoplay after touch interaction
   });
   
   // Keyboard navigation
   slider.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
       prevSlide();
-      restartAutoplay();
     } else if (e.key === 'ArrowRight') {
       nextSlide();
-      restartAutoplay();
     }
   });
   
-  // Pause autoplay when user hovers over the slider
-  slider.addEventListener('mouseenter', stopAutoplay);
-  slider.addEventListener('mouseleave', startAutoplay);
-  
   // Initialize slider
   updateSlider();
-  
-  // Start autoplay when page loads
-  startAutoplay();
 });
 </script>
 
