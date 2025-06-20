@@ -70,7 +70,7 @@
         "background_image": "shopify://shop_images/Text_with_image_-_Right.jpg",
         "mobile_background_image": "shopify://shop_images/Group_43.png",
         "button_text": "VIEW OUR PARTS CATALOG",
-        "button_url": "shopify://collections/all"
+        "button_url": "https://cdn.shopify.com/s/files/1/0930/3539/7414/files/FCA_Running_Repair_Program_Flyer_5_30_25_1.pdf?v=1750435550"
       }
     },
     "fca_fabrication_parts_right_aMYX6n": {
@@ -113,7 +113,7 @@
         "background_image": "shopify://shop_images/special-parts.jpg",
         "mobile_background_image": "shopify://shop_images/Group_41.jpg",
         "button_text": "Submit a specialty parts request",
-        "button_url": "shopify://pages/request-for-quote"
+        "button_url": "https://www.freightcar.parts/pages/request-for-quote"
       }
     },
     "fca_fabrication_parts_yhTxid": {
