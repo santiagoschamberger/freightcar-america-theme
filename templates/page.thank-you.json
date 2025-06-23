@@ -23,14 +23,14 @@
         "heading_NETgzE": {
           "type": "heading",
           "settings": {
-            "heading": "Specialty Parts Sourcing",
+            "heading": "We have received your request!",
             "heading_size": "h1"
           }
         },
         "text_WcHcmw": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Description goes here: </strong>Need more information about a product or order, want to request a product we don't have listed, or have thoughts on your FreightCar America eCommerce experience? </p><p>You can reach out to Ernie George, Parts Supervisor, directly at 814-533-4109, or fill out the form below and we'll get back to you promptly.</p>"
+            "text": "<p>Thank you for your inquiry. We have received your request and a member of our team will be in touch shortly.</p>"
           }
         }
       },
@@ -43,42 +43,13 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 40,
+        "padding_top": 100,
         "padding_bottom": 52
-      }
-    },
-    "1750709105f445d37f": {
-      "type": "apps",
-      "blocks": {
-        "forms_inline_XmjX4D": {
-          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
-          "settings": {
-            "form_id": "525295",
-            "text_color": "#202020",
-            "button_background_color": "#202020",
-            "button_label_color": "#ffffff",
-            "links_color": "#1878b9",
-            "errors_color": "#e02229",
-            "text_alignment": "center",
-            "form_alignment": "center",
-            "padding_top": 0,
-            "padding_bottom": 57,
-            "padding_right": 0,
-            "padding_left": 0
-          }
-        }
-      },
-      "block_order": [
-        "forms_inline_XmjX4D"
-      ],
-      "settings": {
-        "include_margins": true
       }
     }
   },
   "order": [
     "main",
-    "rich_text_ACcfPm",
-    "1750709105f445d37f"
+    "rich_text_ACcfPm"
   ]
 }
