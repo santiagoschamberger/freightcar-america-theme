@@ -1,0 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_ACcfPm": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_NETgzE": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>How Can We Help?</strong>",
+            "heading_size": "h1"
+          }
+        },
+        "text_WcHcmw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Need more information about a product or order, want to request a product we don't have listed, or have thoughts on your FreightCar America eCommerce experience? </p><p>You can reach out to Ernie George, Parts Supervisor, directly at 814-533-4109, or fill out the form below and we'll get back to you promptly.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_NETgzE",
+        "text_WcHcmw"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_ACcfPm",
+    "form"
+  ]
+}
