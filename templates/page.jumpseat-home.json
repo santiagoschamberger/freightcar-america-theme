@@ -23,7 +23,7 @@
       "custom_css": [],
       "settings": {
         "background_image": "shopify://shop_images/hero-background_89cae518-9784-4018-aa47-f00e83c61e04.png",
-        "title": "Setting a New Standard for Railcar Running Repair Parts",
+        "title": "SETTING A NEW STANDARD FOR RAILCAR REPAIR PARTS",
         "description": "FreightCar America delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
         "highlight_text": "FreightCar America",
         "button_text": "Request an account",
@@ -67,7 +67,7 @@
         "title": "Running Repair Parts You Can Rely On",
         "blue_highlight_text": "Rely On",
         "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
-        "background_image": "shopify://shop_images/Text_with_image_-_Right.jpg",
+        "background_image": "shopify://shop_images/running-repai_rs.jpg",
         "mobile_background_image": "shopify://shop_images/Group_43.png",
         "button_text": "VIEW OUR PARTS CATALOG",
         "button_url": "https://cdn.shopify.com/s/files/1/0930/3539/7414/files/FCA_Running_Repair_Program_Flyer_5_30_25_1.pdf?v=1750435550"
@@ -87,7 +87,7 @@
         "feature_HMaeRf": {
           "type": "feature",
           "settings": {
-            "title": "Cushion Units, Draft Gears",
+            "title": "Cushion Units, Center Plates, Dump Door Systems",
             "description": "",
             "icon": ""
           }
@@ -110,7 +110,7 @@
         "title": "Specialty, Hard-to-Find Parts Sourcing",
         "blue_highlight_text": "",
         "description": "We use our industry connections and inventory management to source the parts you need, including:",
-        "background_image": "shopify://shop_images/special-parts.jpg",
+        "background_image": "shopify://shop_images/specialty-parts.jpg",
         "mobile_background_image": "shopify://shop_images/Group_41.jpg",
         "button_text": "Submit a specialty parts request",
         "button_url": "https://www.freightcar.parts/pages/request-for-quote"
