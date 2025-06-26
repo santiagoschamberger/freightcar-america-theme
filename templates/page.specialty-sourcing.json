@@ -30,7 +30,7 @@
         "text_WcHcmw": {
           "type": "text",
           "settings": {
-            "text": "<p>Use the form below to tell us what you're looking for. Our team will leverage our supply network and get back to you with availability, lead times, and pricing.</p><p>We provide:</p><ul><li>Access to <strong>hard-to-find parts</strong></li><li><strong>Trusted</strong> supplier network</li><li><strong>Quick, reliable</strong> turnaround</li></ul><p>Upload pictures or list part details and we'll get back to you promptly with next steps.</p>"
+            "text": "<p>Use the form below to tell us what you're looking for. Our team will leverage our supply network and get back to you with availability, lead times, and pricing.</p><p>We provide access to <strong>hard-to-find parts, </strong>a <strong>trusted </strong>supplier network, and <strong>quick, reliable </strong>turnaround.</p><p>Upload pictures or list part details and we'll get back to you promptly with next steps.</p>"
           }
         }
       },
@@ -40,7 +40,7 @@
       ],
       "settings": {
         "desktop_content_position": "center",
-        "content_alignment": "left",
+        "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
         "padding_top": 40,
