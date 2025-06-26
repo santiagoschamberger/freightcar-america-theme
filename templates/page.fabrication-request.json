@@ -23,14 +23,14 @@
         "heading_NETgzE": {
           "type": "heading",
           "settings": {
-            "heading": "<strong>Fabrication Reques title</strong>",
+            "heading": "Request a Fabrication Quote",
             "heading_size": "h1"
           }
         },
         "text_WcHcmw": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Description goes here: </strong>Need more information about a product or order, want to request a product we don't have listed, or have thoughts on your FreightCar America eCommerce experience? </p><p>You can reach out to Ernie George, Parts Supervisor, directly at 814-533-4109, or fill out the form below and we'll get back to you promptly.</p>"
+            "text": "<p>Fill out the form below to begin your custom railcar part fabrication request. Whether you're replacing a critical component or developing a new solution, our in-house team of engineers are ready to collaborate with you.</p>"
           }
         }
       },
