@@ -23,14 +23,14 @@
         "heading_NETgzE": {
           "type": "heading",
           "settings": {
-            "heading": "Specialty Parts Sourcing",
+            "heading": "Specialty Parts Sourcing Request",
             "heading_size": "h1"
           }
         },
         "text_WcHcmw": {
           "type": "text",
           "settings": {
-            "text": "<p><strong>Description goes here: </strong>Need more information about a product or order, want to request a product we don't have listed, or have thoughts on your FreightCar America eCommerce experience? </p><p>You can reach out to Ernie George, Parts Supervisor, directly at 814-533-4109, or fill out the form below and we'll get back to you promptly.</p>"
+            "text": "<p>Use the form below to tell us what you're looking for. Our team will leverage our supply network and get back to you with availability, lead times, and pricing.</p><p>We provide:</p><ul><li>Access to <strong>hard-to-find parts</strong></li><li><strong>Trusted</strong> supplier network</li><li><strong>Quick, reliable</strong> turnaround</li></ul><p>Upload pictures or list part details and we'll get back to you promptly with next steps.</p>"
           }
         }
       },
@@ -40,7 +40,7 @@
       ],
       "settings": {
         "desktop_content_position": "center",
-        "content_alignment": "center",
+        "content_alignment": "left",
         "color_scheme": "",
         "full_width": true,
         "padding_top": 40,

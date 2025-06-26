@@ -419,7 +419,8 @@
   },
   "platform_customizations": {
     "custom_css": [
-      ".field__input:focus,.field__input:not(:placeholder-shown),.customer .field input:-webkit-autofill,.customer .field input:focus,.customer .field input:not(:placeholder-shown),.customer .field input:-webkit-autofill {padding: 0px 10px; margin: var(--inputs-border-width);}"
+      ".field__input:focus,.field__input:not(:placeholder-shown),.customer .field input:-webkit-autofill,.customer .field input:focus,.customer .field input:not(:placeholder-shown),.customer .field input:-webkit-autofill {padding: 0px 10px; margin: var(--inputs-border-width);}",
+      "._formHeader_8skcf_24 {display: none !important;}"
     ]
   }
 }
