@@ -113,7 +113,7 @@
         "background_image": "shopify://shop_images/specialty-parts.jpg",
         "mobile_background_image": "shopify://shop_images/Group_41.jpg",
         "button_text": "Submit a specialty parts request",
-        "button_url": "https://www.freightcar.parts/pages/request-for-quote"
+        "button_url": "shopify://pages/specialty-parts-sourcing"
       }
     },
     "fca_fabrication_parts_yhTxid": {
@@ -155,7 +155,7 @@
         "description": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet’s requirements.",
         "background_image": "shopify://shop_images/Group_41_66379a09-c389-47c8-aaba-243636367d52.jpg",
         "button_text": "Submit a fabrication request",
-        "button_url": "shopify://pages/request-for-quote"
+        "button_url": "shopify://pages/fabrication-request"
       }
     },
     "fca_how_to_order_DkRBKb": {
