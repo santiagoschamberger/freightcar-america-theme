@@ -1,1 +1,221 @@
-{"sections":{"slideshow":{"type":"slideshow","blocks":{"slide-0":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/Hero_Image_1b8dd266-cdab-46e6-b711-3bf486576bad.png","heading":"Setting a New Standard","heading_size":"h0","subheading":"FreightCar America's Running Repairs program is revolutionizing the game with a cutting-edge approach to parts delivery and service. Experience lightning-fast turnaround times, a wide range of top-quality selections, and unmatched reliability — all designed to keep you moving forward, faster.","button_label":"Shop all","link":"shopify:\/\/collections\/frontpage","button_style_secondary":false,"box_align":"middle-left","show_text_box":true,"text_alignment":"left","image_overlay_opacity":10,"color_scheme":"scheme-2","text_alignment_mobile":"left"}}},"block_order":["slide-0"],"custom_css":["h2 {line-height: 1.1;}"],"settings":{"layout":"full_bleed","slide_height":"small","slider_visual":"counter","auto_rotate":false,"change_slides_speed":5,"image_behavior":"none","show_text_below":true,"accessibility_info":"Slideshow about our brand"}},"rich_text_kxDCgU":{"type":"rich-text","blocks":{"heading_w9DmaU":{"type":"heading","settings":{"heading":"Your Time is Money","heading_size":"h1"}},"text_yNA6zy":{"type":"text","settings":{"text":"<p>FreightCar America's Running Repair Parts Program is setting the bar for speed, simplicity, and reliability in your parts supply chain.<\/p>"}},"button_DwQtmD":{"type":"button","disabled":true,"settings":{"button_label":"Button label","button_link":"","button_style_secondary":false,"button_label_2":"","button_link_2":"","button_style_secondary_2":false}}},"block_order":["heading_w9DmaU","text_yNA6zy","button_DwQtmD"],"settings":{"desktop_content_position":"center","content_alignment":"center","color_scheme":"scheme-3","full_width":true,"padding_top":100,"padding_bottom":100}},"multicolumn_WD6rMp":{"type":"multicolumn","blocks":{"column_VFaaMh":{"type":"column","settings":{"title":"Parts On-Demand","text":"<p>Parts are in stock and ready to ship so you can count on fast, reliable delivery when you need it most!<br\/><br\/><\/p>","link_label":"","link":""}},"column_DeAHaV":{"type":"column","settings":{"title":"Built to the Highest Standards","text":"<p>Rigorous focus on quality with M1003-certified parts.<\/p>","link_label":"","link":""}},"column_6TqCdb":{"type":"column","settings":{"title":"From a One-Stop Parts Supplier","text":"<p>Your one-stop shop for all parts needs! In addition to our running repair parts, we provide in-house manufacturing for all Rail parts and custom fabrication services tailored to meet your unique requirements.<\/p>","link_label":"","link":""}},"column_9mgi4E":{"type":"column","settings":{"title":"With Highly Competitive Pricing","text":"<p>Designed with you in mind, our program delivers exceptional value through highly competitive pricing — all while maintaining the quality you can rely on.<\/p>","link_label":"","link":""}}},"block_order":["column_VFaaMh","column_DeAHaV","column_6TqCdb","column_9mgi4E"],"settings":{"title":"Here's what to Expect with FreightCar America","heading_size":"h1","image_width":"full","image_ratio":"adapt","columns_desktop":4,"column_alignment":"left","background_style":"primary","button_label":"","button_link":"","color_scheme":"","columns_mobile":"1","swipe_on_mobile":false,"padding_top":100,"padding_bottom":100}},"multicolumn_Lxg4yE":{"type":"multicolumn","blocks":{"column_4QDgJF":{"type":"column","settings":{"title":"Step 1","text":"<p>Select the part(s) you are interested in and place them in your cart. You may adjust quantities by typing in your total desired number or adjusting the product quantities using the +\/- symbols.<\/p>","link_label":"","link":""}},"column_B9BDLe":{"type":"column","settings":{"title":"Step 2","text":"<p>Once you're ready to purchase, proceed to the checkout page. Shipping costs will be calculated at checkout. Any order over $3,000 will receive free shipping. <\/p><p>*Note: If you have a PO# associated with your order, please include it in the \"special notes\" field in the cart prior to the checkout page.<\/p>","link_label":"","link":""}},"column_iQAt3F":{"type":"column","settings":{"title":"Step 3","text":"<p>You'll receive a confirmation email upon final checkout and a second once your order has shipped with a tracking number. An invoice will be sent to your email once your order has shipped.<\/p>","link_label":"","link":""}}},"block_order":["column_4QDgJF","column_B9BDLe","column_iQAt3F"],"settings":{"title":"How to Place an Order","heading_size":"h1","image_width":"full","image_ratio":"adapt","columns_desktop":3,"column_alignment":"left","background_style":"primary","button_label":"","button_link":"","color_scheme":"scheme-2","columns_mobile":"1","swipe_on_mobile":false,"padding_top":100,"padding_bottom":100}},"featured-collection-0":{"type":"featured-collection","custom_css":[],"settings":{"title":"Select Running Repair Parts","heading_size":"h1","description":"<p>Select parts are listed below. All parts can be accessed from the catalog.<\/p>","show_description":false,"description_style":"body","collection":"frontpage","products_to_show":8,"columns_desktop":4,"full_width":false,"show_view_all":true,"view_all_style":"solid","enable_desktop_slider":false,"color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"standard","columns_mobile":"1","swipe_on_mobile":false,"padding_top":100,"padding_bottom":100}}},"order":["slideshow","rich_text_kxDCgU","multicolumn_WD6rMp","multicolumn_Lxg4yE","featured-collection-0"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "fca_hero_tPmand": {
+      "type": "fca-hero",
+      "custom_css": [],
+      "settings": {
+        "background_image": "shopify://shop_images/hero-background_89cae518-9784-4018-aa47-f00e83c61e04.png",
+        "title": "SETTING A NEW STANDARD FOR RAILCAR REPAIR PARTS",
+        "description": "FreightCar America delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
+        "highlight_text": "FreightCar America",
+        "button_text": "Request an account",
+        "button_url": "https://www.freightcar.parts/account/register"
+      }
+    },
+    "fca_fabrication_parts_X4J3Qf": {
+      "type": "fca-fabrication-parts",
+      "blocks": {
+        "feature_xfmg9L": {
+          "type": "feature",
+          "settings": {
+            "title": "Fast Delivery",
+            "description": "Parts ready to ship in two days for quick, reliable service.",
+            "icon": ""
+          }
+        },
+        "feature_CUB8fz": {
+          "type": "feature",
+          "settings": {
+            "title": "Certified Quality",
+            "description": "All parts meet M1003 standards for precision and durability.",
+            "icon": ""
+          }
+        },
+        "feature_7Qc9qp": {
+          "type": "feature",
+          "settings": {
+            "title": "Highly Competitive Pricing",
+            "description": "Providing value without compromising on quality.",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_xfmg9L",
+        "feature_CUB8fz",
+        "feature_7Qc9qp"
+      ],
+      "settings": {
+        "title": "Running Repair Parts You Can Rely On",
+        "blue_highlight_text": "Rely On",
+        "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
+        "background_image": "shopify://shop_images/runnin-back.jpg",
+        "mobile_background_image": "shopify://shop_images/Group_43.png",
+        "button_text": "VIEW OUR PARTS CATALOG",
+        "button_url": "https://cdn.shopify.com/s/files/1/0930/3539/7414/files/FCA_Running_Repair_Program_Flyer_5_30_25_1.pdf?v=1750435550"
+      }
+    },
+    "fca_fabrication_parts_right_aMYX6n": {
+      "type": "fca-fabrication-parts-right",
+      "blocks": {
+        "feature_GxYe3C": {
+          "type": "feature",
+          "settings": {
+            "title": "Side Frames, Bolsters, Couplers",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_HMaeRf": {
+          "type": "feature",
+          "settings": {
+            "title": "Cushion Units, Center Plates, Dump Door Systems",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_Jhgzxg": {
+          "type": "feature",
+          "settings": {
+            "title": "Air Brake Valve Unit Exchange",
+            "description": "",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_GxYe3C",
+        "feature_HMaeRf",
+        "feature_Jhgzxg"
+      ],
+      "settings": {
+        "title": "Specialty, Hard-to-Find Parts Sourcing",
+        "blue_highlight_text": "",
+        "description": "We use our industry connections and inventory management to source the parts you need, including:",
+        "background_image": "shopify://shop_images/specialty-back.jpg",
+        "mobile_background_image": "shopify://shop_images/Group_41.jpg",
+        "button_text": "Submit a specialty parts request",
+        "button_url": "shopify://pages/specialty-parts-sourcing"
+      }
+    },
+    "fca_fabrication_parts_yhTxid": {
+      "type": "fca-fabrication-parts",
+      "blocks": {
+        "feature_94VqGn": {
+          "type": "feature",
+          "settings": {
+            "title": "Quality You Can Trust",
+            "description": "Every part undergoes a strict four-step process to meet specifications before shipping.",
+            "icon": ""
+          }
+        },
+        "feature_44hWrE": {
+          "type": "feature",
+          "settings": {
+            "title": "Tailored Solutions",
+            "description": "Collaborate directly with our engineering team to create custom parts that enhance performance.",
+            "icon": ""
+          }
+        },
+        "feature_6CRf94": {
+          "type": "feature",
+          "settings": {
+            "title": "Quick Turnaround Time",
+            "description": "We deliver the right part, to spec, exactly when you need it.",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_94VqGn",
+        "feature_44hWrE",
+        "feature_6CRf94"
+      ],
+      "settings": {
+        "title": "Fabrication of Parts for Every Need",
+        "blue_highlight_text": "for Every Need",
+        "description": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet's requirements.",
+        "background_image": "shopify://shop_images/Group_41_66379a09-c389-47c8-aaba-243636367d52.jpg",
+        "button_text": "Submit a fabrication request",
+        "button_url": "shopify://pages/fabrication-request"
+      }
+    },
+    "fca_how_to_order_DkRBKb": {
+      "type": "fca-how-to-order",
+      "blocks": {
+        "step_bpBVTG": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number1.png",
+            "title": "Create an Account",
+            "description": "Set up a quick, secure account to manage your orders and track your parts."
+          }
+        },
+        "step_VQ3LTe": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number3.png",
+            "title": "Place Your Order",
+            "description": "Add items to your cart and complete your order with secure checkout."
+          }
+        },
+        "step_mVfQC7": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number2.png",
+            "title": "Connect",
+            "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
+          }
+        },
+        "step_dyCxPH": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number4.png",
+            "title": "Track & Receive",
+            "description": "Monitor your order status and receive your parts on time."
+          }
+        }
+      },
+      "block_order": [
+        "step_bpBVTG",
+        "step_VQ3LTe",
+        "step_mVfQC7",
+        "step_dyCxPH"
+      ],
+      "settings": {
+        "title": "How to Order",
+        "red_highlight_text": "Order",
+        "button_text": "Request an account",
+        "button_url": "https://www.freightcar.parts/account/register"
+      }
+    },
+    "fca_experience_ehtCAX": {
+      "type": "fca-experience",
+      "settings": {
+        "title": "Our Experience, Your Advantage",
+        "red_highlight_text": "Your Advantage",
+        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
+        "button_text": "Start Your Order Today",
+        "button_url": "https://www.freightcar.parts/account/login"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "fca_hero_tPmand",
+    "fca_fabrication_parts_X4J3Qf",
+    "fca_fabrication_parts_right_aMYX6n",
+    "fca_fabrication_parts_yhTxid",
+    "fca_how_to_order_DkRBKb",
+    "fca_experience_ehtCAX"
+  ]
+}
