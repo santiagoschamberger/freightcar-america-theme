@@ -169,14 +169,6 @@
             "description": "Set up a quick, secure account to manage your orders and track your parts."
           }
         },
-        "step_dyCxPH": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number4.png",
-            "title": "Track & Receive",
-            "description": "Monitor your order status and receive your parts on time."
-          }
-        },
         "step_VQ3LTe": {
           "type": "step",
           "settings": {
@@ -192,13 +184,21 @@
             "title": "Connect",
             "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
           }
+        },
+        "step_dyCxPH": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number4.png",
+            "title": "Track & Receive",
+            "description": "Monitor your order status and receive your parts on time."
+          }
         }
       },
       "block_order": [
         "step_bpBVTG",
-        "step_dyCxPH",
         "step_VQ3LTe",
-        "step_mVfQC7"
+        "step_mVfQC7",
+        "step_dyCxPH"
       ],
       "settings": {
         "title": "How to Order",
