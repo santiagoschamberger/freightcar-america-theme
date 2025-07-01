@@ -11,33 +11,6 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement_bar_hmEXW9": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement_8pXqqx": {
-          "type": "announcement",
-          "settings": {
-            "text": "Limited Time Offer: Brake Beams on Sale",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_8pXqqx"
-      ],
-      "custom_css": [
-        "p.announcement-bar__message.h5 {text-transform: uppercase; font-size: 1.5rem;}"
-      ],
-      "settings": {
-        "color_scheme": "scheme-5",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
-    },
     "header": {
       "type": "header",
       "custom_css": [],
@@ -60,7 +33,6 @@
     }
   },
   "order": [
-    "announcement_bar_hmEXW9",
     "header"
   ]
 }
