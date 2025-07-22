@@ -32,11 +32,11 @@
   }
 
   .fca-what-to-expect__grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 31px;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-items: center;
+    align-items: start;
     width: 100%;
   }
 
@@ -145,8 +145,8 @@
     }
     
     .fca-what-to-expect__card {
-      width: calc(50% - 10px);
-      min-width: 480px;
+      width: 100%;
+      max-width: 480px;
     }
 
     .fca-what-to-expect__card::before {
@@ -179,8 +179,8 @@
     }
 
     .fca-what-to-expect__grid {
-      flex-direction: column;
-      align-items: center;
+      grid-template-columns: 1fr;
+      justify-items: center;
     }
 
     .fca-what-to-expect__card {
