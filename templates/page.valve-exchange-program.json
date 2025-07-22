@@ -93,7 +93,7 @@
       ],
       "custom_css": [
         ".air-brake-valves-container {padding: 100px 0px !important;}",
-        "@media (max-width: 768px) {.valve-types-grid {grid-template-columns: 1fr; gap: 30px; width: 50%; margin: auto !important; } .air-brake-valves-container {padding: 60px 0px !important; }}"
+        "@media (max-width: 768px) {.valve-types-grid {grid-template-columns: 1fr; gap: 30px; width: 50%; margin: auto !important; } .air-brake-valves-container {padding: 60px 20px !important; }}"
       ],
       "name": "Air Brake Valves",
       "settings": {
@@ -145,7 +145,7 @@
         ".fca-air-brake-exchange__step-bg {display: block !important;}",
         ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px; gap: 54px !important;}",
         ".fca-air-brake-exchange__step-number {margin-left: 0; margin-top: 0; margin-right: 30px;}",
-        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; } .fca-air-brake-exchange {padding: 60px 0px !important; } }",
+        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; } .fca-air-brake-exchange {padding: 60px 0px !important; }}",
         ".fca-air-brake-exchange {background: #ffffff; padding: 100px 0; position: relative;}"
       ],
       "name": "Air Brake Exchange",
