@@ -36,6 +36,68 @@
         "button_url": ""
       }
     },
+    "air_brake_valves_Mzqzgw": {
+      "type": "air-brake-valves",
+      "blocks": {
+        "valve_type_jbaNPQ": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX Service",
+            "column": "left"
+          }
+        },
+        "valve_type_fby9XN": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX Emergency",
+            "column": "left"
+          }
+        },
+        "valve_type_Jcekxh": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX-L Emergency",
+            "column": "left"
+          }
+        },
+        "valve_type_URRJWF": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB10 Service",
+            "column": "right"
+          }
+        },
+        "valve_type_rT8Wdf": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB20 Emergency",
+            "column": "right"
+          }
+        },
+        "valve_type_RcAxmM": {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB20L",
+            "column": "right"
+          }
+        }
+      },
+      "block_order": [
+        "valve_type_jbaNPQ",
+        "valve_type_fby9XN",
+        "valve_type_Jcekxh",
+        "valve_type_URRJWF",
+        "valve_type_rT8Wdf",
+        "valve_type_RcAxmM"
+      ],
+      "name": "Air Brake Valves",
+      "settings": {
+        "heading_part_1": "Here are the air brake valves we currently accept",
+        "heading_part_2": "for replacement:",
+        "footer_text": "We also offer air brake valves for outright purchase. Please reach out to parts@freightcar.net.",
+        "background_image": "shopify://shop_images/back-second_07e95ddf-34f5-41c7-9986-e2aa5507f563.jpg"
+      }
+    },
     "fca_fabrication_parts_right_aMYX6n": {
       "type": "fca-fabrication-parts-right",
       "blocks": {
@@ -184,6 +246,7 @@
   "order": [
     "main",
     "fca_fabrication_parts_X4J3Qf",
+    "air_brake_valves_Mzqzgw",
     "fca_fabrication_parts_right_aMYX6n",
     "fca_fabrication_parts_yhTxid",
     "fca_how_to_order_DkRBKb",
