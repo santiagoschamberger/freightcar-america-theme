@@ -1,6 +1,6 @@
 {{ 'section-air-brake-valves.css' | asset_url | stylesheet_tag }}
 
-<div class="air-brake-valves-section">
+<div class="air-brake-valves-section"{% if section.settings.background_image %} style="background-image: url('{{ section.settings.background_image | image_url }}')"{% endif %}>
   <div class="air-brake-valves-container">
     <div class="air-brake-valves-content">
       
@@ -53,15 +53,7 @@
 
       {% if section.settings.footer_text != blank %}
         <div class="air-brake-valves-footer">
-          <p>
-            {{ section.settings.footer_text_part_1 }}
-            {% if section.settings.contact_email != blank %}
-              <a href="mailto:{{ section.settings.contact_email }}" class="contact-link">
-                {{ section.settings.contact_email }}
-              </a>
-            {% endif %}
-            {{ section.settings.footer_text_part_2 }}
-          </p>
+          <p>{{ section.settings.footer_text }}</p>
         </div>
       {% endif %}
 
@@ -96,22 +88,10 @@
       "content": "Footer"
     },
     {
-      "type": "text",
-      "id": "footer_text_part_1",
-      "label": "Footer text (before email)",
-      "default": "We also offer air brake valves for outright purchase. Please reach out to"
-    },
-    {
-      "type": "text",
-      "id": "contact_email",
-      "label": "Contact email",
-      "default": "parts@freightcar.net"
-    },
-    {
-      "type": "text",
-      "id": "footer_text_part_2",
-      "label": "Footer text (after email)",
-      "default": "."
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "We also offer air brake valves for outright purchase. Please reach out to parts@freightcar.net."
     },
     {
       "type": "header",
