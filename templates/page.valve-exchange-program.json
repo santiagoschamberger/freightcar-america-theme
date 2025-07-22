@@ -283,7 +283,8 @@
       "custom_css": [
         ".fca-air-brake-exchange__step-bg {display: block !important;}",
         ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px;}",
-        ".fca-air-brake-exchange__step-number {margin-left: 0px; margin-top: 0px;}"
+        ".fca-air-brake-exchange__step-number {margin-left: 0px; margin-top: 0px;}",
+        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important;}"
       ],
       "name": "Air Brake Exchange",
       "settings": {
