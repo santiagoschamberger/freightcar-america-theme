@@ -99,7 +99,7 @@
         "heading_part_1": "Here are the air brake valves we currently accept",
         "heading_part_2": "for replacement:",
         "footer_text": "We also offer air brake valves for outright purchase. Please reach out to parts@freightcar.net.",
-        "background_image": "shopify://shop_images/fonditogris.jpg"
+        "background_image": "shopify://shop_images/back-second_07e95ddf-34f5-41c7-9986-e2aa5507f563.jpg"
       }
     },
     "fca_air_brake_exchange_6V3jdT": {
@@ -192,7 +192,7 @@
         "feature_nxmzmb"
       ],
       "custom_css": [
-        ".fca-what-to-expect{padding: 100px 0px !important;}"
+        ".fca-what-to-expect {padding: 100px 0px !important;}"
       ],
       "name": "FCA - What to Expect",
       "settings": {
