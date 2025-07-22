@@ -89,8 +89,10 @@
   .fca-air-brake-exchange__step-bg {
     width: 264px;
     height: 111px;
-    background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
-    border-radius: 8px;
+    background-image: url('{{ "shape.svg" | asset_url }}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     position: absolute;
     top: 0;
     left: 0;
@@ -274,6 +276,7 @@
     {
       "type": "step",
       "name": "Step",
+      "limit": 4,
       "settings": [
         {
           "type": "text",
