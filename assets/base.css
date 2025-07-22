@@ -14,6 +14,14 @@
   padding-bottom: 5vh;
 }
 
+h2._textHeading_2aowh_35 {
+    text-transform: none;
+    font-family: 'Outage', sans-serif !important;
+    line-height: 42px !important;
+    color: white !important;
+    margin: 0 0 25px;
+}
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
