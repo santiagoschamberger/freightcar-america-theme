@@ -25,7 +25,7 @@
         ".azul {color: #00205b;}",
         ".fca-fabrication__description {color: #00205b;}",
         ".rojo {color: #d31244;}",
-        "@media only screen and (max-width: 600px) {h2 {color: #d31244; font-size: 40px; font-height: 50px; }}"
+        "@media only screen and (max-width: 600px) {h2 {color: #d31244; font-size: 40px; font-height: 50px; } .fca-fabrication {height: auto; min-height: none !important; padding: 0px; margin: 0px; }}"
       ],
       "settings": {
         "title": "Your One-Stop Shop <span class=\"azul\">for Air Brake Valves</span>",
@@ -91,6 +91,9 @@
         "valve_type_rT8Wdf",
         "valve_type_RcAxmM"
       ],
+      "custom_css": [
+        ".air-brake-valves-container {padding: 100px 0px !important;}"
+      ],
       "name": "Air Brake Valves",
       "settings": {
         "heading_part_1": "Here are the air brake valves we currently accept",
@@ -139,9 +142,10 @@
       ],
       "custom_css": [
         ".fca-air-brake-exchange__step-bg {display: block !important;}",
-        ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px;}",
+        ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px; gap: 54px !important;}",
         ".fca-air-brake-exchange__step-number {margin-left: 0; margin-top: 0;}",
-        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; }}"
+        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; } .fca-air-brake-exchange {padding: 40px 0px !important; }}",
+        ".fca-air-brake-exchange {background: #ffffff; padding: 100px 0; position: relative;}"
       ],
       "name": "Air Brake Exchange",
       "settings": {
@@ -186,6 +190,9 @@
         "feature_N6DdxA",
         "feature_fpTXWG",
         "feature_nxmzmb"
+      ],
+      "custom_css": [
+        ".fca-what-to-expect{padding: 100px 0px !important;}"
       ],
       "name": "FCA - What to Expect",
       "settings": {
