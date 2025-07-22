@@ -18,59 +18,16 @@
         "padding_bottom": 28
       }
     },
-    "fca_hero_tPmand": {
-      "type": "fca-hero",
-      "custom_css": [],
-      "settings": {
-        "background_image": "shopify://shop_images/hero-background_89cae518-9784-4018-aa47-f00e83c61e04.png",
-        "title": "SETTING A NEW STANDARD FOR RAILCAR REPAIR PARTS",
-        "description": "FreightCar America delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
-        "highlight_text": "FreightCar America",
-        "button_text": "Request an account",
-        "button_url": "https://www.freightcar.parts/account/register"
-      }
-    },
     "fca_fabrication_parts_X4J3Qf": {
       "type": "fca-fabrication-parts",
-      "blocks": {
-        "feature_xfmg9L": {
-          "type": "feature",
-          "settings": {
-            "title": "Fast Delivery",
-            "description": "Parts ready to ship in two days for quick, reliable service.",
-            "icon": ""
-          }
-        },
-        "feature_CUB8fz": {
-          "type": "feature",
-          "settings": {
-            "title": "Certified Quality",
-            "description": "All parts meet M1003 standards for precision and durability.",
-            "icon": ""
-          }
-        },
-        "feature_7Qc9qp": {
-          "type": "feature",
-          "settings": {
-            "title": "Highly Competitive Pricing",
-            "description": "Providing value without compromising on quality.",
-            "icon": ""
-          }
-        }
-      },
-      "block_order": [
-        "feature_xfmg9L",
-        "feature_CUB8fz",
-        "feature_7Qc9qp"
-      ],
       "settings": {
-        "title": "Running Repair Parts You Can Rely On",
-        "blue_highlight_text": "Rely On",
-        "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
-        "background_image": "shopify://shop_images/runnin-back.jpg",
+        "title": "Your One-Stop Shop for Air Brake Valves",
+        "blue_highlight_text": "",
+        "description": "Greater selection. Greater savings. Greater speed. FreightCar America's Air Brake Valve Unit Exchange Program gets you top-quality reconditioned air brake valves at discounted prices with the quickest turnaround times in the industry.",
+        "background_image": "shopify://shop_images/backfirst.jpg",
         "mobile_background_image": "shopify://shop_images/Group_43.png",
-        "button_text": "VIEW OUR PARTS CATALOG",
-        "button_url": "https://cdn.shopify.com/s/files/1/0930/3539/7414/files/FCA_Running_Repair_Program_Flyer_5_30_25_1.pdf?v=1750435550"
+        "button_text": "",
+        "button_url": ""
       }
     },
     "fca_fabrication_parts_right_aMYX6n": {
@@ -220,7 +177,6 @@
   },
   "order": [
     "main",
-    "fca_hero_tPmand",
     "fca_fabrication_parts_X4J3Qf",
     "fca_fabrication_parts_right_aMYX6n",
     "fca_fabrication_parts_yhTxid",
