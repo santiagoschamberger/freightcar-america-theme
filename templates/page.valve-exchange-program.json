@@ -248,13 +248,37 @@
         "step_CdaidX": {
           "type": "step",
           "settings": {
-            "title": "Step Title",
-            "description": "Step description."
+            "title": "Reach Out",
+            "description": "Fill out the form below or contact our team at parts@freightcar.net with the airbrake valve type and quantity that you want to return."
+          }
+        },
+        "step_Q3rBac": {
+          "type": "step",
+          "settings": {
+            "title": "Send Us Your Cores",
+            "description": "Ship your used valves, with a shipping cover, to our facility at 129 Industrial Park Road\nJohnstown, PA 15904."
+          }
+        },
+        "step_8pKnfj": {
+          "type": "step",
+          "settings": {
+            "title": "Valve Inspection",
+            "description": "Our team will inspect your used valves to confirm they’re eligible for reconditioning."
+          }
+        },
+        "step_R6XFEz": {
+          "type": "step",
+          "settings": {
+            "title": "Receive Your Valves",
+            "description": "Following inspection, we’ll send you fully reconditioned, quality-assured valves at a discounted rate and follow up with component identification tags for regulatory compliance."
           }
         }
       },
       "block_order": [
-        "step_CdaidX"
+        "step_CdaidX",
+        "step_Q3rBac",
+        "step_8pKnfj",
+        "step_R6XFEz"
       ],
       "name": "Air Brake Exchange",
       "settings": {
