@@ -1,0 +1,328 @@
+{%- style -%}
+  .fca-what-to-expect {
+    background: #00205B;
+    padding: 130px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fca-what-to-expect__container {
+    max-width: 1085px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 55px;
+  }
+
+  .fca-what-to-expect__title {
+    font-family: 'Outage', sans-serif;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 60px;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0;
+    max-width: 758px;
+  }
+
+  .fca-what-to-expect__title .brand-highlight {
+    color: #5784CC;
+  }
+
+  .fca-what-to-expect__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 31px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .fca-what-to-expect__card {
+    width: 527px;
+    height: 218px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 33px 15px;
+    box-sizing: border-box;
+  }
+
+  .fca-what-to-expect__card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 129px;
+    width: 461px;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+  }
+
+  .fca-what-to-expect__card-title {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: #5784CC;
+    margin: 0;
+    height: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fca-what-to-expect__card-description {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0;
+    width: 397px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Triple border effect */
+  .fca-what-to-expect__card::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 527px;
+    height: 193px;
+    border: 1px solid #D31244;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .fca-what-to-expect__card::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 7px;
+    width: 514px;
+    height: 205px;
+    border: 1px solid #FFFFFF;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .fca-what-to-expect__card-border {
+    position: absolute;
+    top: 0;
+    left: 14px;
+    width: 500px;
+    height: 218px;
+    border: 1px solid #5784CC;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  @media (max-width: 1200px) {
+    .fca-what-to-expect__container {
+      max-width: 1085px;
+      padding: 0 40px;
+    }
+
+    .fca-what-to-expect__grid {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 1150px) {
+    .fca-what-to-expect__grid {
+      gap: 20px;
+    }
+    
+    .fca-what-to-expect__card {
+      width: calc(50% - 10px);
+      min-width: 480px;
+    }
+
+    .fca-what-to-expect__card::before {
+      width: 100%;
+    }
+
+    .fca-what-to-expect__card::after {
+      width: calc(100% - 14px);
+    }
+
+    .fca-what-to-expect__card-border {
+      width: calc(100% - 28px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .fca-what-to-expect {
+      padding: 80px 0;
+    }
+
+    .fca-what-to-expect__container {
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .fca-what-to-expect__title {
+      font-size: 32px;
+      line-height: 44px;
+      max-width: 100%;
+    }
+
+    .fca-what-to-expect__grid {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .fca-what-to-expect__card {
+      width: 100%;
+      min-width: auto;
+      max-width: 527px;
+      height: auto;
+      min-height: 218px;
+      padding: 20px;
+    }
+
+    .fca-what-to-expect__card-content {
+      width: 100%;
+      height: auto;
+      min-height: 129px;
+    }
+
+    .fca-what-to-expect__card-description {
+      width: 100%;
+      max-width: 397px;
+    }
+
+    .fca-what-to-expect__card-title {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .fca-what-to-expect__card-description {
+      font-size: 15px;
+      line-height: 22px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .fca-what-to-expect {
+      padding: 60px 0;
+    }
+
+    .fca-what-to-expect__title {
+      font-size: 28px;
+      line-height: 38px;
+    }
+
+    .fca-what-to-expect__card {
+      padding: 15px;
+      min-height: 200px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="fca-what-to-expect">
+  <div class="fca-what-to-expect__container">
+    <h2 class="fca-what-to-expect__title">
+      {{ section.settings.title_prefix }}
+      <span class="brand-highlight">{{ section.settings.brand_name }}</span>
+    </h2>
+    
+    <div class="fca-what-to-expect__grid">
+      {% for block in section.blocks %}
+        <div class="fca-what-to-expect__card" {{ block.shopify_attributes }}>
+          <div class="fca-what-to-expect__card-content">
+            <h3 class="fca-what-to-expect__card-title">{{ block.settings.title }}</h3>
+            <p class="fca-what-to-expect__card-description">{{ block.settings.description }}</p>
+          </div>
+          <div class="fca-what-to-expect__card-border"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FCA - What to Expect",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_prefix",
+      "label": "Title Prefix",
+      "default": "Here's What to Expect with "
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "FreightCar America"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FCA - What to Expect",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Maximum Convenience & Speed",
+            "description": "Our full lineup of reconditioned valve models are in stock and guaranteed to ship fast so you can keep your rail operations running smoothly with minimal downtime."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Reconditioned to the Highest Standards",
+            "description": "Every valve you receive from FreightCar America is meticulously restored and tested to meet OEM performance standards."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Exceptional Value",
+            "description": "Offering valves at discounted pricing, our exchange program delivers outstanding value while maintaining the quality you can rely on."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Your All-in-One Parts Supplier",
+            "description": "In addition to our Valve Exchange Program, we provide hard-to-find specialty parts sourcing and custom fabrication services tailored to meet your unique needs."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 
