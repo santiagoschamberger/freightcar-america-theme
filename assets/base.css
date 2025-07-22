@@ -19,6 +19,10 @@
   background: #326295 !important;
   padding-bottom: 60px !important;
 }
+
+  .fca-air-brake-exchange__step-bg {
+    background-size: cover !important;
+}
 }
 
 .fca-air-brake-exchange__step-bg {
