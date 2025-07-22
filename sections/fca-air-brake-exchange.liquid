@@ -254,82 +254,45 @@
 
 {% schema %}
 {
-  "name": "FCA Air Brake Exchange Program",
+  "name": "Air Brake Exchange",
   "tag": "section",
-  "class": "section-fca-air-brake-exchange",
   "settings": [
     {
-      "type": "textarea",
+      "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
-      "info": "Use the red highlight text setting to specify which words should be red"
+      "default": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS"
     },
     {
       "type": "text",
       "id": "red_highlight_text",
-      "label": "Text to Highlight (Red)",
-      "default": "EXCHANGE PROGRAM WORKS",
-      "info": "This text will be highlighted in red in the title"
+      "label": "Red Highlight Text",
+      "default": "EXCHANGE PROGRAM WORKS"
     }
   ],
   "blocks": [
     {
       "type": "step",
-      "name": "Exchange Step",
+      "name": "Step",
       "settings": [
         {
           "type": "text",
           "id": "title",
-          "label": "Step Title",
+          "label": "Title",
           "default": "Step Title"
         },
         {
           "type": "textarea",
           "id": "description",
-          "label": "Step Description",
-          "default": "Step description goes here."
+          "label": "Description",
+          "default": "Step description."
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "FCA Air Brake Exchange Program",
-      "settings": {
-        "title": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
-        "red_highlight_text": "EXCHANGE PROGRAM WORKS"
-      },
-      "blocks": [
-        {
-          "type": "step",
-          "settings": {
-            "title": "Reach Out",
-            "description": "Fill out the form below or contact our team at parts@freightcar.net with the airbrake valve type and quantity that you want to return."
-          }
-        },
-        {
-          "type": "step",
-          "settings": {
-            "title": "Send Us Your Cores",
-            "description": "Ship your used valves, with a shipping cover, to our facility at 129 Industrial Park Road Johnstown, PA 15904."
-          }
-        },
-        {
-          "type": "step",
-          "settings": {
-            "title": "Valve Inspection",
-            "description": "Our team will inspect your used valves to confirm they're eligible for reconditioning."
-          }
-        },
-        {
-          "type": "step",
-          "settings": {
-            "title": "Receive Your Valves",
-            "description": "Following inspection, we'll send you fully reconditioned, quality-assured valves at a discounted rate and follow up with component identification tags for regulatory compliance."
-          }
-        }
-      ]
+      "name": "Air Brake Exchange"
     }
   ]
 }
