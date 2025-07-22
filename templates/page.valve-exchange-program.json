@@ -1,0 +1,230 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "fca_hero_tPmand": {
+      "type": "fca-hero",
+      "custom_css": [],
+      "settings": {
+        "background_image": "shopify://shop_images/hero-background_89cae518-9784-4018-aa47-f00e83c61e04.png",
+        "title": "SETTING A NEW STANDARD FOR RAILCAR REPAIR PARTS",
+        "description": "FreightCar America delivers a full spectrum of railcar parts solutions to keep your fleet running at peak performance. Whether you need in-stock, ready-to-ship universal repair parts, rare specialty components, or custom fabrications, we've got you covered. Our expert team makes it easy to get the right parts—on time and to spec. Our running repair parts can now be ordered online. Request an eCommerce account today to have full access to our store.",
+        "highlight_text": "FreightCar America",
+        "button_text": "Request an account",
+        "button_url": "https://www.freightcar.parts/account/register"
+      }
+    },
+    "fca_fabrication_parts_X4J3Qf": {
+      "type": "fca-fabrication-parts",
+      "blocks": {
+        "feature_xfmg9L": {
+          "type": "feature",
+          "settings": {
+            "title": "Fast Delivery",
+            "description": "Parts ready to ship in two days for quick, reliable service.",
+            "icon": ""
+          }
+        },
+        "feature_CUB8fz": {
+          "type": "feature",
+          "settings": {
+            "title": "Certified Quality",
+            "description": "All parts meet M1003 standards for precision and durability.",
+            "icon": ""
+          }
+        },
+        "feature_7Qc9qp": {
+          "type": "feature",
+          "settings": {
+            "title": "Highly Competitive Pricing",
+            "description": "Providing value without compromising on quality.",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_xfmg9L",
+        "feature_CUB8fz",
+        "feature_7Qc9qp"
+      ],
+      "settings": {
+        "title": "Running Repair Parts You Can Rely On",
+        "blue_highlight_text": "Rely On",
+        "description": "Minimize downtime with our ready-to-ship, high-quality running repair parts.",
+        "background_image": "shopify://shop_images/runnin-back.jpg",
+        "mobile_background_image": "shopify://shop_images/Group_43.png",
+        "button_text": "VIEW OUR PARTS CATALOG",
+        "button_url": "https://cdn.shopify.com/s/files/1/0930/3539/7414/files/FCA_Running_Repair_Program_Flyer_5_30_25_1.pdf?v=1750435550"
+      }
+    },
+    "fca_fabrication_parts_right_aMYX6n": {
+      "type": "fca-fabrication-parts-right",
+      "blocks": {
+        "feature_GxYe3C": {
+          "type": "feature",
+          "settings": {
+            "title": "Side Frames, Bolsters, Couplers",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_HMaeRf": {
+          "type": "feature",
+          "settings": {
+            "title": "Cushion Units, Center Plates, Dump Door Systems",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_Jhgzxg": {
+          "type": "feature",
+          "settings": {
+            "title": "Air Brake Valve Unit Exchange",
+            "description": "",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_GxYe3C",
+        "feature_HMaeRf",
+        "feature_Jhgzxg"
+      ],
+      "settings": {
+        "title": "Specialty, Hard-to-Find Parts Sourcing",
+        "blue_highlight_text": "",
+        "description": "We use our industry connections and inventory management to source the parts you need, including:",
+        "background_image": "shopify://shop_images/specialty-back.jpg",
+        "mobile_background_image": "shopify://shop_images/Group_41.jpg",
+        "button_text": "Submit a specialty parts request",
+        "button_url": "shopify://pages/specialty-parts-sourcing"
+      }
+    },
+    "fca_fabrication_parts_yhTxid": {
+      "type": "fca-fabrication-parts",
+      "blocks": {
+        "feature_94VqGn": {
+          "type": "feature",
+          "settings": {
+            "title": "Quality You Can Trust",
+            "description": "Every part undergoes a strict four-step process to meet specifications before shipping.",
+            "icon": ""
+          }
+        },
+        "feature_44hWrE": {
+          "type": "feature",
+          "settings": {
+            "title": "Tailored Solutions",
+            "description": "Collaborate directly with our engineering team to create custom parts that enhance performance.",
+            "icon": ""
+          }
+        },
+        "feature_6CRf94": {
+          "type": "feature",
+          "settings": {
+            "title": "Quick Turnaround Time",
+            "description": "We deliver the right part, to spec, exactly when you need it.",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_94VqGn",
+        "feature_44hWrE",
+        "feature_6CRf94"
+      ],
+      "settings": {
+        "title": "Fabrication of Parts for Every Need",
+        "blue_highlight_text": "for Every Need",
+        "description": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet’s requirements.",
+        "background_image": "shopify://shop_images/Group_41_66379a09-c389-47c8-aaba-243636367d52.jpg",
+        "button_text": "Submit a fabrication request",
+        "button_url": "shopify://pages/fabrication-request"
+      }
+    },
+    "fca_how_to_order_DkRBKb": {
+      "type": "fca-how-to-order",
+      "blocks": {
+        "step_bpBVTG": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number1.png",
+            "title": "Create an Account",
+            "description": "Set up a quick, secure account to manage your orders and track your parts."
+          }
+        },
+        "step_VQ3LTe": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number3.png",
+            "title": "Place Your Order",
+            "description": "Add items to your cart and complete your order with secure checkout."
+          }
+        },
+        "step_mVfQC7": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number2.png",
+            "title": "Connect",
+            "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
+          }
+        },
+        "step_dyCxPH": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number4.png",
+            "title": "Track & Receive",
+            "description": "Monitor your order status and receive your parts on time."
+          }
+        }
+      },
+      "block_order": [
+        "step_bpBVTG",
+        "step_VQ3LTe",
+        "step_mVfQC7",
+        "step_dyCxPH"
+      ],
+      "settings": {
+        "title": "How to Order",
+        "red_highlight_text": "Order",
+        "button_text": "Request an account",
+        "button_url": "https://www.freightcar.parts/account/register"
+      }
+    },
+    "fca_experience_ehtCAX": {
+      "type": "fca-experience",
+      "settings": {
+        "title": "Our Experience, Your Advantage",
+        "red_highlight_text": "Your Advantage",
+        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
+        "button_text": "Start Your Order Today",
+        "button_url": "https://www.freightcar.parts/account/login"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "fca_hero_tPmand",
+    "fca_fabrication_parts_X4J3Qf",
+    "fca_fabrication_parts_right_aMYX6n",
+    "fca_fabrication_parts_yhTxid",
+    "fca_how_to_order_DkRBKb",
+    "fca_experience_ehtCAX"
+  ]
+}
