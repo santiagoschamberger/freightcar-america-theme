@@ -12,6 +12,27 @@
   background: #326295 !important;
 }
 
+.fca-air-brake-exchange__step-bg {
+  display: block !important;
+}
+
+.fca-air-brake-exchange__container {
+  max-width: 1440px;
+  padding: 0 50px;
+}
+
+.fca-air-brake-exchange__step-number {
+  margin-left: 0;
+  margin-top: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .fca-air-brake-exchange__container {
+    padding: 0 20px !important;
+  }
+} /* ← closing brace added here */
+
+
 
 .product-card-wrapper .card,
 .contains-card--product {

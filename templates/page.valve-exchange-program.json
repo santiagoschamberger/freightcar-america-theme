@@ -137,12 +137,7 @@
         "step_8pKnfj",
         "step_R6XFEz"
       ],
-      "custom_css": [
-        ".fca-air-brake-exchange__step-bg {display: block !important;}",
-        ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px;}",
-        ".fca-air-brake-exchange__step-number {margin-left: 0px; margin-top: 0px;}",
-        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important;}"
-      ],
+      "custom_css": [],
       "name": "Air Brake Exchange",
       "settings": {
         "title": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
@@ -197,7 +192,8 @@
       "type": "fca-exchange-process",
       "custom_css": [
         ".fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 100px 0px 50px 0px !important;}",
-        ".fca-exchange-process__title {margin-bottom: 30px;}"
+        ".fca-exchange-process__title {margin-bottom: 30px;}",
+        "@media only screen and (max-width: 600px) {.fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 50px 25px 10px 25px !important; } .fca-exchange-process__title {margin-bottom: 0px; }}"
       ],
       "name": "FCA Exchange Process",
       "settings": {
