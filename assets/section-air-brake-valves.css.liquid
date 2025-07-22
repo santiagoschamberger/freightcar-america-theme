@@ -1,0 +1,245 @@
+/* Font Declarations */
+@font-face {
+  font-family: 'Outage';
+  src: url('{{ 'Outage.ttf' | asset_url }}') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ 'Gotham-Book.otf' | asset_url }}') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ 'Gotham-Medium.otf' | asset_url }}') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ 'Gotham-Bold.otf' | asset_url }}') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ 'Gotham-MediumItalic.otf' | asset_url }}') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ 'Gotham-BoldItalic.otf' | asset_url }}') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+.air-brake-valves-section {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    #002b5c 0%,
+    #002b5c 20%,
+    #f5f5f5 20%,
+    #f5f5f5 80%,
+    #002b5c 80%,
+    #002b5c 100%
+  );
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.air-brake-valves-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600"><polygon fill="%23002b5c" points="0,0 300,0 450,600 0,600"/><polygon fill="%23002b5c" points="1470,0 1920,0 1920,600 1570,600"/></svg>');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.air-brake-valves-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.air-brake-valves-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  text-align: center;
+}
+
+.air-brake-valves-heading {
+  font-family: 'Outage', Arial, sans-serif;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #00205b;
+  margin: 0;
+  max-width: 800px;
+}
+
+.air-brake-valves-heading .highlight {
+  color: #5784cc;
+}
+
+.valve-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.valve-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.valve-item {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  text-align: left;
+}
+
+.valve-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.valve-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #5784cc;
+}
+
+.valve-name {
+  font-family: 'Gotham', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #00205b;
+  white-space: nowrap;
+}
+
+.air-brake-valves-footer {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.air-brake-valves-footer p {
+  font-family: 'Gotham', Arial, sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.45;
+  color: #00205b;
+  letter-spacing: 0.44px;
+  margin: 0;
+}
+
+.contact-link {
+  font-weight: 700;
+  font-style: italic;
+  text-decoration: underline;
+  color: #00205b;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #5784cc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .air-brake-valves-section {
+    background: #f5f5f5;
+    min-height: auto;
+  }
+  
+  .air-brake-valves-section::before {
+    display: none;
+  }
+  
+  .air-brake-valves-container {
+    padding: 60px 20px;
+  }
+  
+  .air-brake-valves-content {
+    gap: 40px;
+  }
+  
+  .valve-types-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 400px;
+  }
+  
+  .valve-column {
+    gap: 25px;
+  }
+  
+  .valve-name {
+    font-size: 18px;
+  }
+  
+  .air-brake-valves-footer p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .air-brake-valves-container {
+    padding: 40px 15px;
+  }
+  
+  .valve-item {
+    gap: 12px;
+  }
+  
+  .valve-icon {
+    width: 24px;
+    height: 20px;
+  }
+  
+  .valve-name {
+    font-size: 16px;
+  }
+  
+  .air-brake-valves-footer p {
+    font-size: 16px;
+  }
+} 

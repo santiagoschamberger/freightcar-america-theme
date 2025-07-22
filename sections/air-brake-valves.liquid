@@ -1,0 +1,199 @@
+{{ 'section-air-brake-valves.css' | asset_url | stylesheet_tag }}
+
+<div class="air-brake-valves-section">
+  <div class="air-brake-valves-container">
+    <div class="air-brake-valves-content">
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="air-brake-valves-heading">
+          {{ section.settings.heading_part_1 }}
+          <span class="highlight">{{ section.settings.heading_part_2 }}</span>
+        </h2>
+      {% endif %}
+
+      <div class="valve-types-grid">
+        <div class="valve-column">
+          {% for block in section.blocks %}
+            {% if block.settings.column == 'left' %}
+              <div class="valve-item" {{ block.shopify_attributes }}>
+                <div class="valve-icon">
+                  {% render 'icon-checkmark' %}
+                </div>
+                <div class="valve-name">
+                  {{ block.settings.valve_name }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+        <div class="valve-column">
+          {% for block in section.blocks %}
+            {% if block.settings.column == 'right' %}
+              <div class="valve-item" {{ block.shopify_attributes }}>
+                <div class="valve-icon">
+                  {% render 'icon-checkmark' %}
+                </div>
+                <div class="valve-name">
+                  {{ block.settings.valve_name }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if section.settings.footer_text != blank %}
+        <div class="air-brake-valves-footer">
+          <p>
+            {{ section.settings.footer_text_part_1 }}
+            {% if section.settings.contact_email != blank %}
+              <a href="mailto:{{ section.settings.contact_email }}" class="contact-link">
+                {{ section.settings.contact_email }}
+              </a>
+            {% endif %}
+            {{ section.settings.footer_text_part_2 }}
+          </p>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Air Brake Valves",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_part_1",
+      "label": "Heading (first part)",
+      "default": "Here are the air brake valves we currently accept"
+    },
+    {
+      "type": "text",
+      "id": "heading_part_2",
+      "label": "Heading (highlighted part)",
+      "default": "for replacement:"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_text_part_1",
+      "label": "Footer text (before email)",
+      "default": "We also offer air brake valves for outright purchase. Please reach out to"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "parts@freightcar.net"
+    },
+    {
+      "type": "text",
+      "id": "footer_text_part_2",
+      "label": "Footer text (after email)",
+      "default": "."
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Recommended: 1920x800px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "valve_type",
+      "name": "Valve Type",
+      "settings": [
+        {
+          "type": "text",
+          "id": "valve_name",
+          "label": "Valve name",
+          "default": "ADBX Service"
+        },
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Air Brake Valves",
+      "blocks": [
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX Service",
+            "column": "left"
+          }
+        },
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX Emergency",
+            "column": "left"
+          }
+        },
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "ADBX-L Emergency",
+            "column": "left"
+          }
+        },
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB10 Service",
+            "column": "right"
+          }
+        },
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB20 Emergency",
+            "column": "right"
+          }
+        },
+        {
+          "type": "valve_type",
+          "settings": {
+            "valve_name": "DB20L",
+            "column": "right"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 
