@@ -193,17 +193,6 @@
         "brand_name": "FreightCar America"
       }
     },
-    "fca_exchange_process_LiH4e3": {
-      "type": "fca-exchange-process",
-      "name": "FCA Exchange Process",
-      "settings": {
-        "title": "Start the Exchange Process",
-        "phone_number": "(814) 533-4109",
-        "email": "parts@freightcar.net",
-        "show_form": true,
-        "form_id": "572559"
-      }
-    },
     "175321194752a07c3b": {
       "type": "apps",
       "blocks": {
@@ -228,9 +217,7 @@
       "block_order": [
         "forms_inline_mWNjgy"
       ],
-      "custom_css": [
-        "div {background: #35608d; color: white; padding-top: 30px; padding-bottom: 30px;}"
-      ],
+      "custom_css": [],
       "settings": {
         "include_margins": true
       }
@@ -242,7 +229,6 @@
     "air_brake_valves_Mzqzgw",
     "fca_air_brake_exchange_6V3jdT",
     "fca_what_to_expect_pHxJiW",
-    "fca_exchange_process_LiH4e3",
     "175321194752a07c3b"
   ]
 }
