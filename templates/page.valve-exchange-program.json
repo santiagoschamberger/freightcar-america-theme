@@ -20,10 +20,16 @@
     },
     "fca_fabrication_parts_X4J3Qf": {
       "type": "fca-fabrication-parts",
+      "custom_css": [
+        "h2 {color: #d31244; font-size: 60px; font-height: 70px;}",
+        ".azul {color: #00205b;}",
+        ".fca-fabrication__description {color: #00205b;}",
+        ".rojo {color: #d31244;}"
+      ],
       "settings": {
-        "title": "Your One-Stop Shop for Air Brake Valves",
+        "title": "Your One-Stop Shop <span class=\"azul\">for Air Brake Valves</span>",
         "blue_highlight_text": "",
-        "description": "Greater selection. Greater savings. Greater speed. FreightCar America's Air Brake Valve Unit Exchange Program gets you top-quality reconditioned air brake valves at discounted prices with the quickest turnaround times in the industry.",
+        "description": "Greater selection. Greater savings. Greater speed. <span class=\"rojo\">FreightCar America’s </span>Valve Unit Exchange Program gets you top-quality reconditioned air brake valves at discounted prices with the quickest turnaround times in the industry.",
         "background_image": "shopify://shop_images/backfirst.jpg",
         "mobile_background_image": "shopify://shop_images/Group_43.png",
         "button_text": "",
