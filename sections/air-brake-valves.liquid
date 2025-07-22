@@ -4,7 +4,7 @@
   <div class="air-brake-valves-container">
     <div class="air-brake-valves-content">
       
-      {% if section.settings.heading != blank %}
+      {% if section.settings.heading_part_1 != blank %}
         <h2 class="air-brake-valves-heading">
           {{ section.settings.heading_part_1 }}
           <span class="highlight">{{ section.settings.heading_part_2 }}</span>
@@ -17,7 +17,11 @@
             {% if block.settings.column == 'left' %}
               <div class="valve-item" {{ block.shopify_attributes }}>
                 <div class="valve-icon">
-                  {% render 'icon-checkmark' %}
+                  <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                    <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
+                    <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
+                    <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
+                  </svg>
                 </div>
                 <div class="valve-name">
                   {{ block.settings.valve_name }}
@@ -32,7 +36,11 @@
             {% if block.settings.column == 'right' %}
               <div class="valve-item" {{ block.shopify_attributes }}>
                 <div class="valve-icon">
-                  {% render 'icon-checkmark' %}
+                  <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                    <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
+                    <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
+                    <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
+                  </svg>
                 </div>
                 <div class="valve-name">
                   {{ block.settings.valve_name }}
