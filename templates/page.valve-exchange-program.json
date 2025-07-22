@@ -241,6 +241,26 @@
         "button_text": "Start Your Order Today",
         "button_url": "https://www.freightcar.parts/account/login"
       }
+    },
+    "fca_air_brake_exchange_6V3jdT": {
+      "type": "fca-air-brake-exchange",
+      "blocks": {
+        "step_CdaidX": {
+          "type": "step",
+          "settings": {
+            "title": "Step Title",
+            "description": "Step description."
+          }
+        }
+      },
+      "block_order": [
+        "step_CdaidX"
+      ],
+      "name": "Air Brake Exchange",
+      "settings": {
+        "title": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
+        "red_highlight_text": "EXCHANGE PROGRAM WORKS"
+      }
     }
   },
   "order": [
@@ -250,6 +270,7 @@
     "fca_fabrication_parts_right_aMYX6n",
     "fca_fabrication_parts_yhTxid",
     "fca_how_to_order_DkRBKb",
-    "fca_experience_ehtCAX"
+    "fca_experience_ehtCAX",
+    "fca_air_brake_exchange_6V3jdT"
   ]
 }
