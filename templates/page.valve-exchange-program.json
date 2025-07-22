@@ -196,7 +196,7 @@
     "fca_exchange_process_EtjK9J": {
       "type": "fca-exchange-process",
       "custom_css": [
-        ".fca-exchange-process {background-color: #326295; position: relative; max-width: 1300px !important; min-height: 5vh !important; padding: 100px 0px 50px 0px !important;}",
+        ".fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 100px 0px 50px 0px !important;}",
         ".fca-exchange-process__title {margin-bottom: 30px;}"
       ],
       "name": "FCA Exchange Process",
