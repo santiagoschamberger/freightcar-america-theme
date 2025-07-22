@@ -25,7 +25,7 @@
         ".azul {color: #00205b;}",
         ".fca-fabrication__description {color: #00205b;}",
         ".rojo {color: #d31244;}",
-        "@media only screen and (max-width: 600px) {h2 {color: #d31244; font-size: 40px; font-height: 50px; } .fca-fabrication {height: auto; min-height: none !important; padding: 0px; margin: 0px; }}"
+        "@media only screen and (max-width: 600px) {h2 {color: #d31244; font-size: 40px; font-height: 50px; } .fca-fabrication {height: auto; min-height: none !important; padding: 0px; margin: 0px; } .fca-fabrication__container {min-height: 600px !important; }}"
       ],
       "settings": {
         "title": "Your One-Stop Shop <span class=\"azul\">for Air Brake Valves</span>",
@@ -92,7 +92,8 @@
         "valve_type_RcAxmM"
       ],
       "custom_css": [
-        ".air-brake-valves-container {padding: 100px 0px !important;}"
+        ".air-brake-valves-container {padding: 100px 0px !important;}",
+        "@media (max-width: 768px) {.valve-types-grid {grid-template-columns: 1fr; gap: 30px; width: 50%; margin: auto !important; } .air-brake-valves-container {padding: 60px 0px !important; }}"
       ],
       "name": "Air Brake Valves",
       "settings": {
@@ -144,7 +145,7 @@
         ".fca-air-brake-exchange__step-bg {display: block !important;}",
         ".fca-air-brake-exchange__container {max-width: 1440px; padding: 0 50px; gap: 54px !important;}",
         ".fca-air-brake-exchange__step-number {margin-left: 0; margin-top: 0; margin-right: 30px;}",
-        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; } .fca-air-brake-exchange {padding: 40px 0px !important; }}",
+        "@media only screen and (max-width: 600px) {.fca-air-brake-exchange__container {padding: 0 20px !important; } .fca-air-brake-exchange {padding: 60px 0px !important; } }",
         ".fca-air-brake-exchange {background: #ffffff; padding: 100px 0; position: relative;}"
       ],
       "name": "Air Brake Exchange",
@@ -192,7 +193,8 @@
         "feature_nxmzmb"
       ],
       "custom_css": [
-        ".fca-what-to-expect {padding: 100px 0px !important;}"
+        ".fca-what-to-expect {padding: 100px 0px !important;}",
+        "@media only screen and (max-width: 600px) {.fca-what-to-expect {padding: 60px 0px !important; }}"
       ],
       "name": "FCA - What to Expect",
       "settings": {
@@ -205,7 +207,7 @@
       "custom_css": [
         ".fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 100px 0px 50px 0px !important;}",
         ".fca-exchange-process__title {margin-bottom: 0px;}",
-        "@media only screen and (max-width: 600px) {.fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 50px 25px 10px 25px !important; } .fca-exchange-process__title {margin-bottom: 0px; }}",
+        "@media only screen and (max-width: 600px) {.fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 60px 25px 10px 25px !important; } .fca-exchange-process__title {margin-bottom: 0px; }}",
         ".fca-exchange-process__container {max-width: 800px; gap: 0px !important;}"
       ],
       "name": "FCA Exchange Process",
