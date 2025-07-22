@@ -38,7 +38,7 @@
     background-repeat: no-repeat;
     padding: 0;
     color: white;
-    height: 80vh;
+    min-height: 746px;
     display: flex;
     align-items: center;
   }
@@ -50,6 +50,7 @@
     height: 100%;
     display: flex;
     align-items: center;
+    min-height: 746px;
   }
 
   .fca-fabrication__content {
@@ -190,8 +191,7 @@
 
   @media (max-width: 768px) {
     .fca-fabrication {
-      height: auto;
-      padding: 50px 0;
+      min-height: auto;
     }
 
     {% if section.settings.mobile_background_image %}
@@ -202,7 +202,7 @@
 
     .fca-fabrication__content {
       width: 100%;
-      padding: 0 20px;
+      padding: 60px 20px;
     }
 
     .fca-fabrication__title {
