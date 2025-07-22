@@ -204,7 +204,7 @@
       "type": "fca-exchange-process",
       "custom_css": [
         ".fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 100px 0px 50px 0px !important;}",
-        ".fca-exchange-process__title {margin-bottom: 30px;}",
+        ".fca-exchange-process__title {margin-bottom: 0px;}",
         "@media only screen and (max-width: 600px) {.fca-exchange-process {background-color: #326295; position: relative; width: 100% !important; min-height: 5vh !important; padding: 50px 25px 10px 25px !important; } .fca-exchange-process__title {margin-bottom: 0px; }}",
         ".fca-exchange-process__container {max-width: 800px; gap: 0px !important;}"
       ],
