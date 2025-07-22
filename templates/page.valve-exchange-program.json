@@ -193,6 +193,20 @@
         "brand_name": "FreightCar America"
       }
     },
+    "fca_exchange_process_EtjK9J": {
+      "type": "fca-exchange-process",
+      "custom_css": [
+        ".fca-exchange-process {background-color: #326295; position: relative; width: 100%; padding-top: 100px; min-height: 5vh !important;}"
+      ],
+      "name": "FCA Exchange Process",
+      "settings": {
+        "title": "Start the Exchange Process",
+        "phone_number": "(814) 533-4109",
+        "email": "parts@freightcar.net",
+        "show_form": false,
+        "form_id": ""
+      }
+    },
     "175321194752a07c3b": {
       "type": "apps",
       "blocks": {
@@ -220,17 +234,6 @@
       "custom_css": [],
       "settings": {
         "include_margins": true
-      }
-    },
-    "fca_exchange_process_EtjK9J": {
-      "type": "fca-exchange-process",
-      "name": "FCA Exchange Process",
-      "settings": {
-        "title": "Start the Exchange Process",
-        "phone_number": "(814) 533-4109",
-        "email": "parts@freightcar.net",
-        "show_form": false,
-        "form_id": ""
       }
     }
   },
