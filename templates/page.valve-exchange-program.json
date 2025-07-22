@@ -99,150 +99,6 @@
         "background_image": "shopify://shop_images/fonditogris.jpg"
       }
     },
-    "fca_fabrication_parts_right_aMYX6n": {
-      "type": "fca-fabrication-parts-right",
-      "blocks": {
-        "feature_GxYe3C": {
-          "type": "feature",
-          "settings": {
-            "title": "Side Frames, Bolsters, Couplers",
-            "description": "",
-            "icon": ""
-          }
-        },
-        "feature_HMaeRf": {
-          "type": "feature",
-          "settings": {
-            "title": "Cushion Units, Center Plates, Dump Door Systems",
-            "description": "",
-            "icon": ""
-          }
-        },
-        "feature_Jhgzxg": {
-          "type": "feature",
-          "settings": {
-            "title": "Air Brake Valve Unit Exchange",
-            "description": "",
-            "icon": ""
-          }
-        }
-      },
-      "block_order": [
-        "feature_GxYe3C",
-        "feature_HMaeRf",
-        "feature_Jhgzxg"
-      ],
-      "settings": {
-        "title": "Specialty, Hard-to-Find Parts Sourcing",
-        "blue_highlight_text": "",
-        "description": "We use our industry connections and inventory management to source the parts you need, including:",
-        "background_image": "shopify://shop_images/specialty-back.jpg",
-        "mobile_background_image": "shopify://shop_images/Group_41.jpg",
-        "button_text": "Submit a specialty parts request",
-        "button_url": "shopify://pages/specialty-parts-sourcing"
-      }
-    },
-    "fca_fabrication_parts_yhTxid": {
-      "type": "fca-fabrication-parts",
-      "blocks": {
-        "feature_94VqGn": {
-          "type": "feature",
-          "settings": {
-            "title": "Quality You Can Trust",
-            "description": "Every part undergoes a strict four-step process to meet specifications before shipping.",
-            "icon": ""
-          }
-        },
-        "feature_44hWrE": {
-          "type": "feature",
-          "settings": {
-            "title": "Tailored Solutions",
-            "description": "Collaborate directly with our engineering team to create custom parts that enhance performance.",
-            "icon": ""
-          }
-        },
-        "feature_6CRf94": {
-          "type": "feature",
-          "settings": {
-            "title": "Quick Turnaround Time",
-            "description": "We deliver the right part, to spec, exactly when you need it.",
-            "icon": ""
-          }
-        }
-      },
-      "block_order": [
-        "feature_94VqGn",
-        "feature_44hWrE",
-        "feature_6CRf94"
-      ],
-      "settings": {
-        "title": "Fabrication of Parts for Every Need",
-        "blue_highlight_text": "for Every Need",
-        "description": "We specialize in delivering custom-made railcar parts through our in-house fabrication process. Our expertise ensures fast, precise solutions tailored to your fleet’s requirements.",
-        "background_image": "shopify://shop_images/Group_41_66379a09-c389-47c8-aaba-243636367d52.jpg",
-        "button_text": "Submit a fabrication request",
-        "button_url": "shopify://pages/fabrication-request"
-      }
-    },
-    "fca_how_to_order_DkRBKb": {
-      "type": "fca-how-to-order",
-      "blocks": {
-        "step_bpBVTG": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number1.png",
-            "title": "Create an Account",
-            "description": "Set up a quick, secure account to manage your orders and track your parts."
-          }
-        },
-        "step_VQ3LTe": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number3.png",
-            "title": "Place Your Order",
-            "description": "Add items to your cart and complete your order with secure checkout."
-          }
-        },
-        "step_mVfQC7": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number2.png",
-            "title": "Connect",
-            "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
-          }
-        },
-        "step_dyCxPH": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number4.png",
-            "title": "Track & Receive",
-            "description": "Monitor your order status and receive your parts on time."
-          }
-        }
-      },
-      "block_order": [
-        "step_bpBVTG",
-        "step_VQ3LTe",
-        "step_mVfQC7",
-        "step_dyCxPH"
-      ],
-      "settings": {
-        "title": "How to Order",
-        "red_highlight_text": "Order",
-        "button_text": "Request an account",
-        "button_url": "https://www.freightcar.parts/account/register"
-      }
-    },
-    "fca_experience_ehtCAX": {
-      "type": "fca-experience",
-      "settings": {
-        "title": "Our Experience, Your Advantage",
-        "red_highlight_text": "Your Advantage",
-        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
-        "button_text": "Start Your Order Today",
-        "button_url": "https://www.freightcar.parts/account/login"
-      }
-    },
     "fca_air_brake_exchange_6V3jdT": {
       "type": "fca-air-brake-exchange",
       "blocks": {
@@ -292,16 +148,68 @@
         "title": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
         "red_highlight_text": "EXCHANGE PROGRAM WORKS"
       }
+    },
+    "fca_what_to_expect_pHxJiW": {
+      "type": "fca-what-to-expect",
+      "blocks": {
+        "feature_bkmJe7": {
+          "type": "feature",
+          "settings": {
+            "title": "Maximum Convenience & Speed",
+            "description": "Our full lineup of reconditioned valve models are in stock and guaranteed to ship fast so you can keep your rail operations running smoothly with minimal downtime."
+          }
+        },
+        "feature_N6DdxA": {
+          "type": "feature",
+          "settings": {
+            "title": "Reconditioned to the Highest Standards",
+            "description": "Every valve you receive from FreightCar America is meticulously restored and tested to meet OEM performance standards."
+          }
+        },
+        "feature_fpTXWG": {
+          "type": "feature",
+          "settings": {
+            "title": "Exceptional Value",
+            "description": "Offering valves at discounted pricing, our exchange program delivers outstanding value while maintaining the quality you can rely on."
+          }
+        },
+        "feature_nxmzmb": {
+          "type": "feature",
+          "settings": {
+            "title": "Your All-in-One Parts Supplier",
+            "description": "In addition to our Valve Exchange Program, we provide hard-to-find specialty parts sourcing and custom fabrication services tailored to meet your unique needs."
+          }
+        }
+      },
+      "block_order": [
+        "feature_bkmJe7",
+        "feature_N6DdxA",
+        "feature_fpTXWG",
+        "feature_nxmzmb"
+      ],
+      "name": "FCA - What to Expect",
+      "settings": {
+        "title_prefix": "Here's What to Expect with",
+        "brand_name": "FreightCar America"
+      }
+    },
+    "fca_experience_ehtCAX": {
+      "type": "fca-experience",
+      "settings": {
+        "title": "Our Experience, Your Advantage",
+        "red_highlight_text": "Your Advantage",
+        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
+        "button_text": "Start Your Order Today",
+        "button_url": "https://www.freightcar.parts/account/login"
+      }
     }
   },
   "order": [
     "main",
     "fca_fabrication_parts_X4J3Qf",
     "air_brake_valves_Mzqzgw",
-    "fca_fabrication_parts_right_aMYX6n",
-    "fca_fabrication_parts_yhTxid",
-    "fca_how_to_order_DkRBKb",
-    "fca_experience_ehtCAX",
-    "fca_air_brake_exchange_6V3jdT"
+    "fca_air_brake_exchange_6V3jdT",
+    "fca_what_to_expect_pHxJiW",
+    "fca_experience_ehtCAX"
   ]
 }
