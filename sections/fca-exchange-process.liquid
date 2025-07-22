@@ -162,13 +162,14 @@
         {% comment %}
           This is where you can add your Shopify form.
           You can either:
-          1. Use the Shopify Forms app and paste the form code here
-          2. Use a custom contact form
-          3. Integrate with third-party form services
+          1. Use the Shopify Forms app and enter the form ID
+          2. Use the default contact form fallback
         {% endcomment %}
         
-        {% if section.settings.form_code != blank %}
-          {{ section.settings.form_code }}
+        {% if section.settings.form_id != blank %}
+          {% form 'form', id: section.settings.form_id %}
+            {{ form }}
+          {% endform %}
         {% else %}
           {% comment %} Default contact form fallback {% endcomment %}
           {% form 'contact' %}
@@ -208,7 +209,7 @@
       "default": "(814) 533-4109"
     },
     {
-      "type": "email",
+      "type": "text",
       "id": "email",
       "label": "Email Address",
       "default": "parts@freightcar.net"
@@ -220,10 +221,10 @@
       "default": true
     },
     {
-      "type": "html",
-      "id": "form_code",
-      "label": "Custom Form Code",
-      "info": "Paste your Shopify Forms app code here, or leave blank to use the default contact form"
+      "type": "text",
+      "id": "form_id",
+      "label": "Shopify Form ID",
+      "info": "Enter your Shopify Forms app form ID here, or leave blank to use the default contact form"
     }
   ],
   "presets": [
