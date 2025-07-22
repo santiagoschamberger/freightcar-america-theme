@@ -280,6 +280,10 @@
         "step_8pKnfj",
         "step_R6XFEz"
       ],
+      "custom_css": [
+        ".fca-air-brake-exchange__step-bg {display: block !important;}",
+        ".fca-air-brake-exchange__container {max-width: 1440px; margin: 0 auto; padding: 0 50px;}"
+      ],
       "name": "Air Brake Exchange",
       "settings": {
         "title": "HOW OUR AIR BRAKE VALVE UNIT EXCHANGE PROGRAM WORKS",
