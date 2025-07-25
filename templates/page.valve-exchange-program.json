@@ -93,13 +93,14 @@
       ],
       "custom_css": [
         ".air-brake-valves-container {padding: 100px 0px !important;}",
-        "@media (max-width: 768px) {.valve-types-grid {grid-template-columns: 1fr; gap: 30px; width: 50%; margin: auto !important; } .air-brake-valves-container {padding: 60px 20px !important; }}"
+        "@media (max-width: 768px) {.valve-types-grid {grid-template-columns: 1fr; gap: 30px; width: 50%; margin: auto !important; } .air-brake-valves-container {padding: 60px 20px !important; } .link {color: #5b82c1; font-size: 18px !important;}}",
+        ".link {color: #5b82c1; font-size: 22px;}"
       ],
       "name": "Air Brake Valves",
       "settings": {
         "heading_part_1": "Here are the air brake valves we currently accept",
         "heading_part_2": "for replacement:",
-        "footer_text": "We also offer air brake valves for outright purchase. Please reach out to parts@freightcar.net.",
+        "footer_text": "We also offer air brake valves for outright purchase. Please reach out to <a class=\"link\" href=\"mailto:parts@freightcar.net\">parts@freightcar.net.</a>",
         "background_image": "shopify://shop_images/back-second_07e95ddf-34f5-41c7-9986-e2aa5507f563.jpg"
       }
     },
