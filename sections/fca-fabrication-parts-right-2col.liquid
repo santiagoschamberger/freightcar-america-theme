@@ -1,0 +1,450 @@
+{%- style -%}
+  @font-face {
+    font-family: 'Outage';
+    src: url('{{ 'Outage.ttf' | asset_url }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Book.otf' | asset_url }}') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Medium.otf' | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    src: url('{{ 'Gotham-Bold.otf' | asset_url }}') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .fca-fabrication-right-2col {
+    background: #00205B;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+    color: white;
+    min-height: 746px;
+    display: flex;
+    align-items: center;
+  }
+
+  .fca-fabrication-right-2col__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 746px;
+    justify-content: flex-end;
+  }
+
+  .fca-fabrication-right-2col__content {
+    width: 700px;
+    padding: 102px 101px 102px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 46px;
+  }
+
+  .fca-fabrication-right-2col__header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fca-fabrication-right-2col__title {
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.43;
+    margin: 0;
+    color: white;
+  }
+
+  .fca-fabrication-right-2col__description {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.44;
+    margin: 0;
+    color: white;
+  }
+
+  .fca-fabrication-right-2col__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 40px;
+    max-width: 503px;
+  }
+
+  .fca-fabrication-right-2col__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    position: relative;
+  }
+
+  .fca-fabrication-right-2col__feature-icon {
+    width: 19.84px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.35));
+    position: relative;
+  }
+
+  .fca-fabrication-right-2col__feature-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fca-fabrication-right-2col__feature-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  /* Blue highlight class for title text */
+  .blue-highlight {
+    color: #5784CC;
+    display: inline;
+  }
+
+  .fca-fabrication-right-2col__feature-content h3 {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.44;
+    color: white;
+    margin: 0;
+  }
+
+  .fca-fabrication-right-2col__feature-content p {
+    font-family: 'Gotham', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    color: white;
+  }
+
+  .fca-fabrication-right-2col__button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: #D31244;
+    color: white;
+    padding: 20px 24px 17px;
+    text-decoration: none;
+    font-family: 'Outage', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .fca-fabrication-right-2col__button:hover {
+    background: #BF0D3D;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 18, 68, 0.3);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .fca-fabrication-right-2col__container {
+      justify-content: center;
+    }
+
+    .fca-fabrication-right-2col__content {
+      width: 70%;
+      padding: 80px 60px;
+    }
+    
+    .fca-fabrication-right-2col__title {
+      font-size: 36px;
+    }
+    
+    .fca-fabrication-right-2col__description {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .fca-fabrication-right-2col {
+      min-height: auto;
+    }
+
+    {% if section.settings.mobile_background_image %}
+      .fca-fabrication-right-2col {
+        background-image: url('{{ section.settings.mobile_background_image | image_url }}') !important;
+      }
+    {% endif %}
+
+    .fca-fabrication-right-2col__content {
+      width: 100%;
+      padding: 60px 20px;
+    }
+
+    .fca-fabrication-right-2col__title {
+      font-size: 32px;
+      text-align: left;
+    }
+
+    .fca-fabrication-right-2col__description {
+      text-align: left;
+    }
+
+    .fca-fabrication-right-2col__features {
+      max-width: 100%;
+      gap: 24px;
+      grid-template-columns: 1fr;
+    }
+
+    .fca-fabrication-right-2col__feature {
+      gap: 20px;
+    }
+
+    .fca-fabrication-right-2col__button {
+      align-self: flex-start;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .fca-fabrication-right-2col__content {
+      padding: 40px 16px;
+      gap: 32px;
+    }
+
+    .fca-fabrication-right-2col__title {
+      font-size: 28px;
+      text-align: left;
+    }
+
+    .fca-fabrication-right-2col__description {
+      font-size: 16px;
+      text-align: left;
+    }
+
+    .fca-fabrication-right-2col__button {
+      font-size: 16px;
+      padding: 16px 20px 14px;
+      align-self: flex-start;
+    }
+  }
+{%- endstyle -%}
+
+<section class="fca-fabrication-right-2col"{% if section.settings.background_image %} style="background-image: url('{{ section.settings.background_image | image_url }}');"{% endif %}>
+  <div class="fca-fabrication-right-2col__container">
+    <div class="fca-fabrication-right-2col__content">
+      <div class="fca-fabrication-right-2col__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="fca-fabrication-right-2col__title">
+            {%- if section.settings.blue_highlight_text != blank -%}
+              {%- assign blue_replacement = '<span class="blue-highlight">' | append: section.settings.blue_highlight_text | append: '</span>' -%}
+              {%- assign highlighted_title = section.settings.title | replace: section.settings.blue_highlight_text, blue_replacement -%}
+              {{ highlighted_title }}
+            {%- else -%}
+              {{ section.settings.title }}
+            {%- endif -%}
+          </h2>
+        {%- endif -%}
+        
+        {%- if section.settings.description != blank -%}
+          <p class="fca-fabrication-right-2col__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="fca-fabrication-right-2col__features">
+          {%- for block in section.blocks -%}
+            <li class="fca-fabrication-right-2col__feature" {{ block.shopify_attributes }}>
+              <div class="fca-fabrication-right-2col__feature-icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon }}
+                {%- else -%}
+                  <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                    <path d="M2.56 10.88H17.28V16H2.56V10.88Z" fill="#5784CC"/>
+                    <path d="M0 0H19.84V5.12H0V0Z" fill="#D31244"/>
+                    <path d="M1.28 5.12H18.56V10.88H1.28V5.12Z" fill="white"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+              <div class="fca-fabrication-right-2col__feature-content">
+                {%- if block.settings.title != blank -%}
+                  <h3>{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <p>{{ block.settings.description }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="fca-fabrication-right-2col__button" target="_blank" rel="noopener noreferrer">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FCA Image - Right (2 Columns)",
+  "tag": "section",
+  "class": "section-fca-fabrication-right-2col",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Your One-Stop Shop for Air Brake Valves",
+      "info": "Use <span class=\"blue-highlight\">text</span> to make specific words blue"
+    },
+    {
+      "type": "text",
+      "id": "blue_highlight_text",
+      "label": "Text to Highlight (Blue)",
+      "default": "Air Brake Valves",
+      "info": "This text will be highlighted in blue in the title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Greater selection. Greater savings. Greater speed."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image (Desktop)",
+      "info": "Recommended size: 1440x746px or larger"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Background Image (Mobile)",
+      "info": "Optional: Different image for mobile devices. If not set, desktop image will be used."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Start the Exchange Process"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description",
+          "default": "Feature description goes here."
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "Custom Icon (SVG)",
+          "info": "Paste SVG code here. Leave empty to use default icon."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FCA Text with Image - Right (2 Columns)",
+      "settings": {
+        "title": "Your One-Stop Shop for Air Brake Valves",
+        "blue_highlight_text": "Air Brake Valves",
+        "description": "Greater selection. Greater savings. Greater speed.",
+        "button_text": "Start the Exchange Process"
+      },
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX Service",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "DB10 Service",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX Emergency",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "DB20 Emergency",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX-L Emergency",
+            "description": ""
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "DB20L",
+            "description": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 
