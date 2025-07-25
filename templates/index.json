@@ -158,65 +158,6 @@
         "button_url": "shopify://pages/fabrication-request"
       }
     },
-    "fca_how_to_order_DkRBKb": {
-      "type": "fca-how-to-order",
-      "blocks": {
-        "step_bpBVTG": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number1.png",
-            "title": "Create an Account",
-            "description": "Set up a quick, secure account to manage your orders and track your parts."
-          }
-        },
-        "step_VQ3LTe": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number3.png",
-            "title": "Place Your Order",
-            "description": "Add items to your cart and complete your order with secure checkout."
-          }
-        },
-        "step_mVfQC7": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number2.png",
-            "title": "Connect",
-            "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
-          }
-        },
-        "step_dyCxPH": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/number4.png",
-            "title": "Track & Receive",
-            "description": "Monitor your order status and receive your parts on time."
-          }
-        }
-      },
-      "block_order": [
-        "step_bpBVTG",
-        "step_VQ3LTe",
-        "step_mVfQC7",
-        "step_dyCxPH"
-      ],
-      "settings": {
-        "title": "How to Order",
-        "red_highlight_text": "Order",
-        "button_text": "Request an account",
-        "button_url": "https://www.freightcar.parts/account/register"
-      }
-    },
-    "fca_experience_ehtCAX": {
-      "type": "fca-experience",
-      "settings": {
-        "title": "Our Experience, Your Advantage",
-        "red_highlight_text": "Your Advantage",
-        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
-        "button_text": "Start Your Order Today",
-        "button_url": "https://www.freightcar.parts/account/login"
-      }
-    },
     "fca_fabrication_parts_right_2col_7aWqRP": {
       "type": "fca-fabrication-parts-right-2col",
       "blocks": {
@@ -277,6 +218,7 @@
         "feature_9NUkpK",
         "feature_AxfaEF"
       ],
+      "disabled": true,
       "name": "valves section",
       "settings": {
         "title": "Your One-Stop Shop for Air Brake Valves",
@@ -286,6 +228,65 @@
         "mobile_background_image": "shopify://shop_images/Group_41.jpg",
         "button_text": "Start the Exchange Process",
         "button_url": "shopify://pages/air-brake-valve-exchange-program"
+      }
+    },
+    "fca_how_to_order_DkRBKb": {
+      "type": "fca-how-to-order",
+      "blocks": {
+        "step_bpBVTG": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number1.png",
+            "title": "Create an Account",
+            "description": "Set up a quick, secure account to manage your orders and track your parts."
+          }
+        },
+        "step_VQ3LTe": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number3.png",
+            "title": "Place Your Order",
+            "description": "Add items to your cart and complete your order with secure checkout."
+          }
+        },
+        "step_mVfQC7": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number2.png",
+            "title": "Connect",
+            "description": "A member of our team will contact you to finalize your order and ensure everything meets your specific needs."
+          }
+        },
+        "step_dyCxPH": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/number4.png",
+            "title": "Track & Receive",
+            "description": "Monitor your order status and receive your parts on time."
+          }
+        }
+      },
+      "block_order": [
+        "step_bpBVTG",
+        "step_VQ3LTe",
+        "step_mVfQC7",
+        "step_dyCxPH"
+      ],
+      "settings": {
+        "title": "How to Order",
+        "red_highlight_text": "Order",
+        "button_text": "Request an account",
+        "button_url": "https://www.freightcar.parts/account/register"
+      }
+    },
+    "fca_experience_ehtCAX": {
+      "type": "fca-experience",
+      "settings": {
+        "title": "Our Experience, Your Advantage",
+        "red_highlight_text": "Your Advantage",
+        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
+        "button_text": "Start Your Order Today",
+        "button_url": "https://www.freightcar.parts/account/login"
       }
     }
   },
