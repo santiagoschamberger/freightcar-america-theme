@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -207,6 +216,77 @@
         "button_text": "Start Your Order Today",
         "button_url": "https://www.freightcar.parts/account/login"
       }
+    },
+    "fca_fabrication_parts_right_2col_7aWqRP": {
+      "type": "fca-fabrication-parts-right-2col",
+      "blocks": {
+        "feature_fNwe3Q": {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX Service",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_Cb9jWH": {
+          "type": "feature",
+          "settings": {
+            "title": "DB10 Service",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_W6973b": {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX Emergency",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_TYxNTj": {
+          "type": "feature",
+          "settings": {
+            "title": "DB20 Emergency",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_9NUkpK": {
+          "type": "feature",
+          "settings": {
+            "title": "ABDX-L Emergency",
+            "description": "",
+            "icon": ""
+          }
+        },
+        "feature_AxfaEF": {
+          "type": "feature",
+          "settings": {
+            "title": "DB20L",
+            "description": "",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_fNwe3Q",
+        "feature_Cb9jWH",
+        "feature_W6973b",
+        "feature_TYxNTj",
+        "feature_9NUkpK",
+        "feature_AxfaEF"
+      ],
+      "name": "valves section",
+      "settings": {
+        "title": "Your One-Stop Shop for Air Brake Valves",
+        "blue_highlight_text": "",
+        "description": "Greater selection. Greater savings. Greater speed.",
+        "background_image": "shopify://shop_images/Frame_17.jpg",
+        "mobile_background_image": "shopify://shop_images/Group_41.jpg",
+        "button_text": "Start the Exchange Process",
+        "button_url": "shopify://pages/air-brake-valve-exchange-program"
+      }
     }
   },
   "order": [
@@ -215,6 +295,7 @@
     "fca_fabrication_parts_X4J3Qf",
     "fca_fabrication_parts_right_aMYX6n",
     "fca_fabrication_parts_yhTxid",
+    "fca_fabrication_parts_right_2col_7aWqRP",
     "fca_how_to_order_DkRBKb",
     "fca_experience_ehtCAX"
   ]
