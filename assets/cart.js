@@ -50,9 +50,13 @@ class CartItems extends HTMLElement {
 
   setValidity(event, index, message) {
     event.target.setCustomValidity(message);
-    event.target.reportValidity();
+    // Don't call reportValidity() to prevent native validation popup
+    // event.target.reportValidity();
     this.resetQuantityInput(index);
     event.target.select();
+    
+    // Show error in the custom error display instead
+    this.updateLiveRegions(index, message);
   }
 
   validateQuantity(event) {
