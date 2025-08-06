@@ -30,7 +30,7 @@
       "settings": {
         "title": "Your One-Stop Shop <span class=\"azul\">for Air Brake Valves</span>",
         "blue_highlight_text": "",
-        "description": "Greater selection. Greater savings. Greater speed. <span class=\"rojo\">FreightCar America’s </span>Valve Unit Exchange Program gets you top-quality reconditioned air brake valves at discounted prices with the quickest turnaround times in the industry.",
+        "description": "Fast turnaround. Seamless process. <span class=\"rojo\">FreightCar America’s </span>Valve Unit Exchange Program gets you top-quality reconditioned air brake valves at discounted prices with the quickest turnaround times in the industry.",
         "background_image": "shopify://shop_images/back-hero.png",
         "mobile_background_image": "shopify://shop_images/fondito.jpg",
         "button_text": "",
@@ -132,7 +132,7 @@
           "type": "step",
           "settings": {
             "title": "Receive Your Valves",
-            "description": "Following inspection, we’ll send you fully reconditioned, quality-assured valves at a discounted rate and follow up with component identification tags for regulatory compliance."
+            "description": "Following inspection, we’ll send you fully reconditioned, quality-assured valves and a list of your CID numbers."
           }
         }
       },
