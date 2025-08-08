@@ -258,7 +258,8 @@
     <div class="fca-fabrication__content">
       <div class="fca-fabrication__header">
         {%- if section.settings.title != blank -%}
-          <h2 class="fca-fabrication__title">
+          {%- assign heading_tag = section.settings.heading_level | default: 'h2' -%}
+          <{{ heading_tag }} class="fca-fabrication__title">
             {%- if section.settings.blue_highlight_text != blank -%}
               {%- assign blue_replacement = '<span class="blue-highlight">' | append: section.settings.blue_highlight_text | append: '</span>' -%}
               {%- assign highlighted_title = section.settings.title | replace: section.settings.blue_highlight_text, blue_replacement -%}
@@ -266,7 +267,7 @@
             {%- else -%}
               {{ section.settings.title }}
             {%- endif -%}
-          </h2>
+          </{{ heading_tag }}>
         {%- endif -%}
         
         {%- if section.settings.description != blank -%}
@@ -336,6 +337,23 @@
       "id": "description",
       "label": "Description",
       "default": "Minimize downtime with our ready-to-ship, high-quality running repair parts."
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Heading Level",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1 (Use for main page titles)"
+        },
+        {
+          "value": "h2",
+          "label": "H2 (Use for section titles)"
+        }
+      ],
+      "info": "Choose H1 if this is the main title of the page, H2 for section titles"
     },
     {
       "type": "image_picker",
