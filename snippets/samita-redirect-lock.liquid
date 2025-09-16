@@ -1,0 +1,231 @@
+<script>
+  window.Samita = window.Samita || {};
+  window.Samita.SamiLockApp = Samita.SamiLockApp || {};
+
+  window.Samita.SamiLockApp = {
+    start: function() {
+      let listLocks = {{ shop.metafields.lockAccess.listLocks }}; 
+      let pageType = "{{ request.page_type }}";
+      
+      let wholeSite = listLocks.filter((item,index) => {
+        return item.resources_lock.type == 'allShop' && item.status == 1;
+      });
+
+      if (wholeSite.length && this.getLimitFeaturePricing("login_to_view_whole_websites")) {
+        let lock = wholeSite[0];
+        if (lock.status) {
+            lock && this.handleLock(lock);
+        }
+      }
+
+      if(this.getLimitFeaturePricing("login_to_view_urls")){
+        let pathNameUrl = decodeURIComponent(window.location.pathname);
+        let lock = listLocks.find((item) => {
+          if(item.status && item.resources_lock.type == "url"){
+            return item.resources_lock.url == pathNameUrl;
+          }
+        });
+
+        lock && this.handleLock(lock);
+      }
+
+      if(pageType == "product"){
+        let product = {{ product | json }}
+        product.collections = {% if product %}{{ product.collections | map: 'id' | json }}{% else %}false{% endif %}
+
+        let lock = listLocks.find((item) => {
+          if(item.status){
+            if(item.resources_lock.hasOwnProperty('limitProduct') && item.resources_lock.type == 'products'){
+              if (item.resources_lock.limitProduct == 'all') {
+                  return item.resources_lock.limitProduct == 'all';
+              }else{
+                return item.resources_lock?.products?.hasOwnProperty(product.id);
+              }
+            }
+          }
+        });
+
+        if (lock == undefined && product.collections.length) {
+            product.collections.find((collection) => {
+                return (lock = listLocks.find((data) => {
+                    if (data.status) {
+                        return data.resources_lock.collections.hasOwnProperty(collection);
+                    }
+                }));
+            });
+        }
+        lock && this.handleLock(lock);
+      }
+
+      if(pageType == "page"){
+        let pageUrl = "{{ page.url }}"
+        let lock = listLocks.find((item) => {
+          if (item.status && item.resources_lock.type == "page") {
+            return item.resources_lock.page.includes(pageUrl);
+          }
+        })
+        lock && this.handleLock(lock);
+      }
+
+      if(pageType == "collection"){
+        let collection = {{ collection | json }}
+        let lock = listLocks.find((data) => {
+            if (data.status && this.getLimitFeaturePricing("login_to_view_collections")) {
+                return data.resources_lock.collections.hasOwnProperty(collection.id);
+            }
+        });
+        lock && this.handleLock(lock);
+      }
+
+      
+    },
+    getLimitFeaturePricing: function(key) {
+      let features = {% if shop.metafields.lockAccess.features %}{{ shop.metafields.lockAccess.features }}{% else %}{}{% endif %};
+      if (typeof features[`${key}`] == "undefined" || features[`${key}`]) {
+          return features[`${key}`];
+      }
+      return false;
+    },
+    handleLock:function(lock){
+      let access = this.isEnableLock(lock);
+      let pageType = "{{ request.page_type }}";
+
+      let urlExcludes = ['/account/login','/account/register'];
+
+      if(pageType == "customers/login" || pageType == "customers/reset_password" || pageType == "customers/activate_account"){
+        access == false;
+      }
+
+
+      if(lock.resources_lock.exclude.url.length && lock.resources_lock.type == "allShop"){
+        if(lock.resources_lock.exclude.url.includes(window.location.pathname)){
+          access = false;
+        }
+      }
+
+      if(urlExcludes.includes(window.location.pathname)){
+        access = false;
+      }
+
+      if(lock.resources_conditional.redirect.type == "page" && window.location.href.includes(lock.resources_conditional.redirect.page)){
+        access = false;
+      }
+
+      if(lock.resources_conditional.redirect.type == "url" && window.location.href.includes(lock.resources_conditional.redirect.url)){
+        access = false;
+      }
+
+      if(access){
+        if(lock.resources_conditional.redirect.type == "login"){
+          window.location.href = `/account/login?checkout_url=${window.location.href}`;
+        }
+        if(lock.resources_conditional.redirect.type == "page"){
+          window.location.href = lock.resources_conditional.redirect.page;
+        }
+        if(lock.resources_conditional.redirect.type == "url"){
+          window.location.href = lock.resources_conditional.redirect.url;
+        }
+      }
+    },
+    isEnableLock: function(lock){
+      let customer = {
+        'id': "{{ customer.id }}",
+        'tags': '{{ customer.tags }}',
+        'email': '{{ customer.email }}',
+        'b2b': '{{ customer.b2b? | json }}',
+      }
+
+      if (lock.access) {
+            if (lock.resources_conditional.type[0] == 'customers' && this.getLimitFeaturePricing("select_customer_for_lock")) {
+                if (customer.id !== "") {
+                    if (lock.resources_conditional.customer.source == 'manual') {
+                        let customerMatchLock = lock.resources_conditional.customer.listManual.find((item) => {
+                          return item.id.toString() == customer.id.toString();
+                        });
+
+                        if(customerMatchLock){
+                          return false;
+                        }else{
+                          return true;
+                        }
+                    }
+
+                    if (lock.resources_conditional.customer.source == 'rules') {
+                        let rules = lock.resources_conditional.customer.logic;
+                        return !this.checkRules(rules,customer);
+                    }
+                } else {
+                    if (lock.resources_conditional.customer.source == 'rules') {
+                        return true;
+                    }
+
+                    if (lock.resources_conditional.customer.source == 'manual') {
+                        return true;
+                    }
+                }
+            }
+            if (lock.resources_conditional.type[0] == 'logged') {
+                return !customer.id !== "";
+            }
+        } else {
+            if (customer.id !== "") {
+                if (lock.resources_conditional.type[0] == 'logged') {
+                    return true;
+                }
+
+                if (lock.resources_conditional.type[0] == 'customers' && this.getLimitFeaturePricing("select_customer_for_lock")) {
+                    if (lock.resources_conditional.customer.source == 'manual') {
+                      let customerMatchLock = lock.resources_conditional.customer.listManual.find((item) => {
+                        return item.id.toString() == customer.id.toString();
+                      });
+                      
+                      if(customerMatchLock){
+                        return true;
+                      }else{
+                        return false;
+                      }
+                    }
+                }
+
+                if (lock.resources_conditional.customer.source == 'rules' && this.getLimitFeaturePricing("select_customer_for_lock")) {
+                    let rules = lock.resources_conditional.customer.logic;
+                    return this.checkRules(rules);
+                }
+            } else {
+                if (lock.resources_conditional.type[0] == 'logged') {
+                    return false;
+                }
+            }
+        }
+    },
+    checkRules:function(rules,customer){
+      let result = rules.reduce(function (CoditionalRuleAnd, CurrentCoditionalRuleAnd) {
+        let isMatch = CurrentCoditionalRuleAnd.reduce(function (CoditionalRuleOr, CurrentCoditionalRuleOr) {
+            switch (CurrentCoditionalRuleOr.type) {
+                case 'tagged_with':
+                    return CoditionalRuleOr || customer.tags.includes(CurrentCoditionalRuleOr.value);
+
+                case 'not_tagged_with':
+                    return CoditionalRuleOr || !customer.tags.includes(CurrentCoditionalRuleOr.value);
+
+                case 'email_contains':
+                    return CoditionalRuleOr || customer.email.includes(CurrentCoditionalRuleOr.value);
+
+                case 'isB2B':
+                    let isB2B = customer.b2b;
+                    let logicValue = CurrentCoditionalRuleOr.value;
+                    if(logicValue == 'b2b'){
+                        return CoditionalRuleOr || isB2B;
+                    } else {
+                        return CoditionalRuleOr || !isB2B;
+                    }
+            }
+        }, false);
+
+        return CoditionalRuleAnd && isMatch;
+    }, true);
+    return result;
+    }
+  }
+  window.Samita.SamiLockApp.start();
+</script>
