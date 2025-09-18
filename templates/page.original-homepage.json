@@ -1,16 +1,7 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "slideshow": {
-      "type": "slideshow",
+      "type": "slideshow-h1",
       "blocks": {
         "slide-0": {
           "type": "slide",
@@ -35,7 +26,7 @@
         "slide-0"
       ],
       "custom_css": [
-        "h2 {line-height: 1.1;}"
+        "h1 {line-height: 1.1;}"
       ],
       "settings": {
         "layout": "full_bleed",
@@ -55,7 +46,7 @@
           "type": "heading",
           "settings": {
             "heading": "Your Time is Money",
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         },
         "text_yNA6zy": {
@@ -139,7 +130,7 @@
       ],
       "settings": {
         "title": "Here's what to Expect with FreightCar America",
-        "heading_size": "h1",
+        "heading_size": "h2",
         "image_width": "full",
         "image_ratio": "adapt",
         "columns_desktop": 4,
@@ -192,7 +183,7 @@
       ],
       "settings": {
         "title": "How to Place an Order",
-        "heading_size": "h1",
+        "heading_size": "h2",
         "image_width": "full",
         "image_ratio": "adapt",
         "columns_desktop": 3,
