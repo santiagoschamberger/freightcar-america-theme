@@ -65,6 +65,9 @@
                       {{ option.name | escape }}
                     </option>
                   {%- endfor -%}
+                  {% assign featured_collection = collections['featured'] %}
+                  {% assign featured_products = featured_collection.products %}
+                  {% assign featured_handles = featured_products | map: 'handle' %}
                 </select>
                 <span class="svg-wrapper">
                   {{- 'icon-caret.svg' | inline_asset_content -}}
