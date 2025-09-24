@@ -49,6 +49,28 @@
               </h2>
               <div class="select">
                 {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+                {% assign products = collection.products %}
+
+                {% if sort_by == "manual" or sort_by == "created-descending" %}
+                  {% assign featured_products = collections['featured'].products %}
+                  {% assign featured_handles = featured_products | map: 'handle' %}
+                  {% assign sorted_products = "" | split: "," %}
+
+                  {%- comment -%} Add featured collection products first {%- endcomment -%}
+                  {% for product in featured_products %}
+                    {% assign sorted_products = sorted_products | push: product %}
+                  {% endfor %}
+
+                  {%- comment -%} Add remaining products excluding duplicates {%- endcomment -%}
+                  {% for product in products %}
+                    {% unless featured_handles contains product.handle %}
+                      {% assign sorted_products = sorted_products | push: product %}
+                    {% endunless %}
+                  {% endfor %}
+
+                  {% assign products = sorted_products %}
+                {% endif %}
                 <select
                   name="sort_by"
                   class="facet-filters__sort select__select caption-large"
@@ -65,9 +87,6 @@
                       {{ option.name | escape }}
                     </option>
                   {%- endfor -%}
-                  {% assign featured_collection = collections['featured'] %}
-                  {% assign featured_products = featured_collection.products %}
-                  {% assign featured_handles = featured_products | map: 'handle' %}
                 </select>
                 <span class="svg-wrapper">
                   {{- 'icon-caret.svg' | inline_asset_content -}}
