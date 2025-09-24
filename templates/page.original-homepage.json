@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow": {
@@ -109,7 +118,7 @@
             "title": "From a One-Stop Parts Supplier",
             "text": "<p>Your one-stop shop for all parts needs! In addition to our running repair parts, we provide in-house manufacturing for all Rail parts and custom fabrication services tailored to meet your unique requirements.</p>",
             "link_label": "",
-            "link": ""
+            "link": "https://www.freightcar.parts/pages/fabrication-request"
           }
         },
         "column_9mgi4E": {
