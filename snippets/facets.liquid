@@ -238,6 +238,7 @@
                                   {{ text_value }}
                                 </div>
                               {%- else -%}
+                                {% unless value.value == "__hidden" %}
                                 <label for="{{ input_id }}" class="{{ label_class }}">
                                   <input
                                     type="checkbox"
@@ -272,6 +273,7 @@
 
                                   {{ text_value }}
                                 </label>
+                              {% endunless %}
                               {%- endif -%}
                             </li>
                           {%- endfor -%}
