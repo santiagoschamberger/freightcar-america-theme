@@ -138,6 +138,8 @@
 
             {% assign sorted_products = featured_products | concat: non_featured_products %}
 
+            {{ sorted_products | json }}
+
             <ul>
               {% for handle in sorted_products %}
                 {% assign product = all_products[handle] %}
