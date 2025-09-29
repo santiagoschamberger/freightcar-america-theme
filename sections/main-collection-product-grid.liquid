@@ -159,7 +159,7 @@
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
                 <p>Featured Products Count: {{ featured_products.size }}</p>
                 <ul>
-                  {% for product in featured_products %}
+                  {% for product in sorted_products %}
                     <li>{{ product.title }} — Tags: {{ product.tags | join: ", " }}</li>
                   {% endfor %}
                 </ul>
@@ -170,8 +170,6 @@
               
 
               {%- for product in sorted_products -%}
-                <p>Products Tag: {{ product.tags }}</p>
-                <p>Products Collection: {{ product.collections }}</p>
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
