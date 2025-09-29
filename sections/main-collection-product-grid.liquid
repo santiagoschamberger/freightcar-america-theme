@@ -154,15 +154,15 @@
             >
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
-                {{  "test" }}
+                {}
                 {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
                 {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
-                {{  featured_products }}
+                {% assign sorted_products = featured_products | concat: non_featured_products %}
               {% else %}
                 {% assign sorted_products = collection.products %}
               {% endif %}
 
-              {% assign sorted_products = featured_products | concat: non_featured_products %}
+              
 
               {%- for product in sorted_products -%}
                 {% assign lazy_load = false %}
