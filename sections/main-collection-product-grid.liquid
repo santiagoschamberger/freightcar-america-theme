@@ -128,8 +128,9 @@
               
               {% for product in collection.products %}
                 {% assign product_tag_string = product.tags | join: ',' | downcase %}
-                {{ product_tag_string }}
+                
                 {% if product_tag_string contains "featured product" %}
+                  {{ product | json }}
                   {% assign featured_products = featured_products | push: product %}
                 {% else %}
                   {% assign non_featured_products = non_featured_products | push: product %}
