@@ -121,6 +121,9 @@
             >
               
               {% assign skip_card_product_styles = false %}
+              {% assign featured_products = collection.products | where: 'tags', 'featured product' %}
+
+              {{ featured_products | json  }}
               
               {% if collection.sort_by == "manual" %}
               {% assign featured_products = "" | split: "" %}
