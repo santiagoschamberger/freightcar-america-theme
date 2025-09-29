@@ -155,7 +155,7 @@
             >
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
-                  {% assign featured_collection = collections %}
+                  {% assign featured_collection = collections['featured'] %}
                   {{ featured_collection | json }}
               {% else %}  
               {%- for product in collection.products -%}
