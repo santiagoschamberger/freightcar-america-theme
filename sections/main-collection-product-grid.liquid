@@ -130,7 +130,7 @@
               {% assign product_tag_string = product.tags | join: ',' | downcase %}
 
               {% if product_tag_string contains "featured product" %}
-                {% assign featured_products = featured_products | concat: product.handle | split: "," %}
+                {% assign featured_products = featured_products | concat: product | split: "," %}
                 {{ featured_products | json }}
               {% else %}
                 {% assign non_featured_products = non_featured_products | push: product.handle %}
