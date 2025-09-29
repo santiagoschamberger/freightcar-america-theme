@@ -120,21 +120,14 @@
               class=" grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} "
             >
               {% assign skip_card_product_styles = false %}
+    {% assign animation_index = 0 %}
 
-    {%comment%} Create sorted array: featured products first {%endcomment%}
-    {% assign featured_products = collection.products | where: 'tags', 'featured' %}
-    {% assign regular_products = '' | split: ',' %}
-
+    {%comment%} First loop: Featured Products {%endcomment%}
     {%- for product in collection.products -%}
-      {%- unless product.tags contains 'featured' -%}
-        {% assign regular_products = regular_products | concat: product %}
-      {%- endunless -%}
-    {%- endfor -%}
+      {%- unless product.tags contains 'featured' -%}{%- continue -%}{%- endunless -%}
 
-    {% assign all_products = featured_products | concat: regular_products %}
+      {% assign animation_index = animation_index | plus: 1 %}
 
-    {%comment%} Loop through sorted products {%endcomment%}
-    {%- for product in all_products -%}
       {% comment %}start BSS Commerce Hide Price{% endcomment %}
       {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
       {%- if bss_lock_check contains 'true' %}
@@ -143,13 +136,57 @@
       {% comment %}end BSS Commerce Hide Price{% endcomment %}
 
       {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
+      {%- if animation_index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
 
       <li
-        class="grid__item{% if product.tags contains 'featured' %} featured-product{% endif %}{% if settings.animations_reveal_on_scroll %}
-  scroll-trigger animate--slide-in{% endif %}"
+        class="grid__item featured-product{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
-          data-cascade style="--animation-order: {{ forloop.index }};"
+          data-cascade style="--animation-order: {{ animation_index }};"
+        {% endif %}
+      >
+        {% comment %}start BSS Commerce Hide Price{% endcomment %}
+        {%- if bss_lock_check contains 'true' -%}
+          {%- render 'bss-hide-product-design' -%}
+          {%- continue -%}
+        {%- endif -%}
+        {% comment %}end BSS Commerce Hide Price{% endcomment %}
+
+        {%- render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: lazy_load,
+          skip_styles: skip_card_product_styles,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {%- assign skip_card_product_styles = true -%}
+    {%- endfor -%}
+
+    {%comment%} Second loop: Non-Featured Products {%endcomment%}
+    {%- for product in collection.products -%}
+      {%- if product.tags contains 'featured' -%}{%- continue -%}{%- endif -%}
+
+      {% assign animation_index = animation_index | plus: 1 %}
+
+      {% comment %}start BSS Commerce Hide Price{% endcomment %}
+      {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
+      {%- if bss_lock_check contains 'true' %}
+        <div style="display:none" class="bss-hpc-lock"></div>
+      {% endif -%}
+      {% comment %}end BSS Commerce Hide Price{% endcomment %}
+
+      {% assign lazy_load = false %}
+      {%- if animation_index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
+
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade style="--animation-order: {{ animation_index }};"
         {% endif %}
       >
         {% comment %}start BSS Commerce Hide Price{% endcomment %}
