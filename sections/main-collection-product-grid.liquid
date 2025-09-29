@@ -159,6 +159,7 @@
                 
                 {% for product in collection.products %}
                   {{ product.tags }}
+                  <br/>
                   {% if product.tags contains "Featured Product" %}
                     {% assign featured_products = featured_products | push: product %}
                   {% else %}
