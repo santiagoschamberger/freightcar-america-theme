@@ -165,7 +165,7 @@
               
 
               {%- for product in sorted_products -%}
-                <p>Featured Products Count: {{ sorted_products.tags }}</p>
+                <p>Featured Products Count: {{ product.tags }}</p>
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
