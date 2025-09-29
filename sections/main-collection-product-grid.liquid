@@ -154,6 +154,7 @@
             >
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
+                {{  "test" }}
                 {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
                 {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
                 {{  featured_products }}
