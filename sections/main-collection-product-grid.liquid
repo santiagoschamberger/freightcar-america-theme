@@ -120,7 +120,19 @@
               class=" grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} "
             >
               {% assign skip_card_product_styles = false %}
+              {%comment%} Create sorted array: featured products first {%endcomment%}
+              {% assign featured_products = collection.products | where: 'tags', 'featured' %}
+              {% assign regular_products = '' | split: ',' %}
+
               {%- for product in collection.products -%}
+                {%- unless product.tags contains 'featured' -%}
+                  {% assign regular_products = regular_products | concat: product %}
+                {%- endunless -%}
+              {%- endfor -%}
+
+              {% assign all_products = featured_products | concat: regular_products %}
+
+              {%- for product in all_products -%}
                 {% comment %}start BSS Commerce Hide Price{% endcomment %}
                 {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
                 {%- if bss_lock_check contains 'true' %}
