@@ -154,8 +154,7 @@
               "
             >
               {% assign skip_card_product_styles = false %}
-              {{  collection.sort_by }}
-              {% if collection.sort_by == "featured" %}
+              {% if collection.sort_by == "manual" %}
               {% else %}  
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
