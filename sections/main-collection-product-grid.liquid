@@ -127,9 +127,9 @@
                 {% assign product_tags = product.tags | join: "," | downcase %}
 
                 {% if product_tags contains "featured product" %}
-                  {% assign featured_handles = featured_handles | concat: product %}
+                  {% assign featured_handles = featured_handles | concat: product.handle %}
                 {% else %}
-                  {% assign non_featured_handles = non_featured_handles | concat: product %}
+                  {% assign non_featured_handles = non_featured_handles | concat: product.handle %}
                 {% endif %}
               {% endfor %}
 
