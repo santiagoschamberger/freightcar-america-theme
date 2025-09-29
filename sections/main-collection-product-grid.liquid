@@ -135,7 +135,12 @@
 
               {% assign sorted_handles = featured_handles | concat: non_featured_handles %}
 
-              {{ sorted_handles | json }}
+              <ul>
+                {% for handle in sorted_handles %}
+                  {% assign product = all_products[handle] %}
+                  <li>{{ product.title }} — Tags: {{ product.tags | join: ", " }}</li>
+                {% endfor %}
+              </ul>
 
               {%- for product in collection.products -%}
                 {% comment %}start BSS Commerce Hide Price{% endcomment %}
