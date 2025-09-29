@@ -121,13 +121,19 @@
             >
               
               {% assign skip_card_product_styles = false %}
-              {% assign featured_products = collection.products | where: 'tags', 'featured product' %}
-
-              {{ featured_products | json  }}
               
               {% if collection.sort_by == "manual" %}
               {% assign featured_products = "" | split: "" %}
               {% assign non_featured_products = "" | split: "" %}
+
+              {% for product in collection.products %}
+                {% assign all_tags = product.tags | map: 'downcase' | join: '|' %}
+                {% if all_tags contains 'featured product' %}
+                  {% assign featured_products = featured_products | concat: product %}
+                {% endif %}
+              {% endfor %}
+
+              {{  featured_products | json }}
               
               {% for product in collection.products %}
               {% assign product_tag_string = product.tags | join: ',' | downcase %}
