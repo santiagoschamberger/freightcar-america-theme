@@ -124,26 +124,33 @@
               {% assign sorted_products = "" | split: "" %}
 
               {% if collection.sort_by == "manual" %}
-                {% assign featured_products = "" | split: "" %}
-                {% assign non_featured_products = "" | split: "" %}
+              {% assign featured_products = "" | split: "" %}
+              {% assign non_featured_products = "" | split: "" %}
+              
+              {% for product in collection.products %}
+                {% assign product_tag_string = product.tags | join: ',' | downcase %}
                 
-                {% for product in collection.products %}
-                  {% assign product_tag_string = product.tags | join: ',' | downcase %}
-                  {{ product_tag_string }}
-                  {% if product_tag_string contains "featured product" %}
-                    {{ "Test" }}
-                    {% assign featured_products = featured_products | push: product.handle %}
-                    <pre>{{ featured_products | json }}</pre>
-                  {% else %}
-                    {% assign non_featured_products = non_featured_products | push: product.handle %}
-                  {% endif %}
+                {% if product_tag_string contains "featured product" %}
+                  {% assign featured_products = featured_products | push: product.handle %}
+                {% else %}
+                  {% assign non_featured_products = non_featured_products | push: product.handle %}
+                {% endif %}
+              {% endfor %}
+              
+              {% assign sorted_products = featured_products | concat: non_featured_products %}
+              
+              <p>Featured Products Count: {{ featured_products.size }}</p>
+              
+              <ul>
+                {% for handle in sorted_products %}
+                  {% assign product = all_products[handle] %}
+                  <li>{{ product.title }} — Tags: {{ product.tags | join: ", " }}</li>
                 {% endfor %}
-                {% assign sorted_products = featured_products | concat: non_featured_products %}
+              </ul>
 
-                {% assign sorted_products = "" | split: "" %}
-              {% else %}
-                {% assign sorted_products = collection.products %}
-              {% endif %}  
+            {% else %}
+              {% assign sorted_products = collection.products %}
+            {% endif %}  
               
               {%- for product in sorted_products -%}
                 {% comment %}start BSS Commerce Hide Price{% endcomment %}
