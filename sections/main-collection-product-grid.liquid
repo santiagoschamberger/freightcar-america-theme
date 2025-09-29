@@ -131,7 +131,7 @@
 
               {% if product_tag_string contains "featured product" %}
                 {% assign featured_products = featured_products | concat: product | json %}
-                { featured_products | json}
+                {{ featured_products | json }}
               {% else %}
                 {% assign non_featured_products = non_featured_products | concat: product | json %}
               {% endif %}
