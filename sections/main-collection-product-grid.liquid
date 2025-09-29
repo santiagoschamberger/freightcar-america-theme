@@ -36,9 +36,6 @@
   }
 {%- endstyle -%}
 
-<pre>
-{{ collection | json }}
-</pre>
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
@@ -157,7 +154,7 @@
               "
             >
               {% assign skip_card_product_styles = false %}
-              {%- for product in collection.products -%}
+              {% comment %} {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
@@ -184,7 +181,8 @@
                   %}
                 </li>
                 {%- assign skip_card_product_styles = true -%}
-              {%- endfor -%}
+              {%- endfor -%} {% endcomment %}
+               
             </ul>
 
             {%- if paginate.pages > 1 -%}
