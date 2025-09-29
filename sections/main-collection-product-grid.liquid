@@ -201,7 +201,7 @@
   Default to 4 if not set.
   {%- endcomment -%}
   {% assign featured_limit = section.settings.featured_count | default: 4 %}
-  {% assign featured_limit = featured_limit | plus: 0 %} {# ensure numeric #}
+  {% assign featured_limit = featured_limit | plus: 0 %} 
 
   {%- comment -%}
   Determine current sort. 'manual' is Shopify's Featured (default) sort.
