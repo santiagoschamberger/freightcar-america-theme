@@ -192,7 +192,7 @@
 {% if qs contains 'filter.' %}
   {%- assign ordered = collection.products -%}
 {% else %}
-  {%- assign priority_tag = 'Featured Product' -%}
+  {%- assign priority_tag = 'Featured' -%}
   {%- assign featured = "" | split: "" -%}
   {%- assign normal = "" | split: "" -%}
 
