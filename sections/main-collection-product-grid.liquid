@@ -122,7 +122,7 @@
               
               {% assign skip_card_product_styles = false %}
               {% assign sorted_products = "" | split: "" %}
-              
+
               {% if collection.sort_by == "manual" %}
                 {% assign featured_products = "" | split: "" %}
                 {% assign non_featured_products = "" | split: "" %}
@@ -131,6 +131,7 @@
                   {% assign product_tag_string = product.tags | join: ',' | downcase %}
                   {{ product_tag_string }}
                   {% if product_tag_string contains "featured product" %}
+                    {{ "Test" }}
                     {% assign featured_products = featured_products | push: product.handle %}
                     <pre>{{ featured_products | json }}</pre>
                   {% else %}
