@@ -126,7 +126,7 @@
                 {% assign sorted_products = collection.products %}
               {% endif %}  
               {% assign skip_card_product_styles = false %}
-              {%- for product in collection.products -%}
+              {%- for product in sorted_products -%}
                 {% comment %}start BSS Commerce Hide Price{% endcomment %}
                 {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
                 {%- if bss_lock_check contains 'true' %}
