@@ -134,6 +134,7 @@
               {% endfor %}
 
               {{  featured_products | json }}
+              {{ "Test" }}
               
               {% for product in collection.products %}
               {% assign product_tag_string = product.tags | join: ',' | downcase %}
