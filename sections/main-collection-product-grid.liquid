@@ -158,7 +158,7 @@
   
               {%- assign featured_collection = collections['featured-products'] -%}
               
-              {{ featured_collection | json }}
+              {{ collections['featured-products'] | json }}
               
             {% else %}
               {%- for product in collection.products -%}
