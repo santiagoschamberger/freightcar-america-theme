@@ -127,26 +127,23 @@
               {% assign non_featured_products = "" | split: "" %}
               
               {% for product in collection.products %}
-                {% assign product_tag_string = product.tags | join: ',' | downcase %}
-                
-                {% if product_tag_string contains "featured product" %}
-                  {{ product | json }}
-                  {% assign featured_products = featured_products | push: product %}
-                {% else %}
-                  {% assign non_featured_products = non_featured_products | push: product %}
-                {% endif %}
+              {% assign product_tag_string = product.tags | join: ',' | downcase %}
+
+              {% if product_tag_string contains "featured product" %}
+                {% assign featured_products = featured_products | push: product.handle %}
+              {% else %}
+                {% assign non_featured_products = non_featured_products | push: product.handle %}
+              {% endif %}
+            {% endfor %}
+
+            {% assign sorted_products = featured_products | concat: non_featured_products %}
+
+            <ul>
+              {% for handle in sorted_products %}
+                {% assign product = all_products[handle] %}
+                <li>{{ product.title }} — Tags: {{ product.tags | join: ", " }}</li>
               {% endfor %}
-              
-              {% assign sorted_products = featured_products | concat: non_featured_products %}
-              
-              <p>Featured Products Count: {{ featured_products.size }}</p>
-              
-              <ul>
-                {% for handle in sorted_products %}
-                  {% assign product = all_products[handle] %}
-                  <li>{{ product.title }} — Tags: {{ product.tags | join: ", " }}</li>
-                {% endfor %}
-              </ul>
+            </ul>
 
               {% else %}
                 {% assign sorted_products = collection.products %}
