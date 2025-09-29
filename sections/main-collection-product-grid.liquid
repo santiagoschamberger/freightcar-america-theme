@@ -184,9 +184,6 @@
                   </li>
                 {% endfor %}
 
-                {# ------------------------------------- #}
-                {# 2. Show Rest of Products with Pagination #}
-                {# ------------------------------------- #}
                 {% paginate collection.products by 24 %}
                   {% for product in collection.products %}
                     {% unless featured_collection.products contains product %}
