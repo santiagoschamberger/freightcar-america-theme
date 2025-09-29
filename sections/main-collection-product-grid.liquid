@@ -197,28 +197,32 @@
   {% assign featured_collection = collections['featured'] %}
 
   {%- comment -%}
-  Determine current sort. If user changed sort (A-Z, price...), sort_by will be something else.
-  'manual' corresponds to Shopify's "Featured" default sort.
+  Set how many featured products to show
+  {%- endcomment -%}
+  {% assign featured_limit = 4 %}  {# ← change this to 3, 4, 5... #}
+
+  {%- comment -%}
+  Determine current sort (manual = Shopify "Featured" default sort)
   {%- endcomment -%}
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
   {%- comment -%}
-  Build a comma-separated string of featured product IDs (limit to 3)
+  Build a comma-separated string of featured product IDs (limit by featured_limit)
   {%- endcomment -%}
   {% assign featured_ids = '' %}
   {% if featured_collection %}
-    {% for f in featured_collection.products limit:3 %}
+    {% for f in featured_collection.products limit: featured_limit %}
       {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
     {% endfor %}
   {% endif %}
 
   {%- comment -%}
-  Show featured products ONLY when:
-    - on the first pagination page
-    - and sort_by is 'manual' (the default "Featured" sort)
+  Show featured products only:
+  - on page 1
+  - and when sort is manual (default "Featured" sort)
   {%- endcomment -%}
   {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
-    {% for product in featured_collection.products limit:3 %}
+    {% for product in featured_collection.products limit: featured_limit %}
       {% assign lazy_load = false %}
       {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
@@ -247,23 +251,14 @@
   {% endif %}
 
   {%- comment -%}
-  Main collection loop:
-    - If page 1 AND sort is 'manual', skip products whose id is in featured_ids (no duplicates).
-    - Otherwise (other pages or sorts), render all collection products normally.
+  Main collection loop
+  - On page 1 with manual sort → skip products whose ID is in featured_ids
+  - On other pages or sorts → render all products
   {%- endcomment -%}
   {%- for product in collection.products -%}
     {% if paginate.current_page == 1 and sort_by == 'manual' %}
       {% unless featured_ids contains product.id %}
-        {% assign lazy_load = false %}
-        {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
-        <li
-          class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-          {% endif %}
-        >
+        <li class="grid__item">
           {% render 'card-product',
             card_product: product,
             media_aspect_ratio: section.settings.image_ratio,
@@ -271,7 +266,7 @@
             show_secondary_image: section.settings.show_secondary_image,
             show_vendor: section.settings.show_vendor,
             show_rating: section.settings.show_rating,
-            lazy_load: lazy_load,
+            lazy_load: false,
             skip_styles: skip_card_product_styles,
             quick_add: section.settings.quick_add,
             section_id: section.id
@@ -280,16 +275,7 @@
         {% assign skip_card_product_styles = true %}
       {% endunless %}
     {% else %}
-      {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
-      <li
-        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-          style="--animation-order: {{ forloop.index }};"
-        {% endif %}
-      >
+      <li class="grid__item">
         {% render 'card-product',
           card_product: product,
           media_aspect_ratio: section.settings.image_ratio,
@@ -297,7 +283,7 @@
           show_secondary_image: section.settings.show_secondary_image,
           show_vendor: section.settings.show_vendor,
           show_rating: section.settings.show_rating,
-          lazy_load: lazy_load,
+          lazy_load: false,
           skip_styles: skip_card_product_styles,
           quick_add: section.settings.quick_add,
           section_id: section.id
