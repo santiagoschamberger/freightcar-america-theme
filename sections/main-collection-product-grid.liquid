@@ -153,8 +153,8 @@
               "
             >
               {% assign skip_card_product_styles = false %}
-              {% assign featured_products = collection.products | where: "tags", "Featured" %}
-              {% assign non_featured_products = collection.products | reject: "tags", "Featured" %}
+              {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
+              {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
 
               {% assign sorted_products = featured_products | concat: non_featured_products %}
 
@@ -163,8 +163,6 @@
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
-
-                {{ product.tags }}
 
                 <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
