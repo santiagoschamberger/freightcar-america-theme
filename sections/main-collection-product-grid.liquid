@@ -197,14 +197,12 @@
   {% assign featured_collection = collections['featured'] %}
 
   {%- comment -%}
-  Show featured products ONLY on the first pagination page
+  Show featured products ONLY on page 1
   {%- endcomment -%}
   {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 %}
     {% for product in featured_collection.products limit: 3 %}
       {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}
-        {%- assign lazy_load = true -%}
-      {%- endif -%}
+      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
       <li
         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -231,14 +229,41 @@
   {% endif %}
 
   {%- comment -%}
-  Now render the collection products, but skip any that are already featured
+  Now render collection products.
+  On page 1 → skip featured items (to prevent duplicates).
+  On page 2+ → show all normally.
   {%- endcomment -%}
   {%- for product in collection.products -%}
-    {% unless featured_collection.products contains product and paginate.current_page == 1 %}
+    {% if paginate.current_page == 1 %}
+      {% unless featured_collection.products contains product %}
+        {% assign lazy_load = false %}
+        {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+        <li
+          class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: lazy_load,
+            skip_styles: skip_card_product_styles,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+      {% endunless %}
+    {% else %}
       {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}
-        {%- assign lazy_load = true -%}
-      {%- endif -%}
+      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
       <li
         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -261,7 +286,7 @@
         %}
       </li>
       {% assign skip_card_product_styles = true %}
-    {% endunless %}
+    {% endif %}
   {%- endfor -%}
 </ul>
 
