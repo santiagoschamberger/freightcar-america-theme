@@ -133,6 +133,8 @@
                 {% endif %}
               {% endfor %}
 
+              {{  featured_handles | json }}
+
               {% assign sorted_handles = featured_handles | concat: non_featured_handles %}
 
               <ul>
