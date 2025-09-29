@@ -136,9 +136,9 @@
               {% endif %}
             {% endfor %}
 
-            {% assign sorted_products = featured_products %}
+            {% assign sorted_products = featured_products | concat: non_featured_products %}
 
-            {{ sorted_products | json }}
+            {{ featured_products | json }}
 
             <ul>
               {% for handle in sorted_products %}
