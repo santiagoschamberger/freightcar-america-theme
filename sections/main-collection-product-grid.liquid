@@ -121,11 +121,11 @@
             >
               {% assign skip_card_product_styles = false %}
               {%comment%} Create sorted array: featured products first {%endcomment%}
-              {% assign featured_products = collection.products | where: 'tags', 'featured' %}
+              {% assign featured_products = collection.products | where: 'tags', 'Featured Product' %}
               {% assign regular_products = '' | split: ',' %}
 
               {%- for product in collection.products -%}
-                {%- unless product.tags contains 'featured' -%}
+                {%- unless product.tags contains 'Featured Product' -%}
                   {{ product | json }}
                   {{ "====================================================" }}
                   <br/>
