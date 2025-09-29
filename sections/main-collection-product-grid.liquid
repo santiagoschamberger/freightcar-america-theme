@@ -156,8 +156,9 @@
               {% if collection.sort_by == "manual" %}
                 {% assign featured_products = "" | split: "" %}
                 {% assign non_featured_products = "" | split: "" %}
-                {{ collection.products.size }}
+                
                 {% for product in collection.products %}
+                  {{ product.tags }}
                   {% if product.tags contains "Featured Product" %}
                     {% assign featured_products = featured_products | push: product %}
                   {% else %}
