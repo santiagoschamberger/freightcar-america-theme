@@ -154,20 +154,10 @@
             >
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
-                {% comment %} Initialize empty arrays {% endcomment %}
-                {% assign featured_products = "" | split: "" %}
-                {% assign non_featured_products = "" | split: "" %}
-
-                {% for product in collection.products %}
-                  {% if product.tags contains "Featured Product" %}
-                    {% assign featured_products = featured_products | push: product %}
-                  {% else %}
-                    {% assign non_featured_products = non_featured_products | push: product %}
-                  {% endif %}
-                {% endfor %}
-
+                {% assign featured_products = collection.products | where_exp: "item", "item.tags contains 'Featured Product'" %}
+                {% assign non_featured_products = collection.products | where_exp: "item", "not item.tags contains 'Featured Product'" %}
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
-
+                <p>Featured Products Count: {{ featured_products.size }}</p>
               {% else %}
                 {% assign sorted_products = collection.products %}
               {% endif %}
