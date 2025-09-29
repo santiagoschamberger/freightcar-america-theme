@@ -125,6 +125,7 @@
               {% if collection.sort_by == "manual" %}
               {% assign featured_products = "" | split: "" %}
               {% assign non_featured_products = "" | split: "" %}
+              {{ non_featured_products }}
               
               {% for product in collection.products %}
                 {% assign product_tag_string = product.tags | join: ',' | downcase %}
@@ -147,9 +148,9 @@
                 {% endfor %}
               </ul>
 
-            {% else %}
-              {% assign sorted_products = collection.products %}
-            {% endif %}  
+              {% else %}
+                {% assign sorted_products = collection.products %}
+              {% endif %}  
               
               {%- for product in sorted_products -%}
                 {% comment %}start BSS Commerce Hide Price{% endcomment %}
