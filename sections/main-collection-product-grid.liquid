@@ -123,18 +123,26 @@
               {% assign skip_card_product_styles = false %}
               
               {% if collection.sort_by == "manual" %}
-              {% assign featured_products = "" | split: "" %}
-              {% assign non_featured_products = "" | split: "" %}
+              {% assign featured_handles = "" %}
+              {% assign non_featured_handles = "" %}
               
               {% for product in collection.products %}
-              {% assign product_tag_string = product.tags | join: ',' | downcase %}
+                {% assign product_tag_string = product.tags | join: ',' | downcase %}
 
-              {% if product_tag_string contains "featured product" %}
-                {% assign featured_products = featured_products | push: product | json %}
-              {% else %}
-                {% assign non_featured_products = non_featured_products | push: product | json %}
-              {% endif %}
-            {% endfor %}
+                {% if product_tag_string contains "featured product" %}
+                  {% if featured_handles == "" %}
+                    {% assign featured_handles = product.handle %}
+                  {% else %}
+                    {% assign featured_handles = featured_handles | append: "," | append: product.handle %}
+                  {% endif %}
+                {% else %}
+                  {% if non_featured_handles == "" %}
+                    {% assign non_featured_handles = product.handle %}
+                  {% else %}
+                    {% assign non_featured_handles = non_featured_handles | append: "," | append: non_featured_handles %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
 
             {% assign sorted_products = featured_products | concat: non_featured_products %}
 
