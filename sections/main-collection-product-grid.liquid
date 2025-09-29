@@ -120,59 +120,108 @@
               class=" grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} "
             >
               {% assign skip_card_product_styles = false %}
-              {% assign featured_handles = "" | split: "" %}
-              {% assign non_featured_handles = "" | split: "" %}
+              {% assign featured_products = "" | split: "" %}
+              {% assign non_featured_products = "" | split: "" %}
 
+              {% comment %} First, collect featured and non-featured products {% endcomment %}
               {% for product in collection.products %}
                 {% assign product_tags = product.tags | join: "," | downcase %}
 
                 {% if product_tags contains "featured product" %}
-                  {% assign single_handle = product.handle | split: '|' %}
-                  {% assign featured_handles = featured_handles | concat: single_handle %}
+                  {% assign featured_products = featured_products | append: product.id | append: "," %}
                 {% else %}
-                  {% assign single_handle = product.handle | split: '|' %}
-                  {% assign non_featured_handles = non_featured_handles | concat: single_handle %}
+                  {% assign non_featured_products = non_featured_products | append: product.id | append: "," %}
                 {% endif %}
               {% endfor %}
 
-              {% assign sorted_handles = featured_handles | concat: non_featured_handles %}
+              {% assign featured_products = featured_products | split: "," %}
+              {% assign non_featured_products = non_featured_products | split: "," %}
 
-              {%- for product in sorted_handles -%}
-                {% comment %}start BSS Commerce Hide Price{% endcomment %}
-                {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
-                {%- if bss_lock_check contains 'true' %}
-                  <div style="display:none" class="bss-hpc-lock"></div>
-                {% endif -%}
-                {% comment %}end BSS Commerce Hide Price{% endcomment %}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
-                <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {% if settings.animations_reveal_on_scroll %}
-                    data-cascade style="--animation-order: {{ forloop.index }};"
-                  {% endif %}
-                >
+              {% comment %} Now loop through featured products first {% endcomment %}
+              {% for product in collection.products %}
+                {% assign product_tags = product.tags | join: "," | downcase %}
+                {% if product_tags contains "featured product" %}
+                  {% assign lazy_load = false %}
+                  {%- if forloop.index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
+
                   {% comment %}start BSS Commerce Hide Price{% endcomment %}
-                  {%- if bss_lock_check contains 'true' -%}
-                    {%- render 'bss-hide-product-design' -%}
-                    {%- continue -%}
-                  {%- endif -%}
+                  {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
+                  {%- if bss_lock_check contains 'true' %}
+                    <div style="display:none" class="bss-hpc-lock"></div>
+                  {% endif -%}
                   {% comment %}end BSS Commerce Hide Price{% endcomment %}
-                  {%- render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
-                </li>
-                {%- assign skip_card_product_styles = true -%}
-              {%- endfor -%}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {% comment %}start BSS Commerce Hide Price{% endcomment %}
+                    {%- if bss_lock_check contains 'true' -%}
+                      {%- render 'bss-hide-product-design' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {% comment %}end BSS Commerce Hide Price{% endcomment %}
+                    {%- render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {% endif %}
+              {% endfor %}
+
+              {% comment %} Then loop through non-featured products {% endcomment %}
+              {% for product in collection.products %}
+                {% assign product_tags = product.tags | join: "," | downcase %}
+                {% unless product_tags contains "featured product" %}
+                  {% assign lazy_load = false %}
+                  {%- if forloop.index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
+
+                  {% comment %}start BSS Commerce Hide Price{% endcomment %}
+                  {%- capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture -%}
+                  {%- if bss_lock_check contains 'true' %}
+                    <div style="display:none" class="bss-hpc-lock"></div>
+                  {% endif -%}
+                  {% comment %}end BSS Commerce Hide Price{% endcomment %}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {% comment %}start BSS Commerce Hide Price{% endcomment %}
+                    {%- if bss_lock_check contains 'true' -%}
+                      {%- render 'bss-hide-product-design' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {% comment %}end BSS Commerce Hide Price{% endcomment %}
+                    {%- render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {% endunless %}
+              {% endfor %}
             </ul>
             {%- if paginate.pages > 1 -%}{% render 'pagination', paginate: paginate, anchor: '' %}{%- endif -%}
           </div>
