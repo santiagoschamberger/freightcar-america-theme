@@ -156,6 +156,7 @@
               {% if collection.sort_by == "manual" %}
                 {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
                 {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
+                {{  featured_products }}
               {% else %}
                 {% assign sorted_products = collection.products %}
               {% endif %}
