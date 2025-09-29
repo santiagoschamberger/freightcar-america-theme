@@ -29,7 +29,7 @@
       role="list"
     >
       {%- for collection in collections -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
-        <li
+        {% comment %} <li
           class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
             data-cascade
@@ -41,7 +41,71 @@
             media_aspect_ratio: section.settings.image_ratio,
             columns: 3
           %}
-        </li>
+        </li> {% endcomment %}
+        {%- comment -%} Render collections with tag first, then the rest (keeps BSS checks and animations) {%- endcomment -%}
+{%- assign _ = '' -%}
+{%- increment collection_index -%} {# initialise increment -#}
+
+{%- comment -%} 1) Featured collections pass {%- endcomment -%}
+{%- for collection in collections -%}
+  {%- comment -%} run BSS lock check per collection (keeps original logic) {%- endcomment -%}
+  {% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}
+  {%- if collection.tags contains 'Featured Collection' -%}
+    {%- if bss_lock_check contains 'true' -%}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}
+    {% if bss_lock_check contains "true" %}
+      {%- comment -%} hide design and skip this collection like original template {%- endcomment -%}
+      {% render 'bss-hide-product-design' %}
+      {% continue %}
+    {% endif %}
+
+    {% increment collection_index %}
+    {% assign current_index = collection_index | minus: 1 %}
+
+    <li
+      class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: {{ current_index | plus: 1 }};"
+      {% endif %}
+    >
+      {% render 'card-collection',
+        card_collection: collection,
+        media_aspect_ratio: section.settings.image_ratio,
+        columns: 3
+      %}
+    </li>
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} 2) Non-featured collections pass {%- endcomment -%}
+{%- for collection in collections -%}
+  {% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}
+  {%- unless collection.tags contains 'Featured Collection' -%}
+    {%- if bss_lock_check contains 'true' -%}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}
+    {% if bss_lock_check contains "true" %}
+      {% render 'bss-hide-product-design' %}
+      {% continue %}
+    {% endif %}
+
+    {% increment collection_index %}
+    {% assign current_index = collection_index | minus: 1 %}
+
+    <li
+      class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+        style="--animation-order: {{ current_index | plus: 1 }};"
+      {% endif %}
+    >
+      {% render 'card-collection',
+        card_collection: collection,
+        media_aspect_ratio: section.settings.image_ratio,
+        columns: 3
+      %}
+    </li>
+  {%- endunless -%}
+{%- endfor -%}
+
       {%- endfor -%}
     </ul>
     {% render 'pagination', paginate: paginate %}
