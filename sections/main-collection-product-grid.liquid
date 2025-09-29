@@ -39,7 +39,7 @@
 
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
-  {%- paginate collection.products by section.settings.products_per_page -%}
+  {% comment %} {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
       <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
@@ -192,7 +192,139 @@
         {%- endif -%}
       </div>
     </div>
-  {%- endpaginate -%}
+  {%- endpaginate -%} {% endcomment %}
+   {%- comment -%}
+  Replace only the paginate...endpaginate block in sections/main-collection-product-grid.liquid
+  priority_tag must match exact tag text in Admin (case + spacing).
+{%- endcomment -%}
+
+{%- assign priority_tag = 'Featured Product' -%} {# <- change this if needed #}
+{%- assign featured_products = "" | split: "" -%}
+{%- assign other_products = "" | split: "" -%}
+
+{%- for product in collection.products -%}
+  {%- if product.tags contains priority_tag -%}
+    {%- assign featured_products = featured_products | push: product -%}
+  {%- else -%}
+    {%- assign other_products = other_products | push: product -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign ordered_products = featured_products | concat: other_products -%}
+{%- assign per_page = section.settings.products_per_page | plus: 0 -%}
+{%- assign total_items = ordered_products.size | plus: 0 -%}
+{%- assign current_page = request.query.page | default: 1 | plus: 0 -%}
+
+{%- assign total_div = total_items | divided_by: per_page -%}
+{%- assign remainder = total_items | modulo: per_page -%}
+{%- if remainder > 0 -%}
+  {%- assign total_pages = total_div | plus: 1 -%}
+{%- else -%}
+  {%- assign total_pages = total_div -%}
+{%- endif -%}
+{%- if total_pages == 0 -%}{%- assign total_pages = 1 -%}{%- endif -%}
+{%- if current_page < 1 -%}{%- assign current_page = 1 -%}{%- elsif current_page > total_pages -%}{%- assign current_page = total_pages -%}{%- endif -%}
+
+{%- assign start_index = current_page | minus: 1 | times: per_page -%}
+{%- assign page_items = ordered_products | slice: start_index, per_page -%}
+
+{%- assign qs = request.query_string | default: '' -%}
+{%- assign page_param_prefix = '?' -%}
+{%- if qs != '' -%}{%- assign page_param_prefix = '&' -%}{%- endif -%}
+
+<div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+  {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+  {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+    <aside ...> {% comment %}leave facets rendering as-is{% endcomment %}
+      {% render 'facets',
+        results: collection,
+        enable_filtering: section.settings.enable_filtering,
+        enable_sorting: section.settings.enable_sorting,
+        filter_type: section.settings.filter_type,
+        paginate: null
+      %}
+    </aside>
+  {%- endif -%}
+
+  <div class="product-grid-container" id="ProductGridContainer" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
+    {%- if total_items == 0 -%}
+      <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+        ... empty message ...
+      </div>
+    {%- else -%}
+      <div class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}">
+        <ul id="product-grid" class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop">
+          {% assign skip_card_product_styles = false %}
+          {%- for product in page_items -%}
+            {% assign lazy_load = false %}
+            {%- if forloop.index > 2 -%}{%- assign lazy_load = true -%}{%- endif -%}
+            <li class="grid__item">
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                lazy_load: lazy_load,
+                skip_styles: skip_card_product_styles,
+                quick_add: section.settings.quick_add,
+                section_id: section.id
+              %}
+            </li>
+            {%- assign skip_card_product_styles = true -%}
+          {%- endfor -%}
+        </ul>
+
+        {%- comment -%} Pagination links preserving other query params (if any) {%- endcomment -%}
+        <nav class="custom-pagination" aria-label="Pagination">
+          <ul class="pagination-list">
+            <li class="pagination-item{% if current_page == 1 %} disabled{% endif %}">
+              {%- if current_page > 1 -%}
+                <a href="{{ collection.url }}{% if qs != '' %}?{{ qs }}&{% else %}?{% endif %}page={{ current_page | minus: 1 }}" rel="prev">Previous</a>
+              {%- else -%}
+                <span>Previous</span>
+              {%- endif -%}
+            </li>
+
+            {%- assign max_shown = 7 -%}
+            {%- assign half = max_shown | divided_by: 2 -%}
+            {%- assign start_page = current_page | minus: half -%}
+            {%- if start_page < 1 -%}{%- assign start_page = 1 -%}{%- endif -%}
+            {%- assign end_page = start_page | plus: max_shown | minus: 1 -%}
+            {%- if end_page > total_pages -%}
+              {%- assign end_page = total_pages -%}
+              {%- assign start_page = end_page | minus: max_shown | plus: 1 -%}
+              {%- if start_page < 1 -%}{%- assign start_page = 1 -%}{%- endif -%}
+            {%- endif -%}
+
+            {%- for i in (start_page..end_page) -%}
+              <li class="pagination-item{% if i == current_page %} is-active{% endif %}">
+                {% if i == current_page %}
+                  <span aria-current="page">{{ i }}</span>
+                {% else %}
+                  <a href="{{ collection.url }}{% if qs != '' %}?{{ qs }}&{% else %}?{% endif %}page={{ i }}">{{ i }}</a>
+                {% endif %}
+              </li>
+            {%- endfor -%}
+
+            <li class="pagination-item{% if current_page == total_pages %} disabled{% endif %}">
+              {%- if current_page < total_pages -%}
+                <a href="{{ collection.url }}{% if qs != '' %}?{{ qs }}&{% else %}?{% endif %}page={{ current_page | plus: 1 }}" rel="next">Next</a>
+              {%- else -%}
+                <span>Next</span>
+              {%- endif -%}
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
