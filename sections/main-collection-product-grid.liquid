@@ -157,7 +157,7 @@
                 {% assign featured_products = collection.products | where: "tags", "Featured" %}
                 {% assign non_featured_products = collection.products | reject: "tags", "Featured" %}
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
-                <p>Featured Products Count: {{ non_featured_products.tags }}</p>
+                
               {% else %}
                 {% assign sorted_products = collection.products %}
               {% endif %}
@@ -165,6 +165,7 @@
               
 
               {%- for product in sorted_products -%}
+                <p>Featured Products Count: {{ sorted_products.tags }}</p>
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
