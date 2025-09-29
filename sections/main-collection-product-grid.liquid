@@ -184,7 +184,8 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
- <ul
+
+            <ul
   id="product-grid"
   data-id="{{ section.id }}"
   class="
@@ -199,7 +200,7 @@
   {%- comment -%}
   Set how many featured products to show
   {%- endcomment -%}
-  {% assign featured_limit = 4 %}  {# ← change this to 3, 4, 5... #}
+  {% assign featured_limit = 4 %} 
 
   {%- comment -%}
   Determine current sort (manual = Shopify "Featured" default sort)
@@ -294,6 +295,7 @@
   {%- endfor -%}
 </ul>
 
+ 
 
 
             {%- if paginate.pages > 1 -%}
