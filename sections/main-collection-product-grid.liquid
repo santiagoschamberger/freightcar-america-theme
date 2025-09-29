@@ -197,10 +197,20 @@
   {% assign featured_collection = collections['featured'] %}
 
   {%- comment -%}
-  Show featured products ONLY on page 1
+  Build a list of featured product IDs for easy comparison
+  {%- endcomment -%}
+  {% assign featured_ids = '' %}
+  {% if featured_collection %}
+    {% for f in featured_collection.products limit:3 %}
+      {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
+    {% endfor %}
+  {% endif %}
+
+  {%- comment -%}
+  Show featured products only on page 1
   {%- endcomment -%}
   {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 %}
-    {% for product in featured_collection.products limit: 3 %}
+    {% for product in featured_collection.products limit:3 %}
       {% assign lazy_load = false %}
       {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
@@ -229,16 +239,13 @@
   {% endif %}
 
   {%- comment -%}
-  Now render collection products.
-  On page 1 → skip featured items (to prevent duplicates).
-  On page 2+ → show all normally.
+  Now render collection products
+  - On page 1: skip items whose ID is in featured_ids
+  - On page 2+: show everything normally
   {%- endcomment -%}
   {%- for product in collection.products -%}
     {% if paginate.current_page == 1 %}
-      {% unless featured_collection.products contains product %}
-        {% assign lazy_load = false %}
-        {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
+      {% unless featured_ids contains product.id %}
         <li
           class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
@@ -253,7 +260,7 @@
             show_secondary_image: section.settings.show_secondary_image,
             show_vendor: section.settings.show_vendor,
             show_rating: section.settings.show_rating,
-            lazy_load: lazy_load,
+            lazy_load: false,
             skip_styles: skip_card_product_styles,
             quick_add: section.settings.quick_add,
             section_id: section.id
@@ -262,9 +269,6 @@
         {% assign skip_card_product_styles = true %}
       {% endunless %}
     {% else %}
-      {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
       <li
         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
@@ -279,7 +283,7 @@
           show_secondary_image: section.settings.show_secondary_image,
           show_vendor: section.settings.show_vendor,
           show_rating: section.settings.show_rating,
-          lazy_load: lazy_load,
+          lazy_load: false,
           skip_styles: skip_card_product_styles,
           quick_add: section.settings.quick_add,
           section_id: section.id
