@@ -157,6 +157,7 @@
                 {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
                 {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
+                <p>Featured Products Count: {{ featured_products.size }}</p>
               {% else %}
                 {% assign sorted_products = collection.products %}
               {% endif %}
