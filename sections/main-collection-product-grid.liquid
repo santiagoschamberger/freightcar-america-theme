@@ -165,7 +165,8 @@
               
 
               {%- for product in sorted_products -%}
-                <p>Featured Products Tag: {{ product.tags }}</p>
+                <p>Products Tag: {{ product.tags }}</p>
+                <p>Products Collection: {{ product.collections }}</p>
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
