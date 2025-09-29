@@ -153,8 +153,13 @@
               "
             >
               {% assign skip_card_product_styles = false %}
-              {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
-              {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
+              {{ collection.title }}
+              {% if collection.title == "Catalog" %}
+                {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
+                {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
+              {% else %}
+                {% assign sorted_products = collection.products %}
+              {% endif %}
 
               {% assign sorted_products = featured_products | concat: non_featured_products %}
 
