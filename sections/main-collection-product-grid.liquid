@@ -154,8 +154,8 @@
             >
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
-                {% assign featured_products = collection.products | where: "tags", "Featured Product" %}
-                {% assign non_featured_products = collection.products | reject: "tags", "Featured Product" %}
+                {% assign featured_products = collection.products | where_exp: "item", "item.tags contains 'Featured Product'" %}
+                {% assign non_featured_products = collection.products | reject_exp: "item", "item.tags contains 'Featured Product'" %}
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
                 <p>Featured Products Count: {{ featured_products.size }}</p>
               {% else %}
