@@ -154,6 +154,33 @@
               "
             >
               {% assign skip_card_product_styles = false %}
+
+              {% if collection.sort_by == "featured" %}
+  {% assign featured_collection = collections['featured'] %}
+
+  {# Show Featured Products first #}
+  {% for product in featured_collection.products %}
+    {% render 'card-product', card_product: product %}
+  {% endfor %}
+
+  {# Show Rest of Products with Pagination #}
+  {% paginate collection.products by 24 %}
+    {% for product in collection.products %}
+      {% unless featured_collection.products contains product %}
+        {% render 'card-product', card_product: product %}
+      {% endunless %}
+    {% endfor %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+{% else %}
+  {# Default Shopify sorting #}
+  {% paginate collection.products by 24 %}
+    {% for product in collection.products %}
+      {% render 'card-product', card_product: product %}
+    {% endfor %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+{% endif %}
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
