@@ -131,9 +131,8 @@
 
               {% if product_tag_string contains "featured product" %}
                 {% assign featured_products = featured_products | push: product.handle | json %}
-                {{ product | json }}
               {% else %}
-                {% assign non_featured_products = non_featured_products | push: product.handle %}
+                {% assign non_featured_products = non_featured_products | push: product.handle | json %}
               {% endif %}
             {% endfor %}
 
