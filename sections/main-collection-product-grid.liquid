@@ -161,10 +161,10 @@
                   {% assign product_tag_string = product.tags | join: ',' | downcase %}
                   {{ product_tag_string }}
                   {% if product_tag_string contains "featured product" %}
-                    {% assign featured_products = featured_products | push: product %}
+                    {% assign featured_products = featured_products | push: product.handle %}
                     <pre>{{ featured_products | json }}</pre>
                   {% else %}
-                    {% assign non_featured_products = non_featured_products | push: product %}
+                    {% assign non_featured_products = non_featured_products | push: product.handle %}
                   {% endif %}
                 {% endfor %}
                 {% assign sorted_products = featured_products | concat: non_featured_products %}
