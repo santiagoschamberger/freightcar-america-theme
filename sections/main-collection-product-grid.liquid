@@ -158,9 +158,11 @@
                 {% assign non_featured_products = "" | split: "" %}
                 
                 {% for product in collection.products %}
-                  {{ product.tags }}
-                  <br/>
+                  
+                  
                   {% if product.tags contains "Featured Product" %}
+                    {{ product.tags }}
+                    <br/>
                     {% assign featured_products = featured_products | push: product %}
                   {% else %}
                     {% assign non_featured_products = non_featured_products | push: product %}
