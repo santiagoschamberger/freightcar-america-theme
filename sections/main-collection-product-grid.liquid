@@ -184,7 +184,6 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
-
             <ul
   id="product-grid"
   data-id="{{ section.id }}"
@@ -198,32 +197,20 @@
   {% assign featured_collection = collections['featured'] %}
 
   {%- comment -%}
-  Set how many featured products to show
-  {%- endcomment -%}
-  {% assign featured_limit = 4 %} 
-
-  {%- comment -%}
-  Determine current sort (manual = Shopify "Featured" default sort)
-  {%- endcomment -%}
-  {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-
-  {%- comment -%}
-  Build a comma-separated string of featured product IDs (limit by featured_limit)
+  Build a list of featured product IDs for easy comparison
   {%- endcomment -%}
   {% assign featured_ids = '' %}
   {% if featured_collection %}
-    {% for f in featured_collection.products limit: featured_limit %}
+    {% for f in featured_collection.products limit:3 %}
       {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
     {% endfor %}
   {% endif %}
 
   {%- comment -%}
-  Show featured products only:
-  - on page 1
-  - and when sort is manual (default "Featured" sort)
+  Show featured products only on page 1
   {%- endcomment -%}
-  {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
-    {% for product in featured_collection.products limit: featured_limit %}
+  {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 %}
+    {% for product in featured_collection.products limit:3 %}
       {% assign lazy_load = false %}
       {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
@@ -252,14 +239,20 @@
   {% endif %}
 
   {%- comment -%}
-  Main collection loop
-  - On page 1 with manual sort → skip products whose ID is in featured_ids
-  - On other pages or sorts → render all products
+  Now render collection products
+  - On page 1: skip items whose ID is in featured_ids
+  - On page 2+: show everything normally
   {%- endcomment -%}
   {%- for product in collection.products -%}
-    {% if paginate.current_page == 1 and sort_by == 'manual' %}
+    {% if paginate.current_page == 1 %}
       {% unless featured_ids contains product.id %}
-        <li class="grid__item">
+        <li
+          class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
           {% render 'card-product',
             card_product: product,
             media_aspect_ratio: section.settings.image_ratio,
@@ -276,7 +269,13 @@
         {% assign skip_card_product_styles = true %}
       {% endunless %}
     {% else %}
-      <li class="grid__item">
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
         {% render 'card-product',
           card_product: product,
           media_aspect_ratio: section.settings.image_ratio,
@@ -294,8 +293,6 @@
     {% endif %}
   {%- endfor -%}
 </ul>
-
- 
 
 
             {%- if paginate.pages > 1 -%}
