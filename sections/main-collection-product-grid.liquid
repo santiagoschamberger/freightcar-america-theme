@@ -156,10 +156,6 @@
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
                 {% assign featured_collection = collections['featured'] %}
-
-                {# ------------------------ #}
-                {# 1. Show Featured Products #}
-                {# ------------------------ #}
                 {% for product in featured_collection.products %}
                   {% assign lazy_load = false %}
                   {%- if forloop.index > 2 -%}
