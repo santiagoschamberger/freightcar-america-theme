@@ -161,9 +161,10 @@
                   
                   
                   {% if product.tags contains "Featured Product" %}
-                    {{ product.tags }}
-                    <br/>
+                    
                     {% assign featured_products = featured_products | push: product %}
+                    {{ featured_products.size }}
+                    <br/>
                   {% else %}
                     {% assign non_featured_products = non_featured_products | push: product %}
                   {% endif %}
