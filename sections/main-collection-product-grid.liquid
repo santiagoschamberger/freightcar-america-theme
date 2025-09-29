@@ -57,15 +57,14 @@
                   id="SortBy"
                   aria-describedby="a11y-refresh-page-message"
                 >
-                  {%- assign sort_options = collection.sort_options | concat: '[{"value":"featured","name":"Featured"}]' | parse_json -%}
-                  {%- for option in sort_options -%}
+                  {%- for option in collection.sort_options -%}
                     <option
                       value="{{ option.value | escape }}"
                       {% if option.value == sort_by %}
                         selected="selected"
                       {% endif %}
                     >
-                      {{ option.name | escape }} 123
+                      {{ option.name | escape }}
                     </option>
                   {%- endfor -%}
                 </select>
