@@ -156,7 +156,7 @@
               {% assign skip_card_product_styles = false %}
               {% if collection.sort_by == "manual" %}
                   {% assign featured_collection = collections['featured'] %}
-                  {{ featured_collection | json }}
+                  {{ featured_collection.product | json }}
               {% else %}  
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
