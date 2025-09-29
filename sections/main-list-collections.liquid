@@ -28,7 +28,7 @@
       class="collection-list grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
       role="list"
     >
-      {%- for collection in collections -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
+      {% comment %} {%- for collection in collections -%}{% comment %}start BSS Commerce Hide Price{% endcomment %}{% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}{% if bss_lock_check contains 'true' %}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}{% comment %}end BSS Commerce Hide Price{% endcomment %}
         <li
           class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
@@ -42,7 +42,118 @@
             columns: 3
           %}
         </li>
-      {%- endfor -%}
+      {%- endfor -%} {% endcomment %}
+       {%- comment -%}
+  ONLY reorder to show featured collections first when "manual" sorting is active.
+  This checks three places where "manual" might come from:
+    - section.settings.sort (if you add a 'manual' option to this section)
+    - request.params.sort_by (if a URL / JS sets sort_by=manual)
+    - collection.sort_by (fallback)
+{%- endcomment -%}
+
+{%- assign featured_tag = 'Featured Collection' -%}
+{%- assign apply_feature_first = false -%}
+
+{%- if section.settings.sort == 'manual' -%}
+  {%- assign apply_feature_first = true -%}
+{%- endif -%}
+
+{%- if request.params.sort_by == 'manual' -%}
+  {%- assign apply_feature_first = true -%}
+{%- endif -%}
+
+{%- comment -%} collection.sort_by is per-collection; not always present for list templates, but check it defensively {%- endcomment -%}
+{%- for _c in collections -%}
+  {%- if _c.sort_by == 'manual' -%}
+    {%- assign apply_feature_first = true -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if apply_feature_first -%}
+  {%- comment -%} render featured collections first, then the rest {%- endcomment -%}
+  {%- assign collection_index = 0 -%}
+
+  {%- comment -%} 1) Featured collections pass {%- endcomment -%}
+  {%- for collection in collections -%}
+    {%- if collection.tags contains featured_tag -%}
+      {% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}
+      {% if bss_lock_check contains 'true' %}
+        <div style="display:none" class="bss-hpc-lock"></div>
+        {% render 'bss-hide-product-design' %}
+        {% continue %}
+      {% endif %}
+
+      {%- assign collection_index = collection_index | plus: 1 -%}
+      <li
+        class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ collection_index }};"
+        {% endif %}
+      >
+        {% render 'card-collection',
+          card_collection: collection,
+          media_aspect_ratio: section.settings.image_ratio,
+          columns: 3
+        %}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%} 2) Non-featured collections pass {%- endcomment -%}
+  {%- for collection in collections -%}
+    {%- unless collection.tags contains featured_tag -%}
+      {% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}
+      {% if bss_lock_check contains 'true' %}
+        <div style="display:none" class="bss-hpc-lock"></div>
+        {% render 'bss-hide-product-design' %}
+        {% continue %}
+      {% endif %}
+
+      {%- assign collection_index = collection_index | plus: 1 -%}
+      <li
+        class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ collection_index }};"
+        {% endif %}
+      >
+        {% render 'card-collection',
+          card_collection: collection,
+          media_aspect_ratio: section.settings.image_ratio,
+          columns: 3
+        %}
+      </li>
+    {%- endunless -%}
+  {%- endfor -%}
+
+{%- else -%}
+  {%- comment -%} No manual sort active — render in original order (keeps original BSS checks) {%- endcomment -%}
+  {%- for collection in collections -%}
+    {% capture bss_lock_check %}{% render 'bss-lock-condition', scope: 'subject', subject: collection, variable: 'transparent' %}{% endcapture %}
+    {%- if bss_lock_check contains 'true' -%}<div style="display:none" class="bss-hpc-lock"></div>{% endif %}
+      <li
+        class="collection-list__item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
+        {% if bss_lock_check contains "true" %}
+          {% render 'bss-hide-product-design' %}
+          {% continue %}
+        {% endif %}
+
+        {% render 'card-collection',
+          card_collection: collection,
+          media_aspect_ratio: section.settings.image_ratio,
+          columns: 3
+        %}
+      </li>
+  {%- endfor -%}
+{%- endif -%}
+
     </ul>
     {% render 'pagination', paginate: paginate %}
   {%- endpaginate -%}
