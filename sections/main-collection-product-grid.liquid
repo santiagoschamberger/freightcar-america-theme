@@ -125,11 +125,10 @@
               {% if collection.sort_by == "manual" %}
               {% assign featured_products = "" | split: "" %}
               {% assign non_featured_products = "" | split: "" %}
-              {{ non_featured_products }}
               
               {% for product in collection.products %}
                 {% assign product_tag_string = product.tags | join: ',' | downcase %}
-                
+                {{ product_tag_string }}
                 {% if product_tag_string contains "featured product" %}
                   {% assign featured_products = featured_products | push: product %}
                 {% else %}
