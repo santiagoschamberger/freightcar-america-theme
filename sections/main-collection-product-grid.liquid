@@ -36,7 +36,9 @@
   }
 {%- endstyle -%}
 
-
+<pre>
+{{ collection | json }}
+</pre>
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
