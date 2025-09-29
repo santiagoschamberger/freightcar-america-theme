@@ -126,6 +126,7 @@
 
               {%- for product in collection.products -%}
                 {%- unless product.tags contains 'featured' -%}
+                  {{ product | json }}
                   {% assign regular_products = regular_products | concat: product %}
                 {%- endunless -%}
               {%- endfor -%}
