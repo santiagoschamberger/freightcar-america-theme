@@ -214,59 +214,216 @@
         {%- endif -%}
 
         {%- comment -%}
-        AJAX Featured Product Sorting Script
+        AJAX Featured Product Sorting Script with JSON API
         {%- endcomment -%}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
             let currentSort = 'default';
-            let originalOrder = null;
+            let originalProducts = null;
+            let featuredProductsData = null;
+            let currentCollectionProducts = null;
+            let currentPage = 1;
+            let productsPerPage = {{ section.settings.products_per_page }};
 
-            // Featured sorting functions
-            function sortProductsByFeatured() {
+            // Store original products data
+            function storeOriginalProducts() {
+              if (!originalProducts) {
+                const productItems = document.querySelectorAll('#product-grid .grid__item');
+                originalProducts = Array.from(productItems).map(item => item.outerHTML);
+
+                // Also store current collection products for merging
+                currentCollectionProducts = [];
+                productItems.forEach(item => {
+                  const productId = item.dataset.productId;
+                  if (productId) {
+                    currentCollectionProducts.push(productId);
+                  }
+                });
+              }
+            }
+
+            // Render product HTML from JSON data
+            function renderProductFromJSON(product, index) {
+              const lazy_load = index > 2;
+              const animation_order = index + 1;
+
+              return `
+                <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: ${animation_order};"
+                    {% endif %}
+                    data-product-id="${product.id}"
+                    data-is-featured="true">
+                  <div class="card-wrapper product-card-wrapper underline-links-hover">
+                    <div class="card card--{{ section.settings.image_shape }}
+                              card--text
+                              {% if product.featured_media == null and section.settings.image_shape == 'arch' %} ratio{% endif %}
+                              color-{{ section.settings.color_scheme }}
+                              gradient"
+                         style="--ratio-percent: 100%;">
+                      <div class="card__inner color-{{ section.settings.color_scheme }} gradient ratio"
+                           style="--ratio-percent: 133.33333333%;">
+                        <div class="card__media">
+                          <div class="media media--transparent media--hover-effect">
+                            ${product.featured_image ? `
+                              <img srcset="${product.featured_image}&width=165 165w,${product.featured_image}&width=360 360w,${product.featured_image}&width=533 533w,${product.featured_image}&width=720 720w,${product.featured_image}&width=940 940w,${product.featured_image}&width=1066 1066w"
+                                   src="${product.featured_image}&width=533"
+                                   sizes="(min-width: 1400px) 347px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                                   alt="${product.title}"
+                                   class="motion-reduce"
+                                   ${lazy_load ? 'loading="lazy"' : ''}
+                                   width="533"
+                                   height="711">
+                            ` : ''}
+                          </div>
+                        </div>
+                        <div class="card__content">
+                          <div class="card__information">
+                            <h3 class="card__heading">
+                              <a href="${product.url}" id="StandardCardNoMediaLink-${product.id}" class="full-unstyled-link" aria-labelledby="StandardCardNoMediaLink-${product.id} NoMediaStandardBadge-${product.id}">
+                                ${product.title}
+                              </a>
+                            </h3>
+                          </div>
+                          <div class="card__badge bottom left"></div>
+                        </div>
+                      </div>
+                      <div class="card__content">
+                        <div class="card__information">
+                          <h3 class="card__heading h5" id="title-${product.id}">
+                            <a href="${product.url}" id="CardLink-${product.id}" class="full-unstyled-link" aria-labelledby="CardLink-${product.id} Badge-${product.id}">
+                              ${product.title}
+                            </a>
+                          </h3>
+                          <div class="card-information">
+                            <span class="caption-large light"></span>
+                            <div class="price">
+                              <div class="price__container">
+                                <div class="price__regular">
+                                  <span class="visually-hidden visually-hidden--inline">Regular price</span>
+                                  <span class="price-item price-item--regular">
+                                    $${(product.price / 100).toFixed(2)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card__badge bottom left">
+                          <span id="Badge-${product.id}" class="badge badge--bottom-left color-accent-2">Featured</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              `;
+            }
+
+            // Load featured products via AJAX
+            function loadFeaturedProducts(callback) {
+              if (featuredProductsData) {
+                callback(featuredProductsData);
+                return;
+              }
+
+              $.ajax({
+                url: '/collections/featured/products.json?limit=250',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                  console.log("Featured products loaded:", data.products.length);
+                  featuredProductsData = data.products;
+                  callback(featuredProductsData);
+                },
+                error: function(err) {
+                  console.error("Error loading featured products", err);
+                  callback([]);
+                }
+              });
+            }
+
+            // Load current collection products via AJAX
+            function loadCurrentCollectionProducts(callback) {
+              const collectionHandle = '{{ collection.handle }}';
+              const currentUrl = `/collections/${collectionHandle}/products.json?limit=250`;
+
+              $.ajax({
+                url: currentUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                  console.log("Current collection products loaded:", data.products.length);
+                  callback(data.products);
+                },
+                error: function(err) {
+                  console.error("Error loading current collection products", err);
+                  callback([]);
+                }
+              });
+            }
+
+            // Merge and render products with featured first
+            function renderFeaturedSorting() {
               const productGrid = document.querySelector('#product-grid');
               if (!productGrid) return;
 
-              const items = Array.from(productGrid.querySelectorAll('.grid__item'));
+              storeOriginalProducts();
 
-              // Store original order if not already stored
-              if (!originalOrder) {
-                originalOrder = items.slice();
-              }
+              // Show loading state
+              productGrid.innerHTML = '<div class="loading-overlay gradient"></div>';
 
-              // Separate featured and non-featured products
-              const featuredItems = items.filter(item => item.dataset.isFeatured === 'true');
-              const nonFeaturedItems = items.filter(item => item.dataset.isFeatured !== 'true');
+              loadFeaturedProducts(function(featuredProducts) {
+                loadCurrentCollectionProducts(function(collectionProducts) {
+                  // Filter current collection products that are also featured
+                  const featuredInCollection = featuredProducts.filter(featuredProduct =>
+                    collectionProducts.some(collectionProduct => collectionProduct.id === featuredProduct.id)
+                  );
 
-              // Clear grid
-              productGrid.innerHTML = '';
+                  // Filter current collection products that are NOT featured
+                  const nonFeaturedInCollection = collectionProducts.filter(collectionProduct =>
+                    !featuredProducts.some(featuredProduct => featuredProduct.id === collectionProduct.id)
+                  );
 
-              // Add featured products first
-              featuredItems.forEach(item => {
-                productGrid.appendChild(item);
+                  // Merge: featured first, then non-featured
+                  const mergedProducts = [...featuredInCollection, ...nonFeaturedInCollection];
+
+                  // Calculate pagination
+                  const totalProducts = mergedProducts.length;
+                  const startIndex = (currentPage - 1) * productsPerPage;
+                  const endIndex = startIndex + productsPerPage;
+                  const paginatedProducts = mergedProducts.slice(startIndex, endIndex);
+
+                  // Render products
+                  let productsHTML = '';
+                  paginatedProducts.forEach((product, index) => {
+                    const isFeatured = featuredInCollection.some(fp => fp.id === product.id);
+                    if (isFeatured) {
+                      productsHTML += renderProductFromJSON(product, index);
+                    } else {
+                      // For non-featured products, try to find original HTML or render from JSON
+                      const originalItem = document.querySelector(`[data-product-id="${product.id}"]`);
+                      if (originalItem) {
+                        productsHTML += originalItem.outerHTML;
+                      } else {
+                        productsHTML += renderProductFromJSON(product, index);
+                      }
+                    }
+                  });
+
+                  productGrid.innerHTML = productsHTML;
+                  updateAnimationOrder();
+                });
               });
-
-              // Add non-featured products after
-              nonFeaturedItems.forEach(item => {
-                productGrid.appendChild(item);
-              });
-
-              // Update animation order
-              updateAnimationOrder();
             }
 
+            // Restore original product order
             function restoreOriginalOrder() {
               const productGrid = document.querySelector('#product-grid');
-              if (!productGrid || !originalOrder) return;
+              if (!productGrid || !originalProducts) return;
 
-              // Clear grid
-              productGrid.innerHTML = '';
-
-              // Restore original order
-              originalOrder.forEach(item => {
-                productGrid.appendChild(item);
-              });
-
-              // Update animation order
+              productGrid.innerHTML = originalProducts.join('');
               updateAnimationOrder();
             }
 
@@ -279,16 +436,14 @@
               });
             }
 
-            // Handle all sort dropdown changes
+            // Handle sort dropdown changes
             function handleSortChange(selectElement) {
               if (selectElement.value === 'featured') {
-                // Prevent default form submission
                 event.preventDefault();
                 event.stopPropagation();
 
-                // Perform AJAX sorting
                 currentSort = 'featured';
-                sortProductsByFeatured();
+                renderFeaturedSorting();
 
                 // Update all select dropdowns to show Featured
                 const allSelects = document.querySelectorAll('select[name="sort_by"]');
@@ -302,16 +457,14 @@
               } else {
                 // Handle switching away from featured
                 if (currentSort === 'featured') {
-                  // Restore original order first
                   restoreOriginalOrder();
                   currentSort = 'default';
                 }
-                // Let Shopify handle normal sorting
                 return true;
               }
             }
 
-            // Attach event listeners to existing sort dropdowns
+            // Attach event listeners
             const sortSelects = document.querySelectorAll('select[name="sort_by"]');
             sortSelects.forEach(select => {
               select.addEventListener('change', function(e) {
@@ -319,7 +472,7 @@
               });
             });
 
-            // Handle dynamically loaded facet forms (for AJAX filtering)
+            // Handle dynamically loaded facet forms
             document.addEventListener('change', function(e) {
               if (e.target && e.target.matches('select[name="sort_by"]') && !e.target.hasAttribute('data-featured-listener')) {
                 e.target.setAttribute('data-featured-listener', 'true');
@@ -336,7 +489,7 @@
             if ((sortParam === 'manual' && collectionHandle === 'frontpage') || sortParam === 'featured') {
               currentSort = 'featured';
               setTimeout(() => {
-                sortProductsByFeatured();
+                renderFeaturedSorting();
                 // Update dropdown to show Featured
                 const sortSelects = document.querySelectorAll('select[name="sort_by"]');
                 sortSelects.forEach(select => {
@@ -348,12 +501,13 @@
             // Handle pagination clicks when on featured sort
             document.addEventListener('click', function(e) {
               if (currentSort === 'featured' && e.target.closest('.pagination a')) {
-                // Let pagination work normally, but reapply featured sorting after page load
-                setTimeout(() => {
-                  if (currentSort === 'featured') {
-                    sortProductsByFeatured();
-                  }
-                }, 500);
+                e.preventDefault();
+                const pageLink = e.target.closest('a').href;
+                const pageMatch = pageLink.match(/page=(\d+)/);
+                if (pageMatch) {
+                  currentPage = parseInt(pageMatch[1]);
+                  renderFeaturedSorting();
+                }
               }
             });
           });
