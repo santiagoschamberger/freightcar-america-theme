@@ -144,7 +144,42 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            <ul
+            {%- comment -%}
+Hidden featured product HTML so JS can clone exact card markup.
+Place this BEFORE the <ul id="product-grid">.
+Change 'featured' if your featured collection handle differs.
+{%- endcomment -%}
+<div id="featured-source" style="display:none;">
+  {%- assign fc = collections['featured'] -%}
+  {%- if fc and fc.products.size > 0 -%}
+    {%- for p in fc.products -%}
+      <div class="featured-source-item" data-featured-handle="{{ p.handle }}">
+        {% render 'card-product',
+          card_product: p,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: false,
+          skip_styles: false,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+<script>
+  // exposed values for JS
+  window.__MERGE_FEATURED_HANDLE = "featured"; /* change if needed */
+  window.__MERGE_COLLECTION_HANDLE = "{{ collection.handle }}";
+  window.__MERGE_PER_PAGE = {{ section.settings.products_per_page | default: 24 }};
+  window.__MERGE_CURRENT_PAGE = {{ paginate.current_page | default: 1 }};
+</script>
+
+            {% comment %} <ul
               id="product-grid"
               data-id="{{ section.id }}"
               class="
@@ -183,7 +218,148 @@
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
                
-            </ul>
+            </ul> {% endcomment %}
+            <ul
+  id="product-grid"
+  data-id="{{ section.id }}"
+  class="
+    grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+    grid--{{ section.settings.columns_desktop }}-col-desktop
+    {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+  "
+>
+  {% assign skip_card_product_styles = false %}
+  {% assign featured_collection = collections['featured'] %}
+
+  {%- comment -%}
+  Determine featured_limit (dynamic) and per_page
+  {%- endcomment -%}
+  {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
+  {% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
+
+  {% if requested_featured_limit > 0 %}
+    {% assign featured_limit = requested_featured_limit %}
+    {% if featured_limit > available_featured %}
+      {% assign featured_limit = available_featured %}
+    {% endif %}
+  {% else %}
+    {% assign featured_limit = available_featured %}
+  {% endif %}
+
+  {% assign per_page = section.settings.products_per_page | plus: 0 %}
+  {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+  {%- comment -%}
+  If we will inject featured on page 1 & manual sort, compute how many normal items we should render:
+    normal_render_limit = per_page - featured_limit (min 0)
+  {%- endcomment -%}
+  {% assign normal_render_limit = per_page %}
+  {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+    {% assign normal_render_limit = per_page | minus: featured_limit %}
+    {% if normal_render_limit < 0 %}{% assign normal_render_limit = 0 %}{% endif %}
+  {% endif %}
+
+  {%- comment -%}
+  Build featured_ids for skipping and render featured (only on page 1 & manual sort)
+  {%- endcomment -%}
+  {% assign featured_ids = '' %}
+  {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
+    {% for f in featured_collection.products limit: featured_limit %}
+      {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
+      {% assign lazy_load = false %}
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
+        {% render 'card-product',
+          card_product: f,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: lazy_load,
+          skip_styles: skip_card_product_styles,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {% assign skip_card_product_styles = true %}
+    {% endfor %}
+  {% endif %}
+
+  {%- comment -%}
+  Now render normal paginated products.
+  - If on page 1 & manual sort: render only first `normal_render_limit` non-featured items (so total = per_page).
+  - Else: render all collection.products (Shopify already paginated them to per_page).
+  {%- endcomment -%}
+  {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+    {% assign normal_count = 0 %}
+    {%- for product in collection.products -%}
+      {% unless featured_ids contains product.id %}
+        {% assign lazy_load = false %}
+        {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+        <li
+          class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index | plus: featured_limit }};"
+          {% endif %}
+        >
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: lazy_load,
+            skip_styles: skip_card_product_styles,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+        {% assign normal_count = normal_count | plus: 1 %}
+        {% if normal_count >= normal_render_limit %}
+          {% break %}
+        {% endif %}
+      {% endunless %}
+    {%- endfor -%}
+  {% else %}
+    {%- for product in collection.products -%}
+      {% assign lazy_load = false %}
+      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: lazy_load,
+          skip_styles: skip_card_product_styles,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {% assign skip_card_product_styles = true %}
+    {%- endfor -%}
+  {% endif %}
+</ul>
+
  
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
@@ -197,6 +373,174 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+<script>
+(function () {
+  var featuredHandle = window.__MERGE_FEATURED_HANDLE || 'featured';
+  var collectionHandle = window.__MERGE_COLLECTION_HANDLE;
+  var perPage = parseInt(window.__MERGE_PER_PAGE || 24, 10);
+  var currentPage = parseInt(window.__MERGE_CURRENT_PAGE || (new URLSearchParams(window.location.search).get('page') || 1), 10);
+
+  var grid = document.getElementById('product-grid');
+  var featuredSource = document.getElementById('featured-source');
+  var paginationWrapper = document.querySelector('.pagination-wrapper') || document.querySelector('[data-pagination]') || document.querySelector('.pagination');
+
+  if (!grid || !collectionHandle) return;
+
+  // fetch up to 250 items (adjust if you have >250)
+  function fetchCollection(handle) {
+    return fetch('/collections/' + handle + '/products.json?limit=250', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw r; return r.json(); })
+      .then(function (json) { return json.products || []; })
+      .catch(function (err) { console.warn('fetch error', handle, err); return []; });
+  }
+
+  // clone pre-rendered li for a handle if exists on page (keeps exact card markup)
+  function cloneRenderedLi(handle) {
+    if (!grid) return null;
+    var nodes = grid.querySelectorAll('li');
+    for (var i = 0; i < nodes.length; i++) {
+      var a = nodes[i].querySelector('a[href*="/products/"]');
+      if (!a) continue;
+      var m = a.getAttribute('href').match(/\/products\/([^\/\?\#]+)/);
+      if (m && m[1] === handle) return nodes[i].cloneNode(true);
+    }
+    // fallback: try featured-source hidden HTML
+    if (featuredSource) {
+      var fs = featuredSource.querySelector('.featured-source-item[data-featured-handle="' + handle + '"]');
+      if (fs) {
+        var wrapper = document.createElement('li');
+        wrapper.className = 'grid__item';
+        // pick inner card markup
+        var inner = fs.firstElementChild || fs;
+        wrapper.innerHTML = inner.outerHTML;
+        return wrapper;
+      }
+    }
+    return null;
+  }
+
+  // build a simple fallback li from product JSON
+  function buildFallbackLi(product) {
+    var li = document.createElement('li');
+    li.className = 'grid__item';
+    var a = document.createElement('a');
+    a.href = '/products/' + product.handle;
+    a.className = 'product-card';
+    var imgWrap = document.createElement('div');
+    imgWrap.className = 'product-card__media';
+    imgWrap.style.minHeight = '120px';
+    imgWrap.style.display = 'flex';
+    imgWrap.style.alignItems = 'center';
+    imgWrap.style.justifyContent = 'center';
+    if (product.images && product.images[0] && product.images[0].src) {
+      var img = document.createElement('img');
+      img.src = product.images[0].src;
+      img.alt = product.title || '';
+      img.style.maxWidth = '100%';
+      imgWrap.appendChild(img);
+    }
+    var meta = document.createElement('div');
+    meta.className = 'product-card__meta';
+    var title = document.createElement('h3');
+    title.className = 'product-card__title';
+    title.textContent = product.title || '';
+    var price = document.createElement('div');
+    price.className = 'product-card__price';
+    var p = (product.variants && product.variants[0]) ? product.variants[0].price : '';
+    price.textContent = p ? (p + '') : '';
+    meta.appendChild(title);
+    meta.appendChild(price);
+    a.appendChild(imgWrap);
+    a.appendChild(meta);
+    li.appendChild(a);
+    return li;
+  }
+
+  Promise.all([
+    fetchCollection(featuredHandle),
+    fetchCollection(collectionHandle)
+  ]).then(function (results) {
+    var featuredProducts = results[0] || [];
+    var collectionProducts = results[1] || [];
+
+    // Build non-featured list by skipping featured handles
+    var featuredSet = {};
+    featuredProducts.forEach(function(p){ if (p && p.handle) featuredSet[p.handle] = true; });
+
+    var nonFeatured = [];
+    collectionProducts.forEach(function(p){
+      if (p && p.handle && !featuredSet[p.handle]) nonFeatured.push(p);
+    });
+
+    // TOTAL pages: page 1 for all featured (if any) + pages for nonFeatured with perPage each
+    var totalPages = 1;
+    if (nonFeatured.length > 0) totalPages = 1 + Math.ceil(nonFeatured.length / perPage);
+
+    // Normalize currentPage bounds
+    if (currentPage < 1) currentPage = 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    // Build DOM nodes to render depending on page
+    var nodes = [];
+
+    if (currentPage === 1) {
+      // show **all featured** on page 1 (in featured order)
+      featuredProducts.forEach(function(fp){
+        var handle = fp.handle;
+        var cloned = cloneRenderedLi(handle);
+        if (cloned) nodes.push(cloned);
+        else nodes.push(buildFallbackLi(fp));
+      });
+    } else {
+      // pages 2.. : show slices of nonFeatured
+      var pageIndex = currentPage - 2; // page 2 => 0
+      var start = pageIndex * perPage;
+      var end = Math.min(start + perPage, nonFeatured.length);
+      for (var i = start; i < end; i++) {
+        var prod = nonFeatured[i];
+        var cloned = cloneRenderedLi(prod.handle);
+        if (cloned) nodes.push(cloned);
+        else nodes.push(buildFallbackLi(prod));
+      }
+    }
+
+    // Replace grid contents
+    grid.innerHTML = '';
+    nodes.forEach(function(n){ grid.appendChild(n); });
+
+    // Rebuild pagination UI (simple numeric)
+    if (paginationWrapper) {
+      var nav = document.createElement('nav');
+      nav.className = 'pagination pagination--merged';
+      var ul = document.createElement('ul');
+      ul.style.listStyle = 'none';
+      ul.style.display = 'flex';
+      ul.style.gap = '8px';
+      for (var p = 1; p <= totalPages; p++) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        // preserve other query params (except page)
+        var url = new URL(window.location.href);
+        url.searchParams.set('page', p);
+        a.href = url.pathname + url.search;
+        a.textContent = p;
+        if (p === currentPage) a.className = 'active';
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+      nav.appendChild(ul);
+      paginationWrapper.innerHTML = '';
+      paginationWrapper.appendChild(nav);
+    }
+
+  }).catch(function (err) {
+    console.error('Merged featured pager error', err);
+  });
+
+})();
+</script>
+
 
 {% schema %}
 {
