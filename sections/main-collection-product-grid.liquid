@@ -190,7 +190,7 @@
               {%- endfor -%}
               
               {%- assign merged_products_ids = featured_products | append: merged_products | split: ',' | uniq -%}
-              {{ all_products | json }}
+              {{ all_products }}
               {%- paginate merged_products_ids by 12 -%}
                 {% for id in merged_products_ids %}
                   {% assign product = all_products[id] %}
