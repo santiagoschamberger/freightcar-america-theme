@@ -243,14 +243,15 @@
               }
             }
 
-            // Create a temporary container to render product using existing card-product snippet
+            // Render complete product card from JSON data
             function renderProductFromJSON(product, index, isFeatured = false) {
               const lazy_load = index > 2;
               const animation_order = index + 1;
+              const imageUrl = product.featured_image || product.images[0] || '';
+              const price = product.price ? (product.price / 100).toFixed(2) : '0.00';
+              const comparePrice = product.compare_at_price ? (product.compare_at_price / 100).toFixed(2) : '';
 
-              // Create temporary element to hold the rendered product
-              const tempDiv = document.createElement('div');
-              tempDiv.innerHTML = `
+              return `
                 <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
@@ -258,10 +259,111 @@
                     {% endif %}
                     data-product-id="${product.id}"
                     ${isFeatured ? 'data-is-featured="true"' : ''}>
-                  <!-- Product card content will be rendered here -->
-                </li>`;
 
-              return tempDiv.innerHTML;
+                  <div class="card-wrapper product-card-wrapper underline-links-hover">
+                    <div class="card card--{{ section.settings.image_shape }}
+                              card--text
+                              {% if product.featured_media == null and section.settings.image_shape == 'arch' %} ratio{% endif %}
+                              color-{{ section.settings.color_scheme }}
+                              gradient"
+                         style="--ratio-percent: 100%;">
+
+                      <div class="card__inner color-{{ section.settings.color_scheme }} gradient ratio"
+                           style="--ratio-percent: 133.33333333%;">
+                        <div class="card__media">
+                          <div class="media media--transparent media--hover-effect">
+                            ${imageUrl ? `
+                              <img srcset="${imageUrl}&width=165 165w,${imageUrl}&width=360 360w,${imageUrl}&width=533 533w,${imageUrl}&width=720 720w,${imageUrl}&width=940 940w,${imageUrl}&width=1066 1066w"
+                                   src="${imageUrl}&width=533"
+                                   sizes="(min-width: 1400px) 347px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                                   alt="${product.title}"
+                                   class="motion-reduce"
+                                   ${lazy_load ? 'loading="lazy"' : ''}
+                                   width="533"
+                                   height="711">
+                            ` : ''}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card__content">
+                        <div class="card__information">
+                          <h3 class="card__heading h5">
+                            <a href="${product.url}" class="full-unstyled-link" aria-labelledby="title-${product.id}">
+                              ${product.title}
+                            </a>
+                          </h3>
+                          <div class="card-information">
+                            {% if section.settings.show_vendor %}
+                              <span class="visually-hidden">Vendor:</span>
+                              <div class="caption-with-letter-spacing light">${product.vendor}</div>
+                            {% endif %}
+                            <div class="price">
+                              <div class="price__container">
+                                ${comparePrice && parseFloat(comparePrice) > parseFloat(price) ? `
+                                  <div class="price__regular">
+                                    <span class="visually-hidden">Regular price</span>
+                                    <span class="price-item price-item--regular">$${comparePrice}</span>
+                                  </div>
+                                  <div class="price__sale">
+                                    <span class="visually-hidden">Sale price</span>
+                                    <span class="price-item price-item--sale price-item--last">$${price}</span>
+                                    <span class="visually-hidden">Regular price</span>
+                                  </div>
+                                ` : `
+                                  <div class="price__regular">
+                                    <span class="visually-hidden">Regular price</span>
+                                    <span class="price-item price-item--regular">$${price}</span>
+                                  </div>
+                                `}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        ${isFeatured ? `
+                          <div class="card__badge bottom left">
+                            <span class="badge badge--bottom-left color-accent-2">Featured</span>
+                          </div>
+                        ` : ''}
+
+                        {% unless section.settings.quick_add == 'none' %}
+                          <div class="quick-add no-js-hidden">
+                            <div class="quick-add__content global-settings-popup" id="QuickAdd-${product.id}">
+                              <form action="/cart/add" id="quick-add-product-form-${product.id}" accept-charset="UTF-8" class="form" enctype="multipart/form-data" novalidate="novalidate" data-type="add-to-cart-form">
+                                <input type="hidden" name="form_type" value="product">
+                                <input type="hidden" name="utf8" value="✓">
+                                <input type="hidden" name="id" value="${product.variants[0]?.id || ''}">
+                                <button
+                                  id="quick-add-product-${product.id}-submit"
+                                  type="submit"
+                                  name="add"
+                                  class="quick-add__btn btn product-form__cart-submit"
+                                  aria-haspopup="dialog"
+                                  aria-labelledby="quick-add-product-${product.id}-submit title-${product.id}"
+                                  data-product-url="${product.url}"
+                                >
+                                  <span>Add to cart</span>
+                                  <div class="loading-overlay__spinner hidden">
+                                    <svg
+                                      aria-hidden="true"
+                                      focusable="false"
+                                      class="spinner"
+                                      viewBox="0 0 66 66"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                                    </svg>
+                                  </div>
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        {% endunless %}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              `;
             }
 
             // Better approach: Use the original DOM elements and just reorder them
@@ -341,47 +443,56 @@
               // Show loading state
               productGrid.innerHTML = '<div class="loading-overlay gradient"></div>';
 
-              // Get current page products (already loaded in DOM)
-              const currentPageProductIds = [];
-              const originalElements = {};
-
-              // Store original elements by product ID
-              if (originalProducts) {
-                const tempContainer = document.createElement('div');
-                originalProducts.forEach(html => {
-                  tempContainer.innerHTML = html;
-                  const element = tempContainer.firstElementChild;
-                  if (element && element.dataset.productId) {
-                    currentPageProductIds.push(parseInt(element.dataset.productId));
-                    originalElements[element.dataset.productId] = element;
-                  }
-                });
-              }
-
               loadFeaturedProducts(function(featuredProducts) {
-                // Get featured product IDs
-                const featuredProductIds = featuredProducts.map(p => p.id);
+                loadCurrentCollectionProducts(function(collectionProducts) {
+                  // Create map of current collection products by ID
+                  const collectionProductsMap = {};
+                  collectionProducts.forEach(product => {
+                    collectionProductsMap[product.id] = product;
+                  });
 
-                // Separate current page products into featured and non-featured
-                const featuredIds = currentPageProductIds.filter(id => featuredProductIds.includes(id));
-                const nonFeaturedIds = currentPageProductIds.filter(id => !featuredProductIds.includes(id));
+                  // Get featured product IDs for quick lookup
+                  const featuredProductIds = featuredProducts.map(p => p.id);
 
-                // Merge: featured first, then non-featured
-                const orderedProductIds = [...featuredIds, ...nonFeaturedIds];
+                  // Separate current collection products into featured and non-featured
+                  const featuredInCollection = [];
+                  const nonFeaturedInCollection = [];
 
-                // Render products using original elements
-                let productsHTML = '';
-                orderedProductIds.forEach((productId, index) => {
-                  const originalElement = originalElements[productId];
-                  const isFeatured = featuredIds.includes(productId);
+                  collectionProducts.forEach(product => {
+                    if (featuredProductIds.includes(product.id)) {
+                      featuredInCollection.push(product);
+                    } else {
+                      nonFeaturedInCollection.push(product);
+                    }
+                  });
 
-                  if (originalElement) {
-                    productsHTML += createProductElement(null, originalElement, index, isFeatured);
-                  }
+                  // Merge: featured first, then non-featured
+                  const mergedProducts = [...featuredInCollection, ...nonFeaturedInCollection];
+
+                  // Calculate pagination
+                  const totalProducts = mergedProducts.length;
+                  const startIndex = (currentPage - 1) * productsPerPage;
+                  const endIndex = startIndex + productsPerPage;
+                  const paginatedProducts = mergedProducts.slice(startIndex, endIndex);
+
+                  // Render products
+                  let productsHTML = '';
+                  paginatedProducts.forEach((product, index) => {
+                    const isFeatured = featuredProductIds.includes(product.id);
+
+                    // Try to find original element first
+                    const originalElement = document.querySelector(`[data-product-id="${product.id}"]`);
+                    if (originalElement) {
+                      productsHTML += createProductElement(product, originalElement, index, isFeatured);
+                    } else {
+                      // Render from JSON data with complete product information
+                      productsHTML += renderProductFromJSON(product, index, isFeatured);
+                    }
+                  });
+
+                  productGrid.innerHTML = productsHTML;
+                  updateAnimationOrder();
                 });
-
-                productGrid.innerHTML = productsHTML;
-                updateAnimationOrder();
               });
             }
 
