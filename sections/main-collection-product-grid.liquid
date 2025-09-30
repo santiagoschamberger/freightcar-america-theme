@@ -184,7 +184,8 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
- <ul
+ 
+            <ul
   id="product-grid"
   data-id="{{ section.id }}"
   class="
@@ -211,7 +212,7 @@
   {% if sort_by == 'manual' %}
 
     {% if paginate.current_page == 1 %}
-      {%- comment -%} Page 1: featured first {%- endcomment -%}
+      {%- comment -%} Page 1: show featured first {%- endcomment -%}
       {% assign normal_limit = per_page | minus: total_featured %}
       {% if normal_limit < 0 %}{% assign normal_limit = 0 %}{% endif %}
 
@@ -256,11 +257,19 @@
       {% endfor %}
 
     {% else %}
-      {%- comment -%} Page 2+: skip featured and paginate normally {%- endcomment -%}
-      {% assign count = 0 %}
-      {% paginate collection.products by per_page %}
-        {% for p in collection.products %}
-          {% unless featured_ids_array contains p.id %}
+      {%- comment -%} Page 2+: show only non-featured products {%- endcomment -%}
+      {% assign non_featured = '' %}
+      {% for p in collection.products %}
+        {% unless featured_ids_array contains p.id %}
+          {% assign non_featured = non_featured | append: p.id | append: ',' %}
+        {% endunless %}
+      {% endfor %}
+      {% assign non_featured_array = non_featured | split: ',' %}
+
+      {% paginate non_featured_array by per_page %}
+        {% for id in non_featured_array %}
+          {% assign p = all_products[id] %}
+          {% if p %}
             <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
               {% render 'card-product',
                 card_product: p,
@@ -275,9 +284,7 @@
                 section_id: section.id %}
             </li>
             {% assign skip_card_product_styles = true %}
-            {% assign count = count | plus: 1 %}
-            {% if count >= per_page %}{% break %}{% endif %}
-          {% endunless %}
+          {% endif %}
         {% endfor %}
       {% endpaginate %}
     {% endif %}
@@ -315,7 +322,6 @@
   {% endif %}
 </ul>
 
-            
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
