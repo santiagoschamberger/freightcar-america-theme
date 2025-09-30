@@ -177,7 +177,6 @@
       {% assign featured_limit = requested_featured_limit %}
     {% endif %}
   {% else %}
-    {%- comment -%} show all available featured items when setting is empty/zero {%- endcomment -%}
     {% assign featured_limit = available_featured %}
   {% endif %}
 
@@ -198,7 +197,6 @@
 
   {%- comment -%}
   Render featured items (only on page 1 and when sort is manual)
-  If featured_limit is 0 nothing renders.
   {%- endcomment -%}
   {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
     {% for product in featured_collection.products limit: featured_limit %}
@@ -231,11 +229,11 @@
 
   {%- comment -%}
   Main collection loop:
-  - If on page 1 & manual sort & featured_limit>0 -> skip featured_ids (prevents duplicates)
+  - If sort is 'manual' and featured_limit>0 -> ALWAYS skip featured_ids (prevents duplicates across pages)
   - Otherwise render normally
   {%- endcomment -%}
   {%- for product in collection.products -%}
-    {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+    {% if sort_by == 'manual' and featured_limit > 0 %}
       {% unless featured_ids contains product.id %}
         {% assign lazy_load = false %}
         {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
