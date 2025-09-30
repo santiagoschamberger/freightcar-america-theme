@@ -193,39 +193,19 @@
       </div>
     </div>
   {%- endpaginate -%} {% endcomment %}
-   {% comment %} START: paste this whole block in place of your existing paginate...endpaginate {% endcomment %}
-{% assign per_page = section.settings.products_per_page | plus: 0 %}
+   {% comment %}
+Final balanced paginate + featured injection.
+Paste this block in place of your current `{% paginate collection.products by section.settings.products_per_page %} ... {% endpaginate %}`.
+{% endcomment %}
 
+{% assign per_page = section.settings.products_per_page | plus: 0 %}
 {%- paginate collection.products by per_page -%}
   {%- comment -%}
-  Debug box (visible on page) — remove after testing
+  Keep filter & sort UI intact (same as original).
+  We'll render up to `per_page` items total:
+   - Page 1 + manual sort: featured (in order) first (up to a safe cap), then non-featured until per_page reached.
+   - Page 2+ or other sorts: render collection.products until per_page reached (Shopify paginated it).
   {%- endcomment -%}
-  {% assign featured_collection = collections['featured'] %}
-  {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
-  {% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
-  {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-
-  <div style="background:#fff; border:3px dashed #f0a; padding:8px; margin:10px 0;">
-    <strong>DEBUG (remove after):</strong>
-    <div>section.settings.products_per_page = <strong>{{ section.settings.products_per_page }}</strong></div>
-    <div>per_page (used) = <strong>{{ per_page }}</strong></div>
-    <div>section.settings.featured_count = <strong>{{ section.settings.featured_count }}</strong></div>
-    <div>requested_featured_limit = <strong>{{ requested_featured_limit }}</strong></div>
-    <div>available_featured (collections['featured'].products.size) = <strong>{{ available_featured }}</strong></div>
-    <div>collection.products.size (items returned by paginate) = <strong>{{ collection.products.size }}</strong></div>
-    <div>paginate.current_page = <strong>{{ paginate.current_page }}</strong></div>
-    <div>collection.sort_by = <strong>{{ sort_by }}</strong></div>
-    <div>featured injected? (will be YES when page=1 & sort=manual & featured_limit>0) =>
-      <strong>
-        {% assign temp_featured_limit = requested_featured_limit %}
-        {% if temp_featured_limit == 0 %}{% assign temp_featured_limit = available_featured %}{% endif %}
-        {% if temp_featured_limit > available_featured %}{% assign temp_featured_limit = available_featured %}{% endif %}
-        {% assign will_inject = false %}
-        {% if paginate.current_page == 1 and sort_by == 'manual' and temp_featured_limit > 0 %}{% assign will_inject = true %}{% endif %}
-        {{ will_inject | upcase }}
-      </strong>
-    </div>
-  </div>
 
   <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
     {{ 'component-facets.css' | asset_url | stylesheet_tag }}
@@ -282,12 +262,15 @@
             "
           >
             {% assign skip_card_product_styles = false %}
-
-            {%- comment -%}
-            Compute the effective featured_limit (use requested or all available), but cap so we never exceed per_page.
-            {%- endcomment -%}
+            {% assign featured_collection = collections['featured'] %}
             {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
             {% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+            {%- comment -%}
+            Compute featured_limit (use explicit setting if provided, otherwise show all available),
+            but **for display** we will cap so the page can't render more than per_page items.
+            {%- endcomment -%}
             {% if requested_featured_limit > 0 %}
               {% assign featured_limit = requested_featured_limit %}
               {% if featured_limit > available_featured %}
@@ -297,20 +280,23 @@
               {% assign featured_limit = available_featured %}
             {% endif %}
 
+            {%- comment -%}
+            Cap featured_limit to per_page (so we never try to display more than per_page)
+            {%- endcomment -%}
             {% if featured_limit > per_page %}
               {% assign featured_limit = per_page %}
             {% endif %}
 
-            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-
             {%- comment -%}
-            We'll keep a running total_displayed and stop rendering once it reaches per_page.
+            Now render:
+             - keep running total_displayed; stop when it reaches per_page.
             {%- endcomment -%}
             {% assign total_displayed = 0 %}
             {% assign featured_ids = '' %}
 
             {%- comment -%}
-            Inject featured first (only on page 1 + manual sort) while not exceeding per_page.
+            1) If we're on page 1 AND sorting is manual (Featured), inject featured items first
+            but stop injecting if we reach per_page.
             {%- endcomment -%}
             {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
               {% for f in featured_collection.products limit: featured_limit %}
@@ -338,7 +324,9 @@
             {% endif %}
 
             {%- comment -%}
-            Now render collection.products (paginated by Shopify). Skip featured_ids and stop at per_page.
+            2) Render items from paginate result (collection.products).
+            Skip featured_ids (to avoid duplicates) and stop once total_displayed == per_page.
+            This guarantees we never render more than per_page items.
             {%- endcomment -%}
             {% for product in collection.products %}
               {% if total_displayed >= per_page %}{% break %}{% endif %}
@@ -394,7 +382,6 @@
     </div>
   </div>
 {%- endpaginate -%}
-{% comment %} END debug-cap paginate block {% endcomment %}
 
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
