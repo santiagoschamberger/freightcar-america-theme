@@ -223,7 +223,7 @@
                 {% assign normal_render_limit = per_page | minus: featured_limit %}
                 {% if normal_render_limit < 0 %}{% assign normal_render_limit = 0 %}{% endif %}
               {% endif %}
-                  {% comment %} {{ normal_render_limit | json }} {% endcomment %}
+                  {{ per_page | json }}
             
               {%- comment -%}
               Build featured_ids for skipping and render featured (only on page 1 & manual sort)
