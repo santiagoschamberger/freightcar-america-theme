@@ -313,7 +313,7 @@
             {%- endif -%}
 
             {%- comment -%}
-            Handle featured sort selection
+            Handle featured sort selection only
             {%- endcomment -%}
             const sortSelects = document.querySelectorAll('select[name="sort_by"]');
             sortSelects.forEach(select => {
@@ -326,16 +326,17 @@
                   currentUrl.searchParams.delete('page'); // Reset to page 1
                   window.location.href = currentUrl.toString();
                   return false;
-                } else {
-                  // Remove featured parameter for other sort options
+                }
+                // For all other options, let Shopify handle it normally
+                // But if we're currently on featured, redirect to clean up URL
+                if (window.location.search.includes('featured=true')) {
+                  e.preventDefault();
                   const currentUrl = new URL(window.location);
-                  if (currentUrl.searchParams.has('featured')) {
-                    currentUrl.searchParams.delete('featured');
-                    currentUrl.searchParams.set('sort_by', e.target.value);
-                    currentUrl.searchParams.delete('page'); // Reset to page 1
-                    window.location.href = currentUrl.toString();
-                    return false;
-                  }
+                  currentUrl.searchParams.delete('featured');
+                  currentUrl.searchParams.set('sort_by', e.target.value);
+                  currentUrl.searchParams.delete('page'); // Reset to page 1
+                  window.location.href = currentUrl.toString();
+                  return false;
                 }
               });
             });
