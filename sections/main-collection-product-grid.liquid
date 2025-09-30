@@ -190,21 +190,27 @@
 {% if sort_by == 'manual' %}
   {%- assign featured_collection = collections['featured'] -%}
   {%- assign featured_products = featured_collection.products -%}
-  {%- assign normal_products = collection.products | reject: "id", featured_products | map: "id" -%}
-  {%- assign normal_products = collection.products | where: "id", normal_products -%}
 
-  {%- assign all_products = featured_products | concat: normal_products -%}
+  {%- comment -%} Get non-featured products {% endcomment -%}
+  {%- assign featured_ids = featured_products | map: 'id' -%}
+  {%- assign non_featured_products = collection.products | reject: "id", featured_ids -%}
+
+  {%- comment -%} Merge arrays: featured first, then non-featured {% endcomment -%}
+  {%- assign all_products = featured_products | concat: non_featured_products -%}
 
   {%- assign total_products = all_products.size -%}
   {%- assign total_pages = total_products | divided_by: per_page %}
-{% assign remainder = total_products | modulo: per_page %}
-{% if remainder > 0 %}
-  {% assign total_pages = total_pages | plus: 1 %}
-{% endif %}
+  {% assign remainder = total_products | modulo: per_page %}
+  {% if remainder > 0 %}
+    {% assign total_pages = total_pages | plus: 1 %}
+  {% endif %}
 
   {% assign current_page = paginate.current_page | default: 1 %}
   {% assign start_index = per_page | times: current_page | minus: per_page %}
   {% assign end_index = start_index | plus: per_page | minus: 1 %}
+
+  {%- comment -%} Hide default Shopify pagination {% endcomment -%}
+  <style>.pagination { display: none; }</style>
 
   <ul
     id="product-grid"
