@@ -151,20 +151,12 @@
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
 {%- comment -%}
-Build non-featured list as product objects
+Build non-featured list
 {%- endcomment -%}
 {% assign featured_ids = '' %}
 {% for f in featured_products %}
   {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
 {% endfor %}
-
-{% assign non_featured_products = '' %}
-{% for p in collection.products %}
-  {% unless featured_ids contains p.id %}
-    {% assign non_featured_products = non_featured_products | append: p.id | append: ',' %}
-  {% endunless %}
-{% endfor %}
-{% assign non_featured_ids = non_featured_products | split: ',' %}
 
 <ul id="product-grid"
   class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
@@ -233,28 +225,25 @@ Build non-featured list as product objects
 
   {%- else -%}
     {%- comment -%}
-    Page 2+ → paginate only non-featured products
+    Page 2+ : show only non-featured (no duplicate featured)
     {%- endcomment -%}
-    {% paginate collection.products by per_page %}
-      {% for p in collection.products %}
-        {% unless featured_ids contains p.id %}
-          <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-            {% render 'card-product',
-              card_product: p,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              lazy_load: false,
-              skip_styles: false,
-              quick_add: section.settings.quick_add,
-              section_id: section.id %}
-          </li>
-        {% endunless %}
-      {% endfor %}
-      {{ paginate | default_pagination }}
-    {% endpaginate %}
+    {% for p in collection.products %}
+      {% unless featured_ids contains p.id %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {% render 'card-product',
+            card_product: p,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: false,
+            skip_styles: false,
+            quick_add: section.settings.quick_add,
+            section_id: section.id %}
+        </li>
+      {% endunless %}
+    {% endfor %}
   {%- endif -%}
 </ul>
 
