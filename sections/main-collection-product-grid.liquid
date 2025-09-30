@@ -197,27 +197,30 @@
 {% endfor %}
 
 {%- comment -%}
-Build full_products array:
-- If manual sort & page 1: featured first
-- Then all non-featured products
+Build full_products array
 {%- endcomment -%}
-
 {% assign full_products = '' | split: ',' %}
 
-{% if sort_by == 'manual' and page == 1 %}
-  {% for f in featured_products %}
-    {% assign full_products = full_products | push: f %}
+{% if sort_by == 'manual' %}
+  {% if page == 1 %}
+    {% for f in featured_products %}
+      {% assign full_products = full_products | push: f %}
+    {% endfor %}
+  {% endif %}
+
+  {% for p in collection.products %}
+    {% unless featured_ids_array contains p.id %}
+      {% assign full_products = full_products | push: p %}
+    {% endunless %}
+  {% endfor %}
+{% else %}
+  {% for p in collection.products %}
+    {% assign full_products = full_products | push: p %}
   {% endfor %}
 {% endif %}
 
-{% for p in collection.products %}
-  {% unless featured_ids_array contains p.id %}
-    {% assign full_products = full_products | push: p %}
-  {% endunless %}
-{% endfor %}
-
 {%- comment -%}
-Slice array for current page
+Slice products for current page
 {%- endcomment -%}
 {% assign start_index = per_page | times: page | minus: per_page %}
 {% assign end_index = start_index | plus: per_page | minus: 1 %}
