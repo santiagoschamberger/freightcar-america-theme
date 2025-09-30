@@ -184,6 +184,18 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
+            <script>
+  window.featuredHandles = [
+    {%- assign fc = collections['featured'] -%}
+    {%- if fc and fc.products.size > 0 -%}
+      {%- for p in fc.products -%}
+        "{{ p.handle }}"{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    {%- endif -%}
+  ];
+  window.perPage = {{ section.settings.products_per_page | default: 24 }};
+</script>
+
             <ul
   id="product-grid"
   data-id="{{ section.id }}"
@@ -338,6 +350,56 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var grid = document.querySelector("#product-grid");
+  if (!grid || !window.featuredHandles) return;
+
+  var featured = window.featuredHandles;
+  var perPage = window.perPage || 24;
+
+  // Find all current page products
+  var items = Array.from(grid.querySelectorAll("li"));
+  if (!items.length) return;
+
+  // Build a map: handle -> li
+  function getHandleFromLi(li) {
+    var a = li.querySelector('a[href*="/products/"]');
+    if (!a) return null;
+    var m = a.getAttribute("href").match(/\/products\/([^\/\?#]+)/);
+    return m ? m[1] : null;
+  }
+
+  var handleToLi = {};
+  items.forEach(function (li) {
+    var h = getHandleFromLi(li);
+    if (h) handleToLi[h] = li;
+  });
+
+  // Rebuild grid in featured-first order
+  var newList = [];
+
+  // 1. Featured that exist on this page
+  featured.forEach(function (fh) {
+    if (handleToLi[fh]) {
+      newList.push(handleToLi[fh]);
+      delete handleToLi[fh]; // avoid duplicates
+    }
+  });
+
+  // 2. Remaining normal products
+  Object.keys(handleToLi).forEach(function (h) {
+    newList.push(handleToLi[h]);
+  });
+
+  // Replace grid content
+  grid.innerHTML = "";
+  newList.forEach(function (li) {
+    grid.appendChild(li);
+  });
+});
+</script>
 
 {% schema %}
 {
