@@ -156,8 +156,14 @@
             >
               {%- assign skip_card_product_styles = false -%}
 
-              {%- comment -%} FEATURED PRODUCTS FIRST {%- endcomment -%}
-              {%- if collection.handle == 'frontpage' and paginate.current_page == 1 -%}
+              {%- comment -%} FEATURED PRODUCTS FIRST (only show when no filters active) {%- endcomment -%}
+              {%- assign has_active_filters = false -%}
+              {%- for filter in collection.filters -%}
+                {%- if filter.active_values.size > 0 -%}
+                  {%- assign has_active_filters = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if collection.handle == 'frontpage' and paginate.current_page == 1 and has_active_filters == false -%}
                 {%- assign feat = collections['featured'] -%}
                 {%- if feat != nil and feat.products.size > 0 -%}
                   {%- for fp in feat.products limit: 35 -%}
