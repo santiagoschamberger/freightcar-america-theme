@@ -197,7 +197,6 @@
   {% assign non_featured_count = non_featured_products.size %}
 
   {% assign total_products = featured_count | plus: non_featured_count %}
-
   {% assign total_pages = total_products | divided_by: per_page %}
   {% assign remainder = total_products | modulo: per_page %}
   {% if remainder > 0 %}
@@ -208,42 +207,42 @@
   {% assign start_index = per_page | times: current_page | minus: per_page %}
   {% assign end_index = start_index | plus: per_page | minus: 1 %}
 
-  {% comment %} Hide Shopify default pagination {% endcomment %}
   <style>.pagination { display: none; }</style>
 
   <ul id="product-grid" data-id="{{ section.id }}" class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %}collection-quick-add-bulk{% endif %}">
-    
+
     {% assign rendered_count = 0 %}
 
-    {% comment %} Calculate which featured products to show on this page {% endcomment %}
+    {% comment %} Render featured products first for this page {% endcomment %}
     {% assign featured_start = start_index %}
     {% assign featured_end = start_index | plus: per_page | minus: 1 %}
-    {% if featured_end > featured_count %}
+    {% if featured_start >= featured_count %}
+      {% assign featured_start = featured_count %}
+    {% endif %}
+    {% if featured_end >= featured_count %}
       {% assign featured_end = featured_count | minus: 1 %}
     {% endif %}
 
     {% for i in (featured_start..featured_end) %}
-      {% if i < featured_count %}
-        {% assign product = featured_products[i] %}
-        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ i }};" {% endif %}>
-          {% render 'card-product',
-            card_product: product,
-            media_aspect_ratio: section.settings.image_ratio,
-            image_shape: section.settings.image_shape,
-            show_secondary_image: section.settings.show_secondary_image,
-            show_vendor: section.settings.show_vendor,
-            show_rating: section.settings.show_rating,
-            lazy_load: rendered_count > 1,
-            skip_styles: false,
-            quick_add: section.settings.quick_add,
-            section_id: section.id
-          %}
-        </li>
-        {% assign rendered_count = rendered_count | plus: 1 %}
-      {% endif %}
+      {% assign product = featured_products[i] %}
+      <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ i }};" {% endif %}>
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: rendered_count > 1,
+          skip_styles: false,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {% assign rendered_count = rendered_count | plus: 1 %}
     {% endfor %}
 
-    {% comment %} Fill remaining slots with non-featured products {% endcomment %}
+    {% comment %} Calculate remaining slots and render non-featured products {% endcomment %}
     {% assign remaining_slots = per_page | minus: rendered_count %}
     {% if remaining_slots > 0 %}
       {% assign non_featured_start = start_index | minus: featured_count %}
@@ -251,7 +250,7 @@
         {% assign non_featured_start = 0 %}
       {% endif %}
       {% assign non_featured_end = non_featured_start | plus: remaining_slots | minus: 1 %}
-      {% if non_featured_end > non_featured_count %}
+      {% if non_featured_end >= non_featured_count %}
         {% assign non_featured_end = non_featured_count | minus: 1 %}
       {% endif %}
 
