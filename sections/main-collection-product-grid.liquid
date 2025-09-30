@@ -144,7 +144,7 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            <script>
+<script>
   window.featuredHandles = [
     {%- assign fc = collections['featured'] -%}
     {%- if fc and fc.products.size > 0 -%}
@@ -155,6 +155,7 @@
   ];
   window.perPage = {{ section.settings.products_per_page | default: 24 }};
 </script>
+
 
            <ul
   id="product-grid"
@@ -218,11 +219,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var perPage = window.perPage || 24;
   var featured = window.featuredHandles;
 
-  // Collect all products currently in the collection
   var items = Array.from(grid.querySelectorAll("li"));
   if (!items.length) return;
 
-  // Map handle → element
   function getHandle(li) {
     var a = li.querySelector('a[href*="/products/"]');
     if (!a) return null;
@@ -239,14 +238,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Merge featured first, then others
   var merged = [];
   var seen = {};
-
   featured.forEach(function (h) {
     if (handleToLi[h] && !seen[h]) {
       merged.push(handleToLi[h]);
       seen[h] = true;
     }
   });
-
   items.forEach(function (li) {
     var h = getHandle(li);
     if (h && !seen[h]) {
@@ -255,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Pagination handling
+  // Pagination
   var urlParams = new URLSearchParams(window.location.search);
   var page = parseInt(urlParams.get("page") || "1", 10);
   if (page < 1) page = 1;
@@ -268,13 +265,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var end = start + perPage;
   var pageItems = merged.slice(start, end);
 
-  // Replace grid
   grid.innerHTML = "";
   pageItems.forEach(function (li) {
     grid.appendChild(li);
   });
 
-  // Rebuild pagination (basic numbers only)
+  // Basic pagination links
   var paginationWrapper = document.querySelector(".pagination-wrapper");
   if (paginationWrapper && totalPages > 1) {
     var nav = document.createElement("nav");
@@ -295,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
+
 
 {% schema %}
 {
