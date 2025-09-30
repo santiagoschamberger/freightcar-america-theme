@@ -38,7 +38,6 @@
 
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
-  {{ section.settings | json }}
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -145,7 +144,7 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            <ul
+            {% comment %} <ul
               id="product-grid"
               data-id="{{ section.id }}"
               class="
@@ -184,7 +183,8 @@
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
                
-            </ul>
+            </ul> {% endcomment %}
+            
  
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
@@ -194,7 +194,6 @@
       </div>
     </div>
   {%- endpaginate -%}
-
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
