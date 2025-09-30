@@ -56,6 +56,9 @@
                   id="SortBy"
                   aria-describedby="a11y-refresh-page-message"
                 >
+                  <option value="featured" {% if sort_by == 'featured' %}selected="selected"{% endif %}>
+                    Featured
+                  </option>
                   {%- for option in collection.sort_options -%}
                     <option
                       value="{{ option.value | escape }}"
@@ -154,6 +157,15 @@
               "
             >
               {% assign skip_card_product_styles = false %}
+
+              {%- comment -%}
+              Get featured collection for product identification
+              {%- endcomment -%}
+              {% assign featured_collection = collections['featured'] %}
+              {%- if featured_collection -%}
+                {% assign featured_product_ids = featured_collection.products | map: 'id' %}
+              {%- endif -%}
+
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
@@ -165,6 +177,10 @@
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                  data-product-id="{{ product.id }}"
+                  {% if featured_collection and featured_product_ids contains product.id %}
+                    data-is-featured="true"
                   {% endif %}
                 >
                   {% render 'card-product',
