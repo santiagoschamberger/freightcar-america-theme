@@ -215,9 +215,9 @@
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
   {%- comment -%}
-  Build featured_ids array for skipping
+  Build featured_ids array with delimiters for exact matching
   {%- endcomment -%}
-  {% assign featured_ids = '' %}
+  {% assign featured_ids = ',' %}
   {% if featured_limit > 0 %}
     {% for f in featured_collection.products limit: featured_limit %}
       {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
@@ -261,7 +261,8 @@
     {%- comment -%}Skip featured products ONLY on page 1 with manual sort{%- endcomment -%}
     {% assign should_skip = false %}
     {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
-      {% if featured_ids contains product.id %}
+      {% assign product_id_check = ',' | append: product.id | append: ',' %}
+      {% if featured_ids contains product_id_check %}
         {% assign should_skip = true %}
       {% endif %}
     {% endif %}
