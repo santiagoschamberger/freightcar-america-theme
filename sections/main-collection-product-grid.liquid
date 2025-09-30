@@ -163,7 +163,18 @@
                 {% assign featured_ids = '' %}
               {% endif %}
 
-              {{ featured_ids | json }}
+
+              {%- comment -%}
+              Featured products first
+              {%- endcomment -%}
+              {% assign featured_products = '' %}
+              {% for product in featured_collection.products %}
+                {% if current_products contains product %}
+                  {% assign featured_products = featured_products | append: product.id | append: ',' %}
+                {% endif %}
+              {% endfor %}
+
+              {{ featured_products | json }}
 
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
