@@ -43,6 +43,12 @@
   {% assign featured_collection_handle = 'featured' %}
   {% assign featured_collection = collections[featured_collection_handle] %}
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+  {%- comment -%}
+  Check for featured parameter in URL
+  {%- endcomment -%}
+  {% if request.url contains 'featured=true' %}
+    {% assign sort_by = 'featured' %}
+  {% endif %}
 
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
@@ -281,32 +287,60 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%}
-        JavaScript for featured products sorting
-        {%- endcomment -%}
-        {%- if sort_by == 'featured' -%}
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            {%- comment -%}
+            Handle featured sorting reordering
+            {%- endcomment -%}
+            {%- if sort_by == 'featured' -%}
               const productGrid = document.querySelector('#product-grid');
-              if (!productGrid) return;
+              if (productGrid) {
+                const items = Array.from(productGrid.querySelectorAll('.grid__item[data-featured-order]'));
+                if (items.length > 0) {
+                  // Sort items by featured order (negative numbers first)
+                  items.sort((a, b) => {
+                    const orderA = parseInt(a.dataset.featuredOrder);
+                    const orderB = parseInt(b.dataset.featuredOrder);
+                    return orderA - orderB;
+                  });
 
-              const items = Array.from(productGrid.querySelectorAll('.grid__item[data-featured-order]'));
-              if (items.length === 0) return;
+                  // Reorder in DOM
+                  items.forEach(item => {
+                    productGrid.appendChild(item);
+                  });
+                }
+              }
+            {%- endif -%}
 
-              // Sort items by featured order (negative numbers first)
-              items.sort((a, b) => {
-                const orderA = parseInt(a.dataset.featuredOrder);
-                const orderB = parseInt(b.dataset.featuredOrder);
-                return orderA - orderB;
-              });
-
-              // Reorder in DOM
-              items.forEach(item => {
-                productGrid.appendChild(item);
+            {%- comment -%}
+            Handle featured sort selection
+            {%- endcomment -%}
+            const sortSelects = document.querySelectorAll('select[name="sort_by"]');
+            sortSelects.forEach(select => {
+              select.addEventListener('change', function(e) {
+                if (e.target.value === 'featured') {
+                  e.preventDefault();
+                  const currentUrl = new URL(window.location);
+                  currentUrl.searchParams.delete('sort_by');
+                  currentUrl.searchParams.set('featured', 'true');
+                  currentUrl.searchParams.delete('page'); // Reset to page 1
+                  window.location.href = currentUrl.toString();
+                  return false;
+                } else {
+                  // Remove featured parameter for other sort options
+                  const currentUrl = new URL(window.location);
+                  if (currentUrl.searchParams.has('featured')) {
+                    currentUrl.searchParams.delete('featured');
+                    currentUrl.searchParams.set('sort_by', e.target.value);
+                    currentUrl.searchParams.delete('page'); // Reset to page 1
+                    window.location.href = currentUrl.toString();
+                    return false;
+                  }
+                }
               });
             });
-          </script>
-        {%- endif -%}
+          });
+        </script>
       </div>
     </div>
   {%- endpaginate -%}
