@@ -145,6 +145,153 @@
           >
             <div class="loading-overlay gradient"></div>
             <ul
+  id="product-grid"
+  data-id="{{ section.id }}"
+  class="
+    grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+    grid--{{ section.settings.columns_desktop }}-col-desktop
+    {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+  "
+>
+  {% assign skip_card_product_styles = false %}
+  {% assign featured_collection = collections['featured'] %}
+
+  {%- comment -%}
+  Dynamic featured limit behavior:
+  - If section.settings.featured_count is set (>0): use that (but not more than available).
+  - If it's not set (or set to 0) => show ALL products in the featured collection (dynamic).
+  {%- endcomment -%}
+  {% assign requested_featured_limit = section.settings.featured_count | default: 0 %}
+  {% assign requested_featured_limit = requested_featured_limit | plus: 0 %} {# ensure numeric #}
+
+  {% if featured_collection %}
+    {% assign available_featured = featured_collection.products.size | plus: 0 %}
+  {% else %}
+    {% assign available_featured = 0 %}
+  {% endif %}
+
+  {% if requested_featured_limit > 0 %}
+    {% if requested_featured_limit > available_featured %}
+      {% assign featured_limit = available_featured %}
+    {% else %}
+      {% assign featured_limit = requested_featured_limit %}
+    {% endif %}
+  {% else %}
+    {%- comment -%} show all available featured items when setting is empty/zero {%- endcomment -%}
+    {% assign featured_limit = available_featured %}
+  {% endif %}
+
+  {%- comment -%}
+  Build featured_ids by product id up to featured_limit
+  {%- endcomment -%}
+  {% assign featured_ids = '' %}
+  {% if featured_limit > 0 %}
+    {% for f in featured_collection.products limit: featured_limit %}
+      {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
+    {% endfor %}
+  {% endif %}
+
+  {%- comment -%}
+  Determine current sort. 'manual' = Featured default
+  {%- endcomment -%}
+  {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+  {%- comment -%}
+  Render featured items (only on page 1 and when sort is manual)
+  If featured_limit is 0 nothing renders.
+  {%- endcomment -%}
+  {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
+    {% for product in featured_collection.products limit: featured_limit %}
+      {% assign lazy_load = false %}
+      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: lazy_load,
+          skip_styles: skip_card_product_styles,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {% assign skip_card_product_styles = true %}
+    {% endfor %}
+  {% endif %}
+
+  {%- comment -%}
+  Main collection loop:
+  - If on page 1 & manual sort & featured_limit>0 -> skip featured_ids (prevents duplicates)
+  - Otherwise render normally
+  {%- endcomment -%}
+  {%- for product in collection.products -%}
+    {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+      {% unless featured_ids contains product.id %}
+        {% assign lazy_load = false %}
+        {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+        <li
+          class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: lazy_load,
+            skip_styles: skip_card_product_styles,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+      {% endunless %}
+    {% else %}
+      {% assign lazy_load = false %}
+      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
+
+      <li
+        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+          style="--animation-order: {{ forloop.index }};"
+        {% endif %}
+      >
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: lazy_load,
+          skip_styles: skip_card_product_styles,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+      {% assign skip_card_product_styles = true %}
+    {% endif %}
+  {%- endfor -%}
+</ul>
+
+            {% comment %} <ul
               id="product-grid"
               data-id="{{ section.id }}"
               class="
@@ -183,7 +330,7 @@
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
                
-            </ul>
+            </ul> {% endcomment %}
  
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
