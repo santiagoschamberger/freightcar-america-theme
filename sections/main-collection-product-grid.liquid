@@ -157,13 +157,14 @@
               {% assign featured_collection_handle = 'featured' %}
               {% assign featured_collection = collections[featured_collection_handle] %}
 
-              {{ featured_collection | json }}
-
               {% if featured_collection %}
                 {% assign featured_ids = featured_collection.products | map: 'id' %}
               {% else %}
                 {% assign featured_ids = '' %}
               {% endif %}
+
+              {{ featured_ids | json }}
+
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
