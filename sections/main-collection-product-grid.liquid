@@ -203,7 +203,6 @@
   {% assign featured_collection = collections['featured'] %}
   {% assign per_page = section.settings.products_per_page | plus: 0 %}
 
-  ...  ← (all the assign / featured_ids / non_featured logic from my block)
 
   {%- paginate non_featured by per_page -%}
     <ul id="product-grid"
