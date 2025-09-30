@@ -169,7 +169,7 @@ Make featured_ids an array (safe for checking)
     {%- if paginate.current_page == 1 -%}
       
       {%- if total_featured >= per_page -%}
-        {#-- Show ALL featured on page 1 --#}
+
         {% for f in featured_products %}
           <li class="grid__item">
             {% render 'card-product', card_product: f, section_id: section.id %}
@@ -197,7 +197,7 @@ Make featured_ids an array (safe for checking)
       {%- endif -%}
     
     {%- else -%}
-      {#-- Page 2+ : only non-featured, still per_page limit applies --#}
+
       {% assign non_featured = '' %}
       {% for p in collection.products %}
         {% unless featured_ids_array contains p.id %}
@@ -219,7 +219,7 @@ Make featured_ids an array (safe for checking)
     {%- endif -%}
   
   {% else %}
-    {#-- Not manual sort → just run Shopify’s normal paginate --#}
+
     {% for p in collection.products %}
       <li class="grid__item">
         {% render 'card-product', card_product: p, section_id: section.id %}
