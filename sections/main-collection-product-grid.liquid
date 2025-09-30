@@ -181,7 +181,7 @@ Now build a merged array: featured first, then rest
 {%- endfor -%}
 
 {%- assign merged_products_ids = featured_products | append: merged_products | split: ',' | uniq -%}
-
+{{ all_products | json }}
 {%- paginate merged_products_ids by 12 -%}
   <ul
     id="product-grid"
