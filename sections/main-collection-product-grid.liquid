@@ -150,82 +150,81 @@
 {% assign per_page = section.settings.products_per_page | plus: 0 %}
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
-{%- comment -%}
-Make featured_ids an array (safe for checking)
-{%- endcomment -%}
-{% assign featured_ids_array = '' %}
-{% for f in featured_products %}
-  {% assign featured_ids_array = featured_ids_array | append: f.id | append: '|' %}
-{% endfor %}
-{% assign featured_ids_array = featured_ids_array | split: '|' %}
-
 <ul id="product-grid"
-  class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-         grid--{{ section.settings.columns_desktop }}-col-desktop
-         {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}">
+    class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+           grid--{{ section.settings.columns_desktop }}-col-desktop
+           {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}">
 
-  {% if sort_by == 'manual' %}
+{% if sort_by == 'manual' %}
+  
+  {%- comment -%} Manual sort: handle featured products special logic {%- endcomment -%}
+  {% assign featured_ids_array = '' | split: ',' %}
+  {% for f in featured_products %}
+    {% assign featured_ids_string = featured_ids_string | append: f.id | append: ',' %}
+  {% endfor %}
+
+  {% if paginate.current_page == 1 %}
     
-    {%- if paginate.current_page == 1 -%}
-      
-      {%- if total_featured >= per_page -%}
-
-        {% for f in featured_products %}
-          <li class="grid__item">
-            {% render 'card-product', card_product: f, section_id: section.id %}
-          </li>
-        {% endfor %}
-      
-      {%- else -%}
-        {#-- Show featured + fill with non-featured up to per_page --#}
-        {% for f in featured_products %}
-          <li class="grid__item">
-            {% render 'card-product', card_product: f, section_id: section.id %}
-          </li>
-        {% endfor %}
-        
-        {% assign needed = per_page | minus: total_featured %}
-        {% for p in collection.products %}
-          {% unless featured_ids_array contains p.id %}
-            <li class="grid__item">
-              {% render 'card-product', card_product: p, section_id: section.id %}
-            </li>
-            {% assign needed = needed | minus: 1 %}
-            {% if needed <= 0 %}{% break %}{% endif %}
-          {% endunless %}
-        {% endfor %}
-      {%- endif -%}
+    {% if total_featured >= per_page %}
+      {# Show all featured #}
+      {% for f in featured_products %}
+        <li class="grid__item">
+          {% render 'card-product', card_product: f, section_id: section.id %}
+        </li>
+      {% endfor %}
     
-    {%- else -%}
+    {% else %}
+      {# Show featured + fill up with non-featured #}
+      {% for f in featured_products %}
+        <li class="grid__item">
+          {% render 'card-product', card_product: f, section_id: section.id %}
+        </li>
+      {% endfor %}
 
-      {% assign non_featured = '' %}
+      {% assign needed = per_page | minus: total_featured %}
       {% for p in collection.products %}
         {% unless featured_ids_array contains p.id %}
-          {% assign non_featured = non_featured | append: p.id | append: ',' %}
+          <li class="grid__item">
+            {% render 'card-product', card_product: p, section_id: section.id %}
+          </li>
+          {% assign needed = needed | minus: 1 %}
+          {% if needed <= 0 %}{% break %}{% endif %}
         {% endunless %}
       {% endfor %}
-      {% assign non_featured_array = non_featured | split: ',' %}
-      
-      {% paginate non_featured_array by per_page %}
-        {% for id in non_featured_array %}
-          {% assign p = all_products[id] %}
-          {% if p %}
-            <li class="grid__item">
-              {% render 'card-product', card_product: p, section_id: section.id %}
-            </li>
-          {% endif %}
-        {% endfor %}
-      {% endpaginate %}
-    {%- endif -%}
+    {% endif %}
   
   {% else %}
-
+    {# Page 2+ : paginate only non-featured products #}
+    {% assign non_featured = '' %}
     {% for p in collection.products %}
-      <li class="grid__item">
-        {% render 'card-product', card_product: p, section_id: section.id %}
-      </li>
+      {% unless featured_ids_array contains p.id %}
+        {% assign non_featured = non_featured | append: p.id | append: ',' %}
+      {% endunless %}
     {% endfor %}
+    {% assign non_featured_array = non_featured | split: ',' %}
+    
+    {% paginate non_featured_array by per_page %}
+      {% for id in non_featured_array %}
+        {% assign p = all_products[id] %}
+        {% if p %}
+          <li class="grid__item">
+            {% render 'card-product', card_product: p, section_id: section.id %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
   {% endif %}
+
+{% else %}
+  
+  {%- comment -%} Other sorts / filters: use Shopify default pagination & sorting {%- endcomment -%}
+  {% for p in collection.products %}
+    <li class="grid__item">
+      {% render 'card-product', card_product: p, section_id: section.id %}
+    </li>
+  {% endfor %}
+
+{% endif %}
 </ul>
 
  
