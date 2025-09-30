@@ -37,7 +37,7 @@
 {%- endstyle -%}
 
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+{% comment %} <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -98,7 +98,7 @@
       </facet-filters-form>
     {%- endif -%}
 
-    <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+    {% comment %} <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
@@ -191,12 +191,65 @@
           </div>
         {%- endif -%}
       </div>
-    </div>
+    </div> {% endcomment %}
   {%- endpaginate -%}
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
+</div> {% endcomment %}
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+
+  {%- comment -%} Featured + Non-Featured merged pagination {%- endcomment -%}
+  {% assign featured_collection = collections['featured'] %}
+  {% assign per_page = section.settings.products_per_page | plus: 0 %}
+
+  ...  ← (all the assign / featured_ids / non_featured logic from my block)
+
+  {%- paginate non_featured by per_page -%}
+    <ul id="product-grid"
+      class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop">
+
+      {%- if paginate.current_page == 1 -%}
+        <!-- Featured -->
+        {% for f in featured_collection.products %}
+          <li class="grid__item">
+            {% render 'card-product', card_product: f, ... %}
+          </li>
+        {% endfor %}
+
+        <!-- Fill with non-featured if featured < per_page -->
+        {% if fill_count > 0 %}
+          {% for handle in non_featured limit: fill_count %}
+            {% assign p = all_products[handle] %}
+            {% if p %}
+              <li class="grid__item">
+                {% render 'card-product', card_product: p, ... %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% else %}
+        <!-- Later pages -->
+        {% assign start_index = non_featured_offset | plus: 0 %}
+        {% assign end_index = start_index | plus: per_page %}
+        {% for handle in non_featured %}
+          {% if forloop.index0 >= start_index and forloop.index0 < end_index %}
+            {% assign p = all_products[handle] %}
+            {% if p %}
+              <li class="grid__item">
+                {% render 'card-product', card_product: p, ... %}
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    {% render 'pagination', paginate: paginate %}
+  {% endpaginate %}
+
 </div>
+
 
 {% schema %}
 {
