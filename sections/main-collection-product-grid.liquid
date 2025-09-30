@@ -184,6 +184,132 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
+            {% assign per_page = section.settings.products_per_page | plus: 0 %}
+{% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+{%- comment -%}
+  Determine featured products and normal products
+{%- endcomment -%}
+{% assign featured_collection = collections['featured'] %}
+{% assign featured_ids = featured_collection.products | map: 'id' %}
+{% assign normal_products = collection.products | reject: "id", featured_ids %}
+
+{%- comment -%}
+  Hide Shopify pagination if manual sort
+{%- endcomment -%}
+{% if sort_by == 'manual' %}
+  <style>
+    .pagination { display: none; }
+  </style>
+
+  {%- comment -%}
+    Pagination calculations
+  {%- endcomment -%}
+  {% assign total_featured = featured_ids.size %}
+  {% assign total_normal = normal_products.size %}
+  {% assign total_products = total_featured | plus: total_normal %}
+  {% assign total_pages = total_products | divided_by: per_page %}
+
+  {% assign current_page = paginate.current_page | default: 1 %}
+  {% assign start_index = per_page | times: current_page | minus: per_page %}
+  {% assign end_index = start_index | plus: per_page | minus: 1 %}
+
+  <ul
+    id="product-grid"
+    data-id="{{ section.id }}"
+    class="
+      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+      grid--{{ section.settings.columns_desktop }}-col-desktop
+      {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+    "
+  >
+    {%- assign rendered_count = 0 -%}
+
+    {%- comment -%} Render featured products first {% endcomment -%}
+    {% for product in featured_collection.products %}
+      {% if forloop.index0 >= start_index and rendered_count < per_page %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: rendered_count > 1,
+            skip_styles: false,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign rendered_count = rendered_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {%- comment -%} Append normal products if featured products are less than per_page {% endcomment -%}
+    {% for product in normal_products %}
+      {% if rendered_count < per_page %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: rendered_count > 1,
+            skip_styles: false,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign rendered_count = rendered_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {%- comment -%} Add custom pagination {% endcomment -%}
+  <div class="custom-pagination">
+    {% for i in (1..total_pages) %}
+      <a href="{{ collection.url }}?sort_by=manual&page={{ i }}"
+         class="{% if i == current_page %}active{% endif %}">{{ i }}</a>
+    {% endfor %}
+  </div>
+
+{% else %}
+  {%- comment -%} Normal Shopify pagination {% endcomment -%}
+  <ul
+    id="product-grid"
+    data-id="{{ section.id }}"
+    class="
+      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+      grid--{{ section.settings.columns_desktop }}-col-desktop
+      {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+    "
+  >
+    {% for product in collection.products %}
+      <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+        {% render 'card-product',
+          card_product: product,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: forloop.index > 2,
+          skip_styles: false,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </li>
+    {% endfor %}
+  </ul>
+  {{ paginate | default: '' }}
+{% endif %}
+
  
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
