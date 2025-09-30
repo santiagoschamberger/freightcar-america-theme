@@ -188,18 +188,17 @@
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
 {% if sort_by == 'manual' %}
-  {%- assign featured_collection = collections['featured'] -%}
-  {%- assign featured_products = featured_collection.products -%}
+  {% assign featured_collection = collections['featured'] %}
+  {% assign featured_products = featured_collection.products %}
+  {% assign featured_ids = featured_products | map: 'id' %}
 
-  {%- comment -%} Get non-featured products {% endcomment -%}
-  {%- assign featured_ids = featured_products | map: 'id' -%}
-  {%- assign non_featured_products = collection.products | reject: "id", featured_ids -%}
+  {% assign non_featured_products = collection.products | reject: "id", featured_ids %}
 
-  {%- comment -%} Merge arrays: featured first, then non-featured {% endcomment -%}
-  {%- assign all_products = featured_products | concat: non_featured_products -%}
+  {% assign total_featured = featured_products.size %}
+  {% assign total_non_featured = non_featured_products.size %}
+  {% assign total_products = total_featured | plus: total_non_featured %}
 
-  {%- assign total_products = all_products.size -%}
-  {%- assign total_pages = total_products | divided_by: per_page %}
+  {% assign total_pages = total_products | divided_by: per_page %}
   {% assign remainder = total_products | modulo: per_page %}
   {% if remainder > 0 %}
     {% assign total_pages = total_pages | plus: 1 %}
@@ -209,7 +208,7 @@
   {% assign start_index = per_page | times: current_page | minus: per_page %}
   {% assign end_index = start_index | plus: per_page | minus: 1 %}
 
-  {%- comment -%} Hide default Shopify pagination {% endcomment -%}
+  {% comment %} Hide default Shopify pagination {% endcomment %}
   <style>.pagination { display: none; }</style>
 
   <ul
@@ -221,8 +220,11 @@
       {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
     "
   >
-    {%- for product in all_products %}
-      {% if forloop.index0 >= start_index and forloop.index0 <= end_index %}
+    {% assign rendered_count = 0 %}
+
+    {% comment %} Render featured products for this page {% endcomment %}
+    {% for product in featured_products %}
+      {% if forloop.index0 >= start_index and rendered_count < per_page %}
         <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
           {% render 'card-product',
@@ -232,17 +234,40 @@
             show_secondary_image: section.settings.show_secondary_image,
             show_vendor: section.settings.show_vendor,
             show_rating: section.settings.show_rating,
-            lazy_load: forloop.index > 2,
+            lazy_load: rendered_count > 1,
             skip_styles: false,
             quick_add: section.settings.quick_add,
             section_id: section.id
           %}
         </li>
+        {% assign rendered_count = rendered_count | plus: 1 %}
       {% endif %}
-    {%- endfor -%}
+    {% endfor %}
+
+    {% comment %} Append non-featured products if page is not full {% endcomment %}
+    {% for product in non_featured_products %}
+      {% if rendered_count < per_page %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+          {% render 'card-product',
+            card_product: product,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: rendered_count > 1,
+            skip_styles: false,
+            quick_add: section.settings.quick_add,
+            section_id: section.id
+          %}
+        </li>
+        {% assign rendered_count = rendered_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
   </ul>
 
-  {%- comment -%} Custom pagination {% endcomment -%}
+  {% comment %} Custom pagination {% endcomment %}
   <div class="custom-pagination">
     {% for i in (1..total_pages) %}
       <a href="{{ collection.url }}?sort_by=manual&page={{ i }}"
@@ -251,7 +276,7 @@
   </div>
 
 {% else %}
-  {%- comment -%} Normal Shopify listing {% endcomment -%}
+  {% comment %} Normal Shopify listing {% endcomment %}
   <ul
     id="product-grid"
     data-id="{{ section.id }}"
