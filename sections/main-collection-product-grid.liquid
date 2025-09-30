@@ -190,13 +190,13 @@
 {% if sort_by == 'manual' %}
   {% assign featured_collection = collections['featured'] %}
   {% assign featured_products = featured_collection.products %}
+  {% assign featured_count = featured_products.size %}
+
   {% assign featured_ids = featured_products | map: 'id' %}
-
   {% assign non_featured_products = collection.products | reject: "id", featured_ids %}
+  {% assign non_featured_count = non_featured_products.size %}
 
-  {% assign total_featured = featured_products.size %}
-  {% assign total_non_featured = non_featured_products.size %}
-  {% assign total_products = total_featured | plus: total_non_featured %}
+  {% assign total_products = featured_count | plus: non_featured_count %}
 
   {% assign total_pages = total_products | divided_by: per_page %}
   {% assign remainder = total_products | modulo: per_page %}
@@ -208,25 +208,24 @@
   {% assign start_index = per_page | times: current_page | minus: per_page %}
   {% assign end_index = start_index | plus: per_page | minus: 1 %}
 
-  {% comment %} Hide default Shopify pagination {% endcomment %}
+  {% comment %} Hide Shopify default pagination {% endcomment %}
   <style>.pagination { display: none; }</style>
 
-  <ul
-    id="product-grid"
-    data-id="{{ section.id }}"
-    class="
-      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-      grid--{{ section.settings.columns_desktop }}-col-desktop
-      {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-    "
-  >
+  <ul id="product-grid" data-id="{{ section.id }}" class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %}collection-quick-add-bulk{% endif %}">
+    
     {% assign rendered_count = 0 %}
 
-    {% comment %} Render featured products for this page {% endcomment %}
-    {% for product in featured_products %}
-      {% if forloop.index0 >= start_index and rendered_count < per_page %}
-        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+    {% comment %} Calculate which featured products to show on this page {% endcomment %}
+    {% assign featured_start = start_index %}
+    {% assign featured_end = start_index | plus: per_page | minus: 1 %}
+    {% if featured_end > featured_count %}
+      {% assign featured_end = featured_count | minus: 1 %}
+    {% endif %}
+
+    {% for i in (featured_start..featured_end) %}
+      {% if i < featured_count %}
+        {% assign product = featured_products[i] %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ i }};" {% endif %}>
           {% render 'card-product',
             card_product: product,
             media_aspect_ratio: section.settings.image_ratio,
@@ -244,11 +243,21 @@
       {% endif %}
     {% endfor %}
 
-    {% comment %} Append non-featured products if page is not full {% endcomment %}
-    {% for product in non_featured_products %}
-      {% if rendered_count < per_page %}
-        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+    {% comment %} Fill remaining slots with non-featured products {% endcomment %}
+    {% assign remaining_slots = per_page | minus: rendered_count %}
+    {% if remaining_slots > 0 %}
+      {% assign non_featured_start = start_index | minus: featured_count %}
+      {% if non_featured_start < 0 %}
+        {% assign non_featured_start = 0 %}
+      {% endif %}
+      {% assign non_featured_end = non_featured_start | plus: remaining_slots | minus: 1 %}
+      {% if non_featured_end > non_featured_count %}
+        {% assign non_featured_end = non_featured_count | minus: 1 %}
+      {% endif %}
+
+      {% for i in (non_featured_start..non_featured_end) %}
+        {% assign product = non_featured_products[i] %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ i }};" {% endif %}>
           {% render 'card-product',
             card_product: product,
             media_aspect_ratio: section.settings.image_ratio,
@@ -263,32 +272,23 @@
           %}
         </li>
         {% assign rendered_count = rendered_count | plus: 1 %}
-      {% endif %}
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
+
   </ul>
 
   {% comment %} Custom pagination {% endcomment %}
   <div class="custom-pagination">
     {% for i in (1..total_pages) %}
-      <a href="{{ collection.url }}?sort_by=manual&page={{ i }}"
-         class="{% if i == current_page %}active{% endif %}">{{ i }}</a>
+      <a href="{{ collection.url }}?sort_by=manual&page={{ i }}" class="{% if i == current_page %}active{% endif %}">{{ i }}</a>
     {% endfor %}
   </div>
 
 {% else %}
   {% comment %} Normal Shopify listing {% endcomment %}
-  <ul
-    id="product-grid"
-    data-id="{{ section.id }}"
-    class="
-      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-      grid--{{ section.settings.columns_desktop }}-col-desktop
-      {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-    "
-  >
+  <ul id="product-grid" data-id="{{ section.id }}" class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop {% if section.settings.quick_add == 'bulk' %}collection-quick-add-bulk{% endif %}">
     {% for product in collection.products %}
-      <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
+      <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};" {% endif %}>
         {% render 'card-product',
           card_product: product,
           media_aspect_ratio: section.settings.image_ratio,
