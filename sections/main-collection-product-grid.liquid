@@ -418,3 +418,33 @@
   ]
 }
 {% endschema %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // only run on collection pages
+  var grid = document.querySelector("#product-grid");
+  if (!grid) return;
+
+  // Example: use products tagged 'featured' → add a data-featured attr in Liquid
+  var featuredItems = grid.querySelectorAll("li[data-featured='true']");
+
+  if (featuredItems.length > 0) {
+    // only on page 1 (check URL for "page=" param)
+    var urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has("page") || urlParams.get("page") === "1") {
+      featuredItems.forEach(function (item) {
+        // clone node to top
+        var clone = item.cloneNode(true);
+        grid.insertBefore(clone, grid.firstChild);
+
+        // remove original occurrence (to prevent duplicates)
+        item.remove();
+      });
+    } else {
+      // if page > 1 → remove featured so they don't show again
+      featuredItems.forEach(function (item) {
+        item.remove();
+      });
+    }
+  }
+});
+</script>
