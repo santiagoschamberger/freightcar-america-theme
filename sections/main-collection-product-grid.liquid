@@ -206,6 +206,134 @@
             {%- endif -%}
           </div>
         {%- endif -%}
+
+        {%- comment -%}
+        AJAX Featured Product Sorting Script
+        {%- endcomment -%}
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            let currentSort = 'default';
+            let originalOrder = null;
+
+            // Featured sorting functions
+            function sortProductsByFeatured() {
+              const productGrid = document.querySelector('#product-grid');
+              if (!productGrid) return;
+
+              const items = Array.from(productGrid.querySelectorAll('.grid__item'));
+
+              // Store original order if not already stored
+              if (!originalOrder) {
+                originalOrder = items.slice();
+              }
+
+              // Separate featured and non-featured products
+              const featuredItems = items.filter(item => item.dataset.isFeatured === 'true');
+              const nonFeaturedItems = items.filter(item => item.dataset.isFeatured !== 'true');
+
+              // Clear grid
+              productGrid.innerHTML = '';
+
+              // Add featured products first
+              featuredItems.forEach(item => {
+                productGrid.appendChild(item);
+              });
+
+              // Add non-featured products after
+              nonFeaturedItems.forEach(item => {
+                productGrid.appendChild(item);
+              });
+
+              // Update animation order
+              updateAnimationOrder();
+            }
+
+            function restoreOriginalOrder() {
+              const productGrid = document.querySelector('#product-grid');
+              if (!productGrid || !originalOrder) return;
+
+              // Clear grid
+              productGrid.innerHTML = '';
+
+              // Restore original order
+              originalOrder.forEach(item => {
+                productGrid.appendChild(item);
+              });
+
+              // Update animation order
+              updateAnimationOrder();
+            }
+
+            function updateAnimationOrder() {
+              const items = document.querySelectorAll('#product-grid .grid__item');
+              items.forEach((item, index) => {
+                if (item.style) {
+                  item.style.setProperty('--animation-order', index + 1);
+                }
+              });
+            }
+
+            // Handle all sort dropdown changes
+            function handleSortChange(selectElement) {
+              if (selectElement.value === 'featured') {
+                // Prevent default form submission
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Perform AJAX sorting
+                currentSort = 'featured';
+                sortProductsByFeatured();
+
+                // Update all select dropdowns to show Featured
+                const allSelects = document.querySelectorAll('select[name="sort_by"]');
+                allSelects.forEach(select => {
+                  if (select !== selectElement) {
+                    select.value = 'featured';
+                  }
+                });
+
+                return false;
+              } else {
+                // Handle switching away from featured
+                if (currentSort === 'featured') {
+                  // Restore original order first
+                  restoreOriginalOrder();
+                  currentSort = 'default';
+                }
+                // Let Shopify handle normal sorting
+                return true;
+              }
+            }
+
+            // Attach event listeners to existing sort dropdowns
+            const sortSelects = document.querySelectorAll('select[name="sort_by"]');
+            sortSelects.forEach(select => {
+              select.addEventListener('change', function(e) {
+                handleSortChange(this);
+              });
+            });
+
+            // Handle dynamically loaded facet forms (for AJAX filtering)
+            document.addEventListener('change', function(e) {
+              if (e.target && e.target.matches('select[name="sort_by"]') && !e.target.hasAttribute('data-featured-listener')) {
+                e.target.setAttribute('data-featured-listener', 'true');
+                handleSortChange(e.target);
+              }
+            });
+
+            // Handle pagination clicks when on featured sort
+            document.addEventListener('click', function(e) {
+              if (currentSort === 'featured' && e.target.closest('.pagination a')) {
+                // Let pagination work normally, but reapply featured sorting after page load
+                setTimeout(() => {
+                  if (currentSort === 'featured') {
+                    sortProductsByFeatured();
+                  }
+                }, 500);
+              }
+            });
+          });
+        </script>
       </div>
     </div>
   {%- endpaginate -%}
