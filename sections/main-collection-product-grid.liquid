@@ -162,7 +162,7 @@
   - If it's not set (or set to 0) => show ALL products in the featured collection (dynamic).
   {%- endcomment -%}
   {% assign requested_featured_limit = section.settings.featured_count | default: 0 %}
-  {% assign requested_featured_limit = requested_featured_limit | plus: 0 %} {# ensure numeric #}
+  {% assign requested_featured_limit = requested_featured_limit | plus: 0 %}
 
   {% if featured_collection %}
     {% assign available_featured = featured_collection.products.size | plus: 0 %}
