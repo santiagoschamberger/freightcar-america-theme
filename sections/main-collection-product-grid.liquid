@@ -210,6 +210,7 @@
               {% else %}
                 {% assign featured_limit = available_featured %}
               {% endif %}
+                  {{ requested_featured_limit | json }}
             
               {% assign per_page = section.settings.products_per_page | plus: 0 %}
               {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
@@ -228,7 +229,6 @@
               Build featured_ids for skipping and render featured (only on page 1 & manual sort)
               {%- endcomment -%}
               {% assign featured_ids = '' %}
-                  {{ featured_limit | json }}
 
               {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
 
