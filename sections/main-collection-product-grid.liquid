@@ -170,6 +170,7 @@
               {% assign featured_products = '' %}
               {% for product in featured_collection.products %}
                 {% if current_products contains product %}
+                  {{ product | json }}
                   {% assign featured_products = featured_products | append: product.id | append: ',' %}
                 {% endif %}
               {% endfor %}
