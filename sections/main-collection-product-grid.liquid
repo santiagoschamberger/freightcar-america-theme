@@ -163,8 +163,6 @@
                 {% assign featured_ids = '' %}
               {% endif %}
 
-              {{ featured_ids | json }}
-
               {%- comment -%}
               Get current collection products (already paginated/filterable)
               {%- endcomment -%}
@@ -181,6 +179,8 @@
                   {% assign featured_products = featured_products | append: product.id | append: ',' %}
                 {% endif %}
               {% endfor %}
+
+              {{ featured_products | json }}
 
               {% assign merged_products = '' %}
 
