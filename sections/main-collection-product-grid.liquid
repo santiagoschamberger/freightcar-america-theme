@@ -144,7 +144,7 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            {% comment %} <ul
+            <ul
               id="product-grid"
               data-id="{{ section.id }}"
               class="
@@ -183,56 +183,8 @@
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
                
-            </ul> {% endcomment %}
- {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
-{% assign featured_collection = collections['featured'] %}
-{% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
-
-{% if requested_featured_limit > 0 %}
-  {% assign featured_limit = requested_featured_limit %}
-  {% if featured_limit > available_featured %}
-    {% assign featured_limit = available_featured %}
-  {% endif %}
-{% else %}
-  {% assign featured_limit = available_featured %}
-{% endif %}
-
-{% assign per_page = section.settings.products_per_page | plus: 0 %}
-
-{% assign featured_products = featured_collection.products | slice: 0, featured_limit %}
-
-{%- comment -%} Build final products array manually {%- endcomment -%}
-{% assign final_products = '' | split: ',' %}
-{% for product in featured_products %}
-  {% capture temp %}{{ product.id }}{% endcapture %}
-  {% assign final_products = final_products | append: temp | append: ',' %}
-{% endfor %}
-
-{% for product in collection.products %}
-  {% unless featured_products contains product %}
-    {% capture temp %}{{ product.id }}{% endcapture %}
-    {% assign final_products = final_products | append: temp | append: ',' %}
-  {% endunless %}
-{% endfor %}
-
-{% assign final_products = final_products | split: ',' %}
-
-{% assign current_offset = paginate.current_page | minus: 1 | times: per_page %}
-{% assign page_products = final_products | slice: current_offset, per_page %}
-
-<ul id="product-grid" class="grid">
-  {% assign skip_card_product_styles = false %}
-  {% for product_id in page_products %}
-    {% assign product = all_products[product_id] %}
-    {% if product %}
-      <li class="grid__item">
-        {% render 'card-product', card_product: product, section_id: section.id, skip_styles: skip_card_product_styles %}
-      </li>
-      {% assign skip_card_product_styles = true %}
-    {% endif %}
-  {% endfor %}
-</ul>
-
+            </ul>
+ 
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
