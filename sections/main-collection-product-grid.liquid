@@ -44,34 +44,7 @@
   {% assign featured_collection = collections[featured_collection_handle] %}
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
-  {%- comment -%}
-  Create sorted product array based on sort option
-  {%- endcomment -%}
-  {% assign sorted_products = collection.products %}
-
-  {%- if sort_by == 'featured' and featured_collection -%}
-    {% assign featured_product_ids = featured_collection.products | map: 'id' %}
-    {% assign featured_products = '' | split: '' %}
-    {% assign non_featured_products = '' | split: '' %}
-
-    {%- comment -%}
-    Separate featured and non-featured products
-    {%- endcomment -%}
-    {% for product in collection.products %}
-      {% if featured_product_ids contains product.id %}
-        {% assign featured_products = featured_products | push: product %}
-      {% else %}
-        {% assign non_featured_products = non_featured_products | push: product %}
-      {% endif %}
-    {% endfor %}
-
-    {%- comment -%}
-    Merge arrays: featured first, then non-featured
-    {%- endcomment -%}
-    {% assign sorted_products = featured_products | concat: non_featured_products %}
-  {%- endif -%}
-
-  {%- paginate sorted_products by section.settings.products_per_page -%}
+  {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
       <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
@@ -247,34 +220,125 @@
             >
               {% assign skip_card_product_styles = false %}
 
-              {%- for product in sorted_products -%}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true -%}
-                {%- endif -%}
+              {%- comment -%}
+              Sort products: featured first, then others
+              {%- endcomment -%}
+              {%- if sort_by == 'featured' and featured_collection -%}
+                {% assign featured_product_ids = featured_collection.products | map: 'id' %}
+                {% assign featured_products = '' | split: '' %}
+                {% assign non_featured_products = '' | split: '' %}
 
-                <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {% if settings.animations_reveal_on_scroll %}
-                    data-cascade
-                    style="--animation-order: {{ forloop.index }};"
+                {%- comment -%}
+                Separate current page products into featured and non-featured
+                {%- endcomment -%}
+                {% for product in collection.products %}
+                  {% if featured_product_ids contains product.id %}
+                    {% assign featured_products = featured_products | push: product %}
+                  {% else %}
+                    {% assign non_featured_products = non_featured_products | push: product %}
                   {% endif %}
-                >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
-                </li>
-                {%- assign skip_card_product_styles = true -%}
-              {%- endfor -%}
+                {% endfor %}
+
+                {%- comment -%}
+                Render featured products first
+                {%- endcomment -%}
+                {% assign loop_index = 0 %}
+                {%- for product in featured_products -%}
+                  {% assign loop_index = loop_index | plus: 1 %}
+                  {% assign lazy_load = false %}
+                  {%- if loop_index > 2 -%}
+                    {%- assign lazy_load = true -%}
+                  {%- endif -%}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ loop_index }};"
+                    {% endif %}
+                  >
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {%- endfor -%}
+
+                {%- comment -%}
+                Render non-featured products
+                {%- endcomment -%}
+                {%- for product in non_featured_products -%}
+                  {% assign loop_index = loop_index | plus: 1 %}
+                  {% assign lazy_load = false %}
+                  {%- if loop_index > 2 -%}
+                    {%- assign lazy_load = true -%}
+                  {%- endif -%}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ loop_index }};"
+                    {% endif %}
+                  >
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {%- endfor -%}
+
+              {%- else -%}
+                {%- comment -%}
+                Default product loop for non-featured sorting
+                {%- endcomment -%}
+                {%- for product in collection.products -%}
+                  {% assign lazy_load = false %}
+                  {%- if forloop.index > 2 -%}
+                    {%- assign lazy_load = true -%}
+                  {%- endif -%}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {%- endfor -%}
+              {%- endif -%}
             </ul>
 
             {%- if paginate.pages > 1 -%}
