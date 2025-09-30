@@ -190,7 +190,7 @@
 {% if sort_by == 'manual' %}
   {% comment %} Get all products in collection {% endcomment %}
   {% assign all_products = collection.all_products %}
-
+{{ all_products | json }}
   {% comment %} Featured products {% endcomment %}
   {% assign featured_collection = collections['featured'] %}
   {% assign featured_products = featured_collection.products %}
