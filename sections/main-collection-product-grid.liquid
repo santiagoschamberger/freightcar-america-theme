@@ -144,69 +144,40 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            {% assign featured_collection_handle = 'featured' %}
-{% assign featured_collection = collections[featured_collection_handle] %}
+            <ul
+              id="product-grid"
+              data-id="{{ section.id }}"
+              class="
+                grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+                grid--{{ section.settings.columns_desktop }}-col-desktop
+                {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+              "
+            >
+              {% assign skip_card_product_styles = false %}
+              {% assign featured_collection_handle = 'featured' %}
+              {% assign featured_collection = collections[featured_collection_handle] %}
 
-{% if featured_collection %}
-  {% assign featured_ids = featured_collection.products | map: 'id' %}
-{% else %}
-  {% assign featured_ids = '' %}
-{% endif %}
+              {{ featured_collection | json }}
 
-{%- comment -%}
-Get current collection products (already paginated/filterable)
-{%- endcomment -%}
-{% assign current_products = collection.products %}
+              {% if featured_collection %}
+                {% assign featured_ids = featured_collection.products | map: 'id' %}
+              {% else %}
+                {% assign featured_ids = '' %}
+              {% endif %}
+              {%- for product in collection.products -%}
+                {% assign lazy_load = false %}
+                {%- if forloop.index > 2 -%}
+                  {%- assign lazy_load = true -%}
+                {%- endif -%}
 
-{%- comment -%}
-Featured products first
-{%- endcomment -%}
-{% assign featured_products = '' %}
-{% for product in featured_collection.products %}
-  {% if current_products contains product %}
-    {% assign featured_products = featured_products | append: product.id | append: ',' %}
-  {% endif %}
-{% endfor %}
-
-{%- comment -%}
-Now build a merged array: featured first, then rest
-{%- endcomment -%}
-{% assign merged_products = '' %}
-
-{%- for product in collection.products -%}
-  {% if featured_ids contains product.id %}
-    {% continue %}
-  {% endif %}
-  {% assign merged_products = merged_products | append: product.id | append: ',' %}
-{%- endfor -%}
-
-{%- assign merged_products_ids = featured_products | append: merged_products | split: ',' | uniq -%}
-{{ all_products | json }}
-{%- paginate merged_products_ids by 12 -%}
-  <ul
-    id="product-grid"
-    data-id="{{ section.id }}"
-    class="
-      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-      grid--{{ section.settings.columns_desktop }}-col-desktop
-      {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-    "
-  >
-    {% for id in merged_products_ids %}
-      {% assign product = all_products[id] %}
-      {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}
-        {%- assign lazy_load = true -%}
-      {%- endif -%}
-      {% if product %}
-        <li
+                <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-          {% render 'card-product',
+                  {% render 'card-product',
                     card_product: product,
                     media_aspect_ratio: section.settings.image_ratio,
                     image_shape: section.settings.image_shape,
@@ -218,13 +189,15 @@ Now build a merged array: featured first, then rest
                     quick_add: section.settings.quick_add,
                     section_id: section.id
                   %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-
-  {% render 'pagination', paginate: paginate %}
-{%- endpaginate -%}
+                </li>
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}
+               
+            </ul>
+ 
+            {%- if paginate.pages > 1 -%}
+              {% render 'pagination', paginate: paginate, anchor: '' %}
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
