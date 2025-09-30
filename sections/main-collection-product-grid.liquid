@@ -202,12 +202,13 @@
   "
 >
   {% assign skip_card_product_styles = false %}
-  {% assign rendered_count = 0 %}
 
   {% if sort_by == 'manual' %}
-    {%- comment -%} Determine start and end index for this page {%- endcomment -%}
+    {%- comment -%} Custom manual sort pagination {%- endcomment -%}
+
     {% assign start_index = per_page | times: page | minus: per_page %}
     {% assign end_index = start_index | plus: per_page | minus: 1 %}
+    {% assign rendered_count = 0 %}
 
     {%- comment -%} Featured products first {%- endcomment -%}
     {% for f in featured_products %}
@@ -225,12 +226,10 @@
       {% assign rendered_count = rendered_count | plus: 1 %}
     {% endfor %}
 
-    {%- comment -%} Normal products after featured {%- endcomment -%}
-    {% assign normal_index = 0 %}
+    {%- comment -%} Normal products next {%- endcomment -%}
     {% for product in collection.products %}
       {% unless featured_products contains product %}
-        {% assign current_index = rendered_count %}
-        {% if current_index >= start_index and current_index <= end_index %}
+        {% if rendered_count >= start_index and rendered_count <= end_index %}
           <li class="grid__item">
             {% render 'card-product',
               card_product: product,
@@ -245,8 +244,22 @@
       {% endunless %}
     {% endfor %}
 
+    {%- comment -%} Custom pagination (Next / Previous) {%- endcomment -%}
+    <div class="custom-pagination">
+      {% assign total_products = collection.products.size | plus: featured_count %}
+      {% assign total_pages = total_products | divided_by: per_page %}
+
+
+      {% if page > 1 %}
+        <a href="?page={{ page | minus: 1 }}&sort_by=manual" class="prev">Previous</a>
+      {% endif %}
+      {% if page < total_pages %}
+        <a href="?page={{ page | plus: 1 }}&sort_by=manual" class="next">Next</a>
+      {% endif %}
+    </div>
+
   {% else %}
-    {%- comment -%} Other sort types: normal rendering {%- endcomment -%}
+    {%- comment -%} Normal collection rendering {%- endcomment -%}
     {% for product in collection.products %}
       <li class="grid__item">
         {% render 'card-product',
