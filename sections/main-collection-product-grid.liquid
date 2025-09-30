@@ -50,6 +50,12 @@
               </h2>
               <div class="select">
                 {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                {%- comment -%}
+                Check if manual sorting should trigger featured behavior
+                {%- endcomment -%}
+                {% if sort_by == 'manual' and collection.handle == 'frontpage' %}
+                  {% assign sort_by = 'featured' %}
+                {% endif %}
                 <select
                   name="sort_by"
                   class="facet-filters__sort select__select caption-large"
@@ -320,6 +326,24 @@
                 handleSortChange(e.target);
               }
             });
+
+            // Check URL parameters on page load
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortParam = urlParams.get('sort_by');
+            const collectionHandle = '{{ collection.handle }}';
+
+            // Auto-trigger featured sorting for manual sort on frontpage collection
+            if ((sortParam === 'manual' && collectionHandle === 'frontpage') || sortParam === 'featured') {
+              currentSort = 'featured';
+              setTimeout(() => {
+                sortProductsByFeatured();
+                // Update dropdown to show Featured
+                const sortSelects = document.querySelectorAll('select[name="sort_by"]');
+                sortSelects.forEach(select => {
+                  select.value = 'featured';
+                });
+              }, 100);
+            }
 
             // Handle pagination clicks when on featured sort
             document.addEventListener('click', function(e) {
