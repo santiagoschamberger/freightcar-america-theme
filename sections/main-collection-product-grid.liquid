@@ -201,7 +201,7 @@
 
   {% comment %} Combine featured first, then normal {% endcomment %}
   {% assign combined_products = featured_products | concat: normal_products %}
-{{ combined_products.size | json }}
+{{ normal_products.size | json }}
   {% assign total_products = combined_products.size %}
   {% assign total_pages = total_products | divided_by: per_page %}
   {% assign remainder = total_products | modulo: per_page %}
