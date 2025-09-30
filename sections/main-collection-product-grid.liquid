@@ -206,7 +206,7 @@
 {% assign non_featured = non_featured | split: ',' %}
 
 {%- comment -%} Paginate non-featured separately {%- endcomment -%}
-{%- paginate non_featured by per_page -%}
+
 <ul
   id="product-grid"
   data-id="{{ section.id }}"
@@ -271,13 +271,12 @@
   {% endif %}
 </ul>
 
-{% render 'pagination', paginate: paginate %}
-{%- endpaginate -%}
 
-{% comment %}  
+
+ 
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
-            {%- endif -%} {% endcomment %}
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
