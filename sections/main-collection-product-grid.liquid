@@ -176,13 +176,20 @@
               {% assign featured_products = '' %}
               {% for product in featured_collection.products %}
                 {% if current_products contains product %}
-                  {{ "TEst" }}
-                  {{ product | json }}
                   {% assign featured_products = featured_products | append: product.id | append: ',' %}
                 {% endif %}
               {% endfor %}
 
-              {{ featured_products | json }}
+              {% assign merged_products = '' %}
+
+              {%- for product in collection.products -%}
+                {% if featured_ids contains product.id %}
+                  {% continue %}
+                {% endif %}
+                {% assign merged_products = merged_products | append: product.id | append: ',' %}
+              {%- endfor -%}
+
+              {{ merged_products | json }}
 
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
