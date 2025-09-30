@@ -195,7 +195,7 @@
               {%- assign merged_products_ids = featured_products | append: merged_products | split: ',' | uniq -%}
               {%- paginate merged_products_ids by 12 -%}
                 {% for id in merged_products_ids %}
-                  {% assign product = collection.products[id] %}
+                  {% assign product = all_products[id] %}
                   {% if product %}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
