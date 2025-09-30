@@ -38,7 +38,7 @@
 
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
-  {%- paginate collection.products by section.settings.products_per_page -%}
+  {% comment %} {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
       <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
@@ -192,7 +192,180 @@
         {%- endif -%}
       </div>
     </div>
-  {%- endpaginate -%}
+  {%- endpaginate -%} {% endcomment %}
+   {%- comment -%}
+Balanced paginate that enforces display limit = section.settings.products_per_page
+Paste this whole block in place of your existing paginate ... endpaginate block.
+{%- endcomment -%}
+
+{% assign per_page = section.settings.products_per_page | plus: 0 %}
+{%- paginate collection.products by per_page -%}
+  <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+    {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+    {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+      <aside
+        aria-labelledby="verticalTitle"
+        class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+        id="main-collection-filters"
+        data-id="{{ section.id }}"
+      >
+        {% render 'facets',
+          results: collection,
+          enable_filtering: section.settings.enable_filtering,
+          enable_sorting: section.settings.enable_sorting,
+          filter_type: section.settings.filter_type,
+          paginate: paginate
+        %}
+      </aside>
+    {%- endif -%}
+
+    <div
+      class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      id="ProductGridContainer"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+      {% endif %}
+    >
+      {%- if collection.products.size == 0 -%}
+        <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+          <div class="loading-overlay gradient"></div>
+          <div class="title-wrapper center">
+            <h2 class="title title--primary">
+              {{ 'sections.collection_template.empty' | t -}}
+              <br>
+              {{
+                'sections.collection_template.use_fewer_filters_html'
+                | t: link: collection.url, class: 'underlined-link link'
+              }}
+            </h2>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}">
+          <div class="loading-overlay gradient"></div>
+
+          <ul
+            id="product-grid"
+            data-id="{{ section.id }}"
+            class="
+              grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+              grid--{{ section.settings.columns_desktop }}-col-desktop
+              {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+            "
+          >
+            {% assign skip_card_product_styles = false %}
+            {% assign featured_collection = collections['featured'] %}
+            {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
+            {% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
+
+            {% if requested_featured_limit > 0 %}
+              {% assign featured_limit = requested_featured_limit %}
+              {% if featured_limit > available_featured %}
+                {% assign featured_limit = available_featured %}
+              {% endif %}
+            {% else %}
+              {% assign featured_limit = available_featured %}
+            {% endif %}
+
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+            {%- comment -%}
+            We'll enforce an absolute display cap: don't render more than per_page items.
+            We'll render featured first (page 1 + manual sort) up to featured_limit (capped to fit),
+            then render non-featured items from collection.products until total_rendered == per_page.
+            {%- endcomment -%}
+
+            {% assign total_rendered = 0 %}
+            {% assign featured_ids = '' %}
+
+            {%- comment -%}
+            If on page 1 and sort is manual, render featured items first.
+            But ensure featured_limit never causes overflow: cap featured_limit to per_page.
+            {%- endcomment -%}
+            {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+              {% if featured_limit > per_page %}
+                {% assign featured_limit = per_page %}
+              {% endif %}
+              {% for f in featured_collection.products limit: featured_limit %}
+                {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
+                <li
+                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                >
+                  {% render 'card-product',
+                    card_product: f,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    image_shape: section.settings.image_shape,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    lazy_load: false,
+                    skip_styles: skip_card_product_styles,
+                    quick_add: section.settings.quick_add,
+                    section_id: section.id
+                  %}
+                </li>
+                {% assign skip_card_product_styles = true %}
+                {% assign total_rendered = total_rendered | plus: 1 %}
+                {% if total_rendered >= per_page %}{% break %}{% endif %}
+              {% endfor %}
+            {% endif %}
+
+            {%- comment -%}
+            Now render paginated collection.products, skipping featured_ids and stopping at per_page.
+            Because paginate returned at most per_page items, this loop will not run beyond that server page.
+            {%- endcomment -%}
+            {% for product in collection.products %}
+              {% if total_rendered >= per_page %}{% break %}{% endif %}
+              {% if featured_ids != '' %}
+                {% unless featured_ids contains product.id %}
+                  <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: false,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {% assign skip_card_product_styles = true %}
+                  {% assign total_rendered = total_rendered | plus: 1 %}
+                {% endunless %}
+              {% else %}
+                <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    image_shape: section.settings.image_shape,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    lazy_load: false,
+                    skip_styles: skip_card_product_styles,
+                    quick_add: section.settings.quick_add,
+                    section_id: section.id
+                  %}
+                </li>
+                {% assign skip_card_product_styles = true %}
+                {% assign total_rendered = total_rendered | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate, anchor: '' %}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
