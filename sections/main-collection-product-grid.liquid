@@ -184,8 +184,7 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
- 
-            <ul
+ <ul
   id="product-grid"
   data-id="{{ section.id }}"
   class="
@@ -198,58 +197,68 @@
   {% assign per_page = section.settings.products_per_page | plus: 0 %}
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
+  {% assign featured_collection = collections['featured'] %}
+  {% assign featured_products = featured_collection.products %}
+  {% assign total_featured = featured_products.size %}
+
+  {%- comment -%} Build featured_ids_array safely {%- endcomment -%}
+  {% assign featured_ids_string = '' %}
+  {% for f in featured_products %}
+    {% assign featured_ids_string = featured_ids_string | append: f.id | append: ',' %}
+  {% endfor %}
+  {% assign featured_ids_array = featured_ids_string | split: ',' %}
+
   {% if sort_by == 'manual' %}
-    {%- comment -%} Manual sort: handle featured products first {%- endcomment -%}
 
-    {% assign featured_collection = collections['featured'] %}
-    {% assign featured_products = featured_collection.products %}
-    {% assign total_featured = featured_products.size %}
+    {% if paginate.current_page == 1 %}
+      {%- comment -%} Page 1: featured first {%- endcomment -%}
+      {% assign normal_limit = per_page | minus: total_featured %}
+      {% if normal_limit < 0 %}{% assign normal_limit = 0 %}{% endif %}
 
-    {%- comment -%} Build featured_ids_array safely {%- endcomment -%}
-    {% assign featured_ids_string = '' %}
-    {% for f in featured_products %}
-      {% assign featured_ids_string = featured_ids_string | append: f.id | append: ',' %}
-    {% endfor %}
-    {% assign featured_ids_array = featured_ids_string | split: ',' %}
+      {% for f in featured_products %}
+        <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {% render 'card-product',
+            card_product: f,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            lazy_load: false,
+            skip_styles: skip_card_product_styles,
+            quick_add: section.settings.quick_add,
+            section_id: section.id %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+      {% endfor %}
 
-    {%- if paginate.current_page == 1 -%}
-      {%- comment -%} Page 1: show featured + fill to per_page {%- endcomment -%}
-      {% if total_featured >= per_page %}
-        {% for f in featured_products %}
-          <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-            {% render 'card-product',
-              card_product: f,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              lazy_load: false,
-              skip_styles: skip_card_product_styles,
-              quick_add: section.settings.quick_add,
-              section_id: section.id %}
-          </li>
-          {% assign skip_card_product_styles = true %}
-        {% endfor %}
-      {% else %}
-        {% for f in featured_products %}
-          <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-            {% render 'card-product',
-              card_product: f,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              lazy_load: false,
-              skip_styles: skip_card_product_styles,
-              quick_add: section.settings.quick_add,
-              section_id: section.id %}
-          </li>
-          {% assign skip_card_product_styles = true %}
-        {% endfor %}
+      {% assign normal_count = 0 %}
+      {% for p in collection.products %}
+        {% unless featured_ids_array contains p.id %}
+          {% if normal_count < normal_limit %}
+            <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+              {% render 'card-product',
+                card_product: p,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                lazy_load: false,
+                skip_styles: skip_card_product_styles,
+                quick_add: section.settings.quick_add,
+                section_id: section.id %}
+            </li>
+            {% assign skip_card_product_styles = true %}
+            {% assign normal_count = normal_count | plus: 1 %}
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
 
-        {% assign needed = per_page | minus: total_featured %}
+    {% else %}
+      {%- comment -%} Page 2+: skip featured and paginate normally {%- endcomment -%}
+      {% assign count = 0 %}
+      {% paginate collection.products by per_page %}
         {% for p in collection.products %}
           {% unless featured_ids_array contains p.id %}
             <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -266,47 +275,15 @@
                 section_id: section.id %}
             </li>
             {% assign skip_card_product_styles = true %}
-            {% assign needed = needed | minus: 1 %}
-            {% if needed <= 0 %}{% break %}{% endif %}
+            {% assign count = count | plus: 1 %}
+            {% if count >= per_page %}{% break %}{% endif %}
           {% endunless %}
-        {% endfor %}
-      {% endif %}
-
-    {% else %}
-      {%- comment -%} Page 2+: only non-featured products, respecting per_page {% endcomment -%}
-      {% assign non_featured_ids = '' %}
-      {% for p in collection.products %}
-        {% unless featured_ids_array contains p.id %}
-          {% assign non_featured_ids = non_featured_ids | append: p.id | append: ',' %}
-        {% endunless %}
-      {% endfor %}
-      {% assign non_featured_array = non_featured_ids | split: ',' %}
-
-      {% paginate non_featured_array by per_page %}
-        {% for id in non_featured_array %}
-          {% assign p = all_products[id] %}
-          {% if p %}
-            <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-              {% render 'card-product',
-                card_product: p,
-                media_aspect_ratio: section.settings.image_ratio,
-                image_shape: section.settings.image_shape,
-                show_secondary_image: section.settings.show_secondary_image,
-                show_vendor: section.settings.show_vendor,
-                show_rating: section.settings.show_rating,
-                lazy_load: false,
-                skip_styles: skip_card_product_styles,
-                quick_add: section.settings.quick_add,
-                section_id: section.id %}
-            </li>
-            {% assign skip_card_product_styles = true %}
-          {% endif %}
         {% endfor %}
       {% endpaginate %}
     {% endif %}
 
   {% else %}
-    {%- comment -%} Not manual: use original working loop {%- endcomment -%}
+    {%- comment -%} Not manual: original working loop {%- endcomment -%}
     {% for product in collection.products %}
       {% assign lazy_load = false %}
       {% if forloop.index > 2 %}
@@ -338,6 +315,7 @@
   {% endif %}
 </ul>
 
+            
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
