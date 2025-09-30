@@ -194,6 +194,10 @@ Now build a merged array: featured first, then rest
   >
     {% for id in merged_products_ids %}
       {% assign product = all_products[id] %}
+      {% assign lazy_load = false %}
+      {%- if forloop.index > 2 -%}
+        {%- assign lazy_load = true -%}
+      {%- endif -%}
       {% if product %}
         <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
