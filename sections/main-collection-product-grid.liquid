@@ -144,6 +144,40 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
+            {%- comment -%}
+Hidden featured product HTML (server rendered). Put this BEFORE your <ul id="product-grid">.
+Change collections['featured'] to your featured collection handle if different.
+{%- endcomment -%}
+<div id="featured-source" style="display:none;">
+  {%- assign fc = collections['featured'] -%}
+  {%- if fc and fc.products.size > 0 -%}
+    {%- for p in fc.products -%}
+      <div class="featured-source-item" data-featured-handle="{{ p.handle }}">
+        {% render 'card-product',
+          card_product: p,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          lazy_load: false,
+          skip_styles: false,
+          quick_add: section.settings.quick_add,
+          section_id: section.id
+        %}
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+<script>
+  // Expose variables for JS
+  window.__COLLECTION_HANDLE = "{{ collection.handle }}";
+  window.__PER_PAGE = {{ section.settings.products_per_page | default: 24 }};
+  window.__FEATURED_HANDLE = "featured"; /* change if your featured collection handle is different */
+  window.__CURRENT_PAGE = {{ paginate.current_page | default: 1 }};
+</script>
+
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
@@ -418,3 +452,181 @@
   ]
 }
 {% endschema %}
+<script>
+(function () {
+  // Config from Liquid
+  var collectionHandle = window.__COLLECTION_HANDLE || (window.location.pathname.match(/\/collections\/([^\/\?]+)/) || [null, null])[1];
+  var perPage = parseInt(window.__PER_PAGE || 24, 10);
+  var featuredHandle = window.__FEATURED_HANDLE || 'featured';
+  var currentPage = parseInt(window.__CURRENT_PAGE || (new URLSearchParams(window.location.search).get('page') || 1), 10);
+
+  var grid = document.getElementById('product-grid');
+  if (!grid) return;
+
+  var featuredSource = document.getElementById('featured-source');
+  var featuredNodes = {};
+  if (featuredSource) {
+    Array.from(featuredSource.querySelectorAll('.featured-source-item')).forEach(function (el) {
+      var h = el.getAttribute('data-featured-handle');
+      if (h) featuredNodes[h] = el;
+    });
+  }
+
+  function fetchCollectionProducts(handle, limit) {
+    limit = limit || 250;
+    var url = '/collections/' + handle + '/products.json?limit=' + limit;
+    return fetch(url, { credentials: 'same-origin' })
+      .then(function(resp) {
+        if (!resp.ok) throw new Error('Fetch failed: ' + resp.status);
+        return resp.json();
+      })
+      .then(function(json) {
+        return json.products || [];
+      })
+      .catch(function(err) {
+        console.error('Error fetching collection products for', handle, err);
+        return [];
+      });
+  }
+
+  function renderSimpleCard(product) {
+    var a = product.handle ? '/products/' + product.handle : '#';
+    var img = (product.images && product.images[0] && product.images[0].src) ? product.images[0].src : '';
+    var price = (product.variants && product.variants[0]) ? (product.variants[0].price) : '';
+    var li = document.createElement('li');
+    li.className = 'grid__item';
+    li.innerHTML = '\
+      <a class="product-card" href="' + a + '">\
+        <div class="product-card__media" style="min-height:120px;display:flex;align-items:center;justify-content:center;">' +
+          (img ? '<img src="' + img + '" alt="' + (product.title || '') + '" style="max-width:100%;height:auto;">' : '') +
+        '</div>\
+        <div class="product-card__meta">\
+          <h3 class="product-card__title">' + (product.title || '') + '</h3>\
+          <div class="product-card__price">' + (price || '') + '</div>\
+        </div>\
+      </a>';
+    return li;
+  }
+
+  Promise.all([
+    fetchCollectionProducts(featuredHandle),
+    fetchCollectionProducts(collectionHandle)
+  ]).then(function(results) {
+    var featuredProducts = results[0];
+    var collectionProducts = results[1];
+
+    // build map handle -> product JSON
+    var productByHandle = {};
+    collectionProducts.forEach(function(p) { if (p && p.handle) productByHandle[p.handle] = p; });
+    featuredProducts.forEach(function(p) { if (p && p.handle && !productByHandle[p.handle]) productByHandle[p.handle] = p; });
+
+    var mergedHandles = [];
+    var seen = new Set();
+
+    featuredProducts.forEach(function(p) {
+      if (!p || !p.handle) return;
+      if (!seen.has(p.handle)) { mergedHandles.push(p.handle); seen.add(p.handle); }
+    });
+
+    collectionProducts.forEach(function(p) {
+      if (!p || !p.handle) return;
+      if (!seen.has(p.handle)) { mergedHandles.push(p.handle); seen.add(p.handle); }
+    });
+
+    var total = mergedHandles.length;
+    var totalPages = Math.max(1, Math.ceil(total / perPage));
+    if (currentPage < 1) currentPage = 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    var start = (currentPage - 1) * perPage;
+    var end = Math.min(start + perPage, total);
+    var pageHandles = mergedHandles.slice(start, end);
+
+    // build nodes
+    var newNodes = [];
+    pageHandles.forEach(function(handle) {
+      if (featuredNodes[handle]) {
+        var block = featuredNodes[handle].cloneNode(true);
+        var innerCard = block.querySelector('.card-product, .product-card, .grid__item, .product-item') || block.firstElementChild;
+        var li = document.createElement('li');
+        li.className = 'grid__item';
+        if (innerCard) li.innerHTML = innerCard.outerHTML;
+        else li.innerHTML = block.innerHTML;
+        newNodes.push(li);
+      } else if (productByHandle[handle]) {
+        newNodes.push(renderSimpleCard(productByHandle[handle]));
+      } else {
+        // try find existing li in DOM by anchor
+        var found = null;
+        Array.from(grid.querySelectorAll('li')).forEach(function(li) {
+          var a = li.querySelector('a[href*="/products/"]');
+          if (a) {
+            var m = a.getAttribute('href').match(/\/products\/([^\/\?\#]+)/);
+            if (m && m[1] === handle) found = li.cloneNode(true);
+          }
+        });
+        if (found) newNodes.push(found);
+        else newNodes.push(renderSimpleCard({ handle: handle, title: handle }));
+      }
+    });
+
+    // replace grid contents
+    grid.innerHTML = '';
+    newNodes.forEach(function(n) { grid.appendChild(n); });
+
+    // rebuild simple pagination to match merged product count
+    function rebuildPagination() {
+      var pagContainer = document.querySelector('[data-pagination], .pagination') || null;
+      if (!pagContainer) return;
+      var nav = document.createElement('nav');
+      nav.className = 'pagination pagination--merged';
+      var ul = document.createElement('ul');
+      ul.style.listStyle = 'none';
+      ul.style.display = 'flex';
+      ul.style.gap = '8px';
+      for (var i = 1; i <= totalPages; i++) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = updateQueryStringParameter(window.location.href, 'page', i);
+        a.textContent = i;
+        if (i === currentPage) a.className = 'active';
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+      nav.appendChild(ul);
+      pagContainer.innerHTML = '';
+      pagContainer.appendChild(nav);
+    }
+
+    function updateQueryStringParameter(uri, key, value) {
+      var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+      var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+      if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + '=' + value + '$2');
+      } else {
+        return uri + separator + key + '=' + value;
+      }
+    }
+
+    rebuildPagination();
+
+    // intercept pagination clicks on the new pagination, redirect to server URL (reliable)
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (!a) return;
+      if (!a.href) return;
+      var url = new URL(a.href, window.location.origin);
+      if (url.pathname.indexOf('/collections/' + collectionHandle) !== -1 && url.searchParams.has('page')) {
+        // go to server URL so server response (non-JS users) matches
+        // For reliability we'll navigate to the URL (no SPA)
+        e.preventDefault();
+        window.location.href = a.href;
+      }
+    }, { passive: false });
+
+  }).catch(function (err) {
+    console.error('Merged collection error', err);
+  });
+
+})();
+</script>
