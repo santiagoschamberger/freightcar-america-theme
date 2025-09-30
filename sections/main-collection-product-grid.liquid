@@ -184,7 +184,7 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
-               <ul
+            <ul
   id="product-grid"
   data-id="{{ section.id }}"
   class="
@@ -197,11 +197,18 @@
   {% assign featured_collection = collections['featured'] %}
 
   {%- comment -%}
-  Build a list of featured product IDs for easy comparison
+  Dynamic featured limit — editable in Customizer
+  Falls back to 6 if not set
+  {%- endcomment -%}
+  {% assign featured_limit = section.settings.featured_count | default: 6 %}
+  {% assign featured_limit = featured_limit | plus: 0 %}
+
+  {%- comment -%}
+  Build list of featured product IDs (up to featured_limit)
   {%- endcomment -%}
   {% assign featured_ids = '' %}
   {% if featured_collection %}
-    {% for f in featured_collection.products limit:3 %}
+    {% for f in featured_collection.products limit: featured_limit %}
       {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
     {% endfor %}
   {% endif %}
@@ -210,10 +217,7 @@
   Show featured products only on page 1
   {%- endcomment -%}
   {% if featured_collection and featured_collection.products.size > 0 and paginate.current_page == 1 %}
-    {% for product in featured_collection.products limit:3 %}
-      {% assign lazy_load = false %}
-      {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
+    {% for product in featured_collection.products limit: featured_limit %}
       <li
         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
@@ -228,7 +232,7 @@
           show_secondary_image: section.settings.show_secondary_image,
           show_vendor: section.settings.show_vendor,
           show_rating: section.settings.show_rating,
-          lazy_load: lazy_load,
+          lazy_load: false,
           skip_styles: skip_card_product_styles,
           quick_add: section.settings.quick_add,
           section_id: section.id
@@ -240,8 +244,8 @@
 
   {%- comment -%}
   Now render collection products
-  - On page 1: skip items whose ID is in featured_ids
-  - On page 2+: show everything normally
+  - On page 1: skip items in featured_ids
+  - On other pages: show everything
   {%- endcomment -%}
   {%- for product in collection.products -%}
     {% if paginate.current_page == 1 %}
@@ -293,6 +297,7 @@
     {% endif %}
   {%- endfor -%}
 </ul>
+
  
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
