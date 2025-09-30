@@ -260,13 +260,17 @@
   {%- comment -%}
   Render normal collection products
   - On ALL pages with manual sort: skip featured products
-  - On page 1: limit to (per_page - featured_limit)
-  - On page 2+: show all paginated products (but skip featured)
+  - On page 1: Don't render ANY regular products if featured >= per_page
+  - On page 2+: show per_page products (but skip featured)
   {%- endcomment -%}
   {% assign normal_render_limit = per_page %}
+  {% assign should_render_regular_on_page_1 = true %}
   {% if should_use_featured and paginate.current_page == 1 %}
-    {% assign normal_render_limit = per_page | minus: featured_limit %}
-    {% if normal_render_limit < 0 %}{% assign normal_render_limit = 0 %}{% endif %}
+    {% if featured_limit >= per_page %}
+      {% assign should_render_regular_on_page_1 = false %}
+    {% else %}
+      {% assign normal_render_limit = per_page | minus: featured_limit %}
+    {% endif %}
   {% endif %}
 
   {% assign normal_count = 0 %}
@@ -281,9 +285,19 @@
     {% endif %}
 
     {% unless should_skip %}
-      {%- comment -%} On page 1, limit the count {%- endcomment -%}
+      {%- comment -%} On page 1, check if we should render regular products {%- endcomment -%}
       {% if paginate.current_page == 1 and should_use_featured %}
+        {% if should_render_regular_on_page_1 == false %}
+          {% break %}
+        {% endif %}
         {% if normal_count >= normal_render_limit %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+
+      {%- comment -%} On page 2+, ensure we render per_page products {%- endcomment -%}
+      {% if paginate.current_page > 1 and should_use_featured %}
+        {% if normal_count >= per_page %}
           {% break %}
         {% endif %}
       {% endif %}
