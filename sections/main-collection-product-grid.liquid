@@ -144,7 +144,7 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
-            {% comment %} <ul
+            <ul
               id="product-grid"
               data-id="{{ section.id }}"
               class="
@@ -183,115 +183,8 @@
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
                
-            </ul> {% endcomment %}
- {% assign per_page = section.settings.products_per_page | plus: 0 %}
-{% assign featured_collection = collections['featured'] %}
-{% assign featured_products = featured_collection.products %}
-{% assign featured_limit = section.settings.featured_count | default: featured_products.size %}
-{% assign featured_products = featured_products | slice: 0, featured_limit %}
-
-{% assign normal_products = collection.products %}
-
-<ul
-  id="product-grid"
-  data-id="{{ section.id }}"
-  class="
-    grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-    grid--{{ section.settings.columns_desktop }}-col-desktop
-    {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-  "
->
-  {% assign skip_card_product_styles = false %}
-
-  {% comment %} PAGE 1: Featured products first {% endcomment %}
-  {% if paginate.current_page == 1 %}
-    {% for product in featured_products %}
-      {% assign lazy_load = false %}
-      {% if forloop.index > 2 %}
-        {% assign lazy_load = true %}
-      {% endif %}
-      <li class="grid__item">
-        {% render 'card-product',
-          card_product: product,
-          lazy_load: lazy_load,
-          skip_styles: skip_card_product_styles,
-          section_id: section.id
-        %}
-      </li>
-      {% assign skip_card_product_styles = true %}
-    {% endfor %}
-
-    {% comment %} Normal products for page 1, up to per_page {% endcomment %}
-    {% assign normal_count = 0 %}
-    {% for product in normal_products %}
-      {% assign is_featured = false %}
-      {% for fproduct in featured_products %}
-        {% if fproduct.id == product.id %}
-          {% assign is_featured = true %}
-        {% endif %}
-      {% endfor %}
-
-      {% unless is_featured %}
-        {% if normal_count < per_page %}
-          {% assign lazy_load = false %}
-          {% if forloop.index > 2 %}
-            {% assign lazy_load = true %}
-          {% endif %}
-          <li class="grid__item">
-            {% render 'card-product',
-              card_product: product,
-              lazy_load: lazy_load,
-              skip_styles: skip_card_product_styles,
-              section_id: section.id
-            %}
-          </li>
-          {% assign skip_card_product_styles = true %}
-          {% assign normal_count = normal_count | plus: 1 %}
-        {% endif %}
-      {% endunless %}
-    {% endfor %}
-
-  {% else %}
-    {% comment %} PAGE 2+: Normal products only, paginated {% endcomment %}
-    {% assign page_offset = paginate.current_page | minus: 2 %}
-    {% assign start_index = per_page | times: page_offset %}
-    {% assign end_index = start_index | plus: per_page %}
-
-    {% assign normal_index = 0 %}
-    {% for product in normal_products %}
-      {% assign is_featured = false %}
-      {% for fproduct in featured_products %}
-        {% if fproduct.id == product.id %}
-          {% assign is_featured = true %}
-        {% endif %}
-      {% endfor %}
-
-      {% unless is_featured %}
-        {% if normal_index >= start_index %}
-          {% if normal_index < end_index %}
-            {% assign lazy_load = false %}
-            {% if forloop.index > 2 %}
-              {% assign lazy_load = true %}
-            {% endif %}
-            <li class="grid__item">
-              {% render 'card-product',
-                card_product: product,
-                lazy_load: lazy_load,
-                skip_styles: skip_card_product_styles,
-                section_id: section.id
-              %}
-            </li>
-            {% assign skip_card_product_styles = true %}
-          {% endif %}
-          {% assign normal_index = normal_index | plus: 1 %}
-        {% else %}
-          {% assign normal_index = normal_index | plus: 1 %}
-        {% endif %}
-      {% endunless %}
-    {% endfor %}
-  {% endif %}
-</ul>
-
+            </ul>
+ 
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
