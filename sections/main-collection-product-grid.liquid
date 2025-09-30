@@ -210,7 +210,7 @@
               {% else %}
                 {% assign featured_limit = available_featured %}
               {% endif %}
-                  {{ available_featured | json }}
+                  {{ featured_limit | json }}
             
               {% assign per_page = section.settings.products_per_page | plus: 0 %}
               {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
