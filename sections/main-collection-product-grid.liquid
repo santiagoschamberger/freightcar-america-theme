@@ -185,36 +185,38 @@
                
             </ul> {% endcomment %}
             {% assign featured_collection = collections['featured'] %}
-{% assign per_page = section.settings.products_per_page | plus: 0 %}
 
-{%- comment -%} Collect featured IDs {%- endcomment -%}
-{% assign featured_ids = '' %}
-{% assign featured_count = 0 %}
-{% if featured_collection and featured_collection.products.size > 0 %}
-  {% assign featured_count = featured_collection.products.size %}
-  {% for f in featured_collection.products %}
-    {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
-  {% endfor %}
-{% endif %}
+<div class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}">
+  <div class="loading-overlay gradient"></div>
 
-<ul
-  id="product-grid"
-  data-id="{{ section.id }}"
-  class="
-    grid product-grid
-    grid--{{ section.settings.columns_mobile }}-col-tablet-down
-    grid--{{ section.settings.columns_desktop }}-col-desktop
-    {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-  "
->
-  {% assign skip_card_product_styles = false %}
+  {% if paginate.current_page == 1 and featured_collection and featured_collection.products.size > 0 %}
+    <ul class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop">
+      {% for f in featured_collection.products %}
+        <li class="grid__item">
+          {% render 'card-product',
+            card_product: f,
+            media_aspect_ratio: section.settings.image_ratio,
+            image_shape: section.settings.image_shape,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            quick_add: section.settings.quick_add,
+            section_id: section.id %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-  {%- if paginate.current_page == 1 -%}
-    {%- comment -%} Page 1 → show all featured first {%- endcomment -%}
-    {% for f in featured_collection.products %}
+  <!-- Normal Shopify paginated products -->
+  <ul
+    id="product-grid"
+    data-id="{{ section.id }}"
+    class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop"
+  >
+    {% for product in collection.products %}
       <li class="grid__item">
         {% render 'card-product',
-          card_product: f,
+          card_product: product,
           media_aspect_ratio: section.settings.image_ratio,
           image_shape: section.settings.image_shape,
           show_secondary_image: section.settings.show_secondary_image,
@@ -224,50 +226,12 @@
           section_id: section.id %}
       </li>
     {% endfor %}
+  </ul>
 
-    {%- comment -%} Fill the rest of the page with non-featured if featured < per_page {%- endcomment -%}
-    {% assign fill_count = per_page | minus: featured_count %}
-    {% if fill_count > 0 %}
-      {% assign non_count = 0 %}
-      {% for p in collection.products %}
-        {% unless featured_ids contains p.id %}
-          <li class="grid__item">
-            {% render 'card-product',
-              card_product: p,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              quick_add: section.settings.quick_add,
-              section_id: section.id %}
-          </li>
-          {% assign non_count = non_count | plus: 1 %}
-          {% if non_count >= fill_count %}
-            {% break %}
-          {% endif %}
-        {% endunless %}
-      {% endfor %}
-    {% endif %}
-  {% else %}
-    {%- comment -%} Page 2+ → only non-featured products {%- endcomment -%}
-    {% for p in collection.products %}
-      {% unless featured_ids contains p.id %}
-        <li class="grid__item">
-          {% render 'card-product',
-            card_product: p,
-            media_aspect_ratio: section.settings.image_ratio,
-            image_shape: section.settings.image_shape,
-            show_secondary_image: section.settings.show_secondary_image,
-            show_vendor: section.settings.show_vendor,
-            show_rating: section.settings.show_rating,
-            quick_add: section.settings.quick_add,
-            section_id: section.id %}
-        </li>
-      {% endunless %}
-    {% endfor %}
+  {% if paginate.pages > 1 %}
+    {% render 'pagination', paginate: paginate %}
   {% endif %}
-</ul>
+</div>
 
  
             {%- if paginate.pages > 1 -%}
