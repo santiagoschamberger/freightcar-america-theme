@@ -144,6 +144,18 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
+            <script>
+  window.featuredHandles = [
+    {%- assign fc = collections['featured'] -%}
+    {%- if fc and fc.products.size > 0 -%}
+      {%- for p in fc.products -%}
+        "{{ p.handle }}"{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    {%- endif -%}
+  ];
+  window.perPage = {{ section.settings.products_per_page | default: 24 }};
+</script>
+
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
@@ -197,6 +209,92 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var grid = document.querySelector("#product-grid");
+  if (!grid || !window.featuredHandles) return;
+
+  var perPage = window.perPage || 24;
+  var featured = window.featuredHandles;
+
+  // Collect all products currently in the collection
+  var items = Array.from(grid.querySelectorAll("li"));
+  if (!items.length) return;
+
+  // Map handle → element
+  function getHandle(li) {
+    var a = li.querySelector('a[href*="/products/"]');
+    if (!a) return null;
+    var m = a.getAttribute("href").match(/\/products\/([^\/\?#]+)/);
+    return m ? m[1] : null;
+  }
+
+  var handleToLi = {};
+  items.forEach(function (li) {
+    var h = getHandle(li);
+    if (h) handleToLi[h] = li;
+  });
+
+  // Merge featured first, then others
+  var merged = [];
+  var seen = {};
+
+  featured.forEach(function (h) {
+    if (handleToLi[h] && !seen[h]) {
+      merged.push(handleToLi[h]);
+      seen[h] = true;
+    }
+  });
+
+  items.forEach(function (li) {
+    var h = getHandle(li);
+    if (h && !seen[h]) {
+      merged.push(li);
+      seen[h] = true;
+    }
+  });
+
+  // Pagination handling
+  var urlParams = new URLSearchParams(window.location.search);
+  var page = parseInt(urlParams.get("page") || "1", 10);
+  if (page < 1) page = 1;
+
+  var total = merged.length;
+  var totalPages = Math.ceil(total / perPage);
+  if (page > totalPages) page = totalPages;
+
+  var start = (page - 1) * perPage;
+  var end = start + perPage;
+  var pageItems = merged.slice(start, end);
+
+  // Replace grid
+  grid.innerHTML = "";
+  pageItems.forEach(function (li) {
+    grid.appendChild(li);
+  });
+
+  // Rebuild pagination (basic numbers only)
+  var paginationWrapper = document.querySelector(".pagination-wrapper");
+  if (paginationWrapper && totalPages > 1) {
+    var nav = document.createElement("nav");
+    nav.className = "pagination";
+    var ul = document.createElement("ul");
+    for (var i = 1; i <= totalPages; i++) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = window.location.pathname + "?page=" + i;
+      a.textContent = i;
+      if (i === page) a.classList.add("active");
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+    nav.appendChild(ul);
+    paginationWrapper.innerHTML = "";
+    paginationWrapper.appendChild(nav);
+  }
+});
+</script>
 
 {% schema %}
 {
