@@ -196,9 +196,7 @@
   {% assign skip_card_product_styles = false %}
   {% assign featured_collection = collections['featured'] %}
 
-  {%- comment -%}
-  Determine featured_limit (dynamic) and per_page
-  {%- endcomment -%}
+  {%- comment -%} Determine requested and available featured counts {%- endcomment -%}
   {% assign requested_featured_limit = section.settings.featured_count | default: 0 | plus: 0 %}
   {% assign available_featured = featured_collection.products.size | default: 0 | plus: 0 %}
 
@@ -211,12 +209,23 @@
     {% assign featured_limit = available_featured %}
   {% endif %}
 
+  {%- comment -%} Per-page capacity and sort state {%- endcomment -%}
   {% assign per_page = section.settings.products_per_page | plus: 0 %}
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
   {%- comment -%}
-  If we will inject featured on page 1 & manual sort, compute how many normal items we should render:
-    normal_render_limit = per_page - featured_limit (min 0)
+  CAP featured_limit so page 1 never overflows:
+  At least keep 1 normal item on the page (so page width/layout intact).
+  You can change `1` to a bigger min if you prefer.
+  {%- endcomment -%}
+  {% assign max_featured_allowed = per_page | minus: 1 %}
+  {% if max_featured_allowed < 0 %}{% assign max_featured_allowed = 0 %}{% endif %}
+  {% if featured_limit > max_featured_allowed %}
+    {% assign featured_limit = max_featured_allowed %}
+  {% endif %}
+
+  {%- comment -%}
+  Compute how many non-featured items to render on page 1
   {%- endcomment -%}
   {% assign normal_render_limit = per_page %}
   {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
@@ -225,7 +234,7 @@
   {% endif %}
 
   {%- comment -%}
-  Build featured_ids for skipping and render featured (only on page 1 & manual sort)
+  Build featured_ids and render featured items (only on page 1 and manual sort)
   {%- endcomment -%}
   {% assign featured_ids = '' %}
   {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
@@ -257,17 +266,16 @@
   {% endif %}
 
   {%- comment -%}
-  Now render normal paginated products.
-  - If on page 1 & manual sort: render only first `normal_render_limit` non-featured items (so total = per_page).
-  - Else: render all collection.products (Shopify already paginated them to per_page).
+  Render normal paginated products:
+  - If page 1 & manual sort -> render only `normal_render_limit` non-featured items (so total = per_page).
+  - Otherwise -> render all collection.products (Shopify handles pagination).
   {%- endcomment -%}
   {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
     {% assign normal_count = 0 %}
-    {%- for product in collection.products -%}
+    {% for product in collection.products %}
       {% unless featured_ids contains product.id %}
         {% assign lazy_load = false %}
         {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
         <li
           class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
@@ -294,12 +302,11 @@
           {% break %}
         {% endif %}
       {% endunless %}
-    {%- endfor -%}
+    {% endfor %}
   {% else %}
-    {%- for product in collection.products -%}
+    {% for product in collection.products %}
       {% assign lazy_load = false %}
       {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
-
       <li
         class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
@@ -321,7 +328,7 @@
         %}
       </li>
       {% assign skip_card_product_styles = true %}
-    {%- endfor -%}
+    {% endfor %}
   {% endif %}
 </ul>
 
