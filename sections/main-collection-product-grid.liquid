@@ -174,9 +174,9 @@
               Featured products first
               {%- endcomment -%}
               {% assign featured_products = '' %}
-              {{ featured_collection.products | json }}
               {% for product in featured_collection.products %}
                 {% if current_products contains product %}
+                  {{ "TEst" }}
                   {{ product | json }}
                   {% assign featured_products = featured_products | append: product.id | append: ',' %}
                 {% endif %}
