@@ -184,7 +184,24 @@
               {%- endfor -%}
                
             </ul> {% endcomment %}
- <ul
+ {% assign per_page = section.settings.products_per_page | plus: 0 %}
+{% assign featured_collection = collections['featured'] %}
+{% assign featured_products = featured_collection.products %}
+{% assign featured_limit = section.settings.featured_count | default: featured_products.size %}
+{% assign featured_products = featured_products | slice: 0, featured_limit %}
+
+{% assign normal_products = collection.products %}
+{% comment %} Remove featured from normal products {% endcomment %}
+{% assign normal_products_clean = '' | split: ',' %}
+{% for product in normal_products %}
+  {% unless featured_products contains product %}
+    {% capture temp %}{{ product.id }}{% endcapture %}
+    {% assign normal_products_clean = normal_products_clean | append: temp | append: ',' %}
+  {% endunless %}
+{% endfor %}
+{% assign normal_products_clean = normal_products_clean | split: ',' | reject: '' %}
+
+<ul
   id="product-grid"
   data-id="{{ section.id }}"
   class="
@@ -195,83 +212,55 @@
 >
   {% assign skip_card_product_styles = false %}
 
-  {%- comment -%} FEATURED PRODUCTS (only on page 1) {%- endcomment -%}
+  {% comment %} PAGE 1: show featured first {% endcomment %}
   {% if paginate.current_page == 1 %}
-    {% assign featured_collection = collections['featured'] %}
-    {% assign featured_limit = section.settings.featured_count | default: featured_collection.products.size %}
-    {% assign featured_products = featured_collection.products | slice: 0, featured_limit %}
-
     {% for product in featured_products %}
       {% assign lazy_load = false %}
       {% if forloop.index > 2 %}
         {% assign lazy_load = true %}
       {% endif %}
 
-      <li
-        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-          style="--animation-order: {{ forloop.index }};"
-        {% endif %}
-      >
-        {% render 'card-product',
-          card_product: product,
-          media_aspect_ratio: section.settings.image_ratio,
-          image_shape: section.settings.image_shape,
-          show_secondary_image: section.settings.show_secondary_image,
-          show_vendor: section.settings.show_vendor,
-          show_rating: section.settings.show_rating,
-          lazy_load: lazy_load,
-          skip_styles: skip_card_product_styles,
-          quick_add: section.settings.quick_add,
-          section_id: section.id
-        %}
+      <li class="grid__item">
+        {% render 'card-product', card_product: product, lazy_load: lazy_load, skip_styles: skip_card_product_styles, section_id: section.id %}
       </li>
       {% assign skip_card_product_styles = true %}
     {% endfor %}
-  {% endif %}
 
-  {%- comment -%} REGULAR COLLECTION PRODUCTS {%- endcomment -%}
-  {% for product in collection.products %}
-    {% assign show_product = false %}
-
-    {% if paginate.current_page != 1 %}
-      {% assign show_product = true %}
-    {% else %}
-      {% unless featured_products contains product %}
-        {% assign show_product = true %}
-      {% endunless %}
-    {% endif %}
-
-    {% if show_product %}
-      {% assign lazy_load = false %}
-      {% if forloop.index > 2 %}
-        {% assign lazy_load = true %}
-      {% endif %}
-
-      <li
-        class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-          style="--animation-order: {{ forloop.index }};"
+    {% comment %} Slice normal products for page 1 {% endcomment %}
+    {% assign normal_page_1 = normal_products_clean | slice: 0, per_page %}
+    {% for product_id in normal_page_1 %}
+      {% assign product = all_products[product_id] %}
+      {% if product %}
+        {% assign lazy_load = false %}
+        {% if forloop.index > 2 %}
+          {% assign lazy_load = true %}
         {% endif %}
-      >
-        {% render 'card-product',
-          card_product: product,
-          media_aspect_ratio: section.settings.image_ratio,
-          image_shape: section.settings.image_shape,
-          show_secondary_image: section.settings.show_secondary_image,
-          show_vendor: section.settings.show_vendor,
-          show_rating: section.settings.show_rating,
-          lazy_load: lazy_load,
-          skip_styles: skip_card_product_styles,
-          quick_add: section.settings.quick_add,
-          section_id: section.id
-        %}
-      </li>
-      {% assign skip_card_product_styles = true %}
-    {% endif %}
-  {% endfor %}
+        <li class="grid__item">
+          {% render 'card-product', card_product: product, lazy_load: lazy_load, skip_styles: skip_card_product_styles, section_id: section.id %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+      {% endif %}
+    {% endfor %}
+
+  {% else %}
+    {% comment %} PAGE 2+: show normal products {% endcomment %}
+    {% assign page_offset = paginate.current_page | minus: 2 %}
+{% assign start_index = per_page | times: page_offset %}
+    {% assign normal_next_page = normal_products_clean | slice: start_index, per_page %}
+    {% for product_id in normal_next_page %}
+      {% assign product = all_products[product_id] %}
+      {% if product %}
+        {% assign lazy_load = false %}
+        {% if forloop.index > 2 %}
+          {% assign lazy_load = true %}
+        {% endif %}
+        <li class="grid__item">
+          {% render 'card-product', card_product: product, lazy_load: lazy_load, skip_styles: skip_card_product_styles, section_id: section.id %}
+        </li>
+        {% assign skip_card_product_styles = true %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 </ul>
 
             {%- if paginate.pages > 1 -%}
