@@ -167,6 +167,7 @@
               Get current collection products (already paginated/filterable)
               {%- endcomment -%}
               {% assign current_products = collection.products %}
+              {% assign current_ids = current_products | map: 'id' %}
 
 
 
@@ -175,7 +176,7 @@
               {%- endcomment -%}
               {% assign featured_products = '' %}
               {% for product in featured_collection.products %}
-                {% if current_products contains product %}
+                {% if current_ids  contains product.id %}
                   {% assign featured_products = featured_products | append: product.id | append: ',' %}
                 {% endif %}
               {% endfor %}
