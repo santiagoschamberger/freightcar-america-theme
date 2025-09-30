@@ -145,70 +145,77 @@
           >
             <div class="loading-overlay gradient"></div>
 {% assign featured_collection = collections['featured'] %}
-{% assign featured_ids = '' %}
 {% assign featured_products = featured_collection.products %}
-{% assign all_products = collection.products %}
-
 {% assign total_featured = featured_products.size %}
 {% assign per_page = section.settings.products_per_page | plus: 0 %}
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+{%- comment -%}
+Build non-featured list (all collection products minus featured)
+{%- endcomment -%}
+{% assign featured_ids = '' %}
+{% for f in featured_products %}
+  {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
+{% endfor %}
+
+{% assign non_featured = '' %}
+{% for p in collection.products %}
+  {% unless featured_ids contains p.id %}
+    {% assign non_featured = non_featured | append: p.id | append: ',' %}
+  {% endunless %}
+{% endfor %}
+
+{%- assign non_featured_array = non_featured | split: ',' -%}
 
 <ul id="product-grid"
   class="grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
          grid--{{ section.settings.columns_desktop }}-col-desktop
          {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}">
   
-  {%- comment -%}
-  Page 1 logic
-  {%- endcomment -%}
-  {% if paginate.current_page == 1 and sort_by == 'manual' %}
+  {%- if paginate.current_page == 1 and sort_by == 'manual' -%}
     
     {%- if total_featured >= per_page -%}
-      {%- comment -%} Show ALL featured, ignore per_page {%- endcomment -%}
+      {%- comment -%} Show ALL featured products {%- endcomment -%}
       {% for f in featured_products %}
-        {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
         <li class="grid__item">
           {% render 'card-product', card_product: f, section_id: section.id %}
         </li>
       {% endfor %}
     
     {%- else -%}
-      {%- comment -%} Show featured + fill with non-featured up to per_page {%- endcomment -%}
-      {% assign normal_count = 0 %}
-      {% assign needed = per_page | minus: total_featured %}
-      
+      {%- comment -%} Show featured + fill to per_page with non-featured {%- endcomment -%}
       {% for f in featured_products %}
-        {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
         <li class="grid__item">
           {% render 'card-product', card_product: f, section_id: section.id %}
         </li>
       {% endfor %}
       
-      {% for p in all_products %}
-        {% unless featured_ids contains p.id %}
+      {% assign needed = per_page | minus: total_featured %}
+      {% for id in non_featured_array limit: needed %}
+        {% assign p = all_products[id] %}
+        {% if p %}
           <li class="grid__item">
             {% render 'card-product', card_product: p, section_id: section.id %}
           </li>
-          {% assign normal_count = normal_count | plus: 1 %}
-          {% if normal_count >= needed %}
-            {% break %}
-          {% endif %}
-        {% endunless %}
+        {% endif %}
       {% endfor %}
     {%- endif -%}
-    
-  {% else %}
+  
+  {%- else -%}
     {%- comment -%}
-    Page > 1: show only non-featured, Shopify pagination still applies
+    Page 2+ : paginate only non-featured products
     {%- endcomment -%}
-    {% for p in all_products %}
-      {% unless featured_ids contains p.id %}
-        <li class="grid__item">
-          {% render 'card-product', card_product: p, section_id: section.id %}
-        </li>
-      {% endunless %}
-    {% endfor %}
-  {% endif %}
+    {% paginate non_featured_array by per_page %}
+      {% for id in non_featured_array %}
+        {% assign p = all_products[id] %}
+        {% if p %}
+          <li class="grid__item">
+            {% render 'card-product', card_product: p, section_id: section.id %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {%- endif -%}
 </ul>
 
  
