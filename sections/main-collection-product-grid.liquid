@@ -215,19 +215,38 @@
   {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
   {%- comment -%}
+  Check if we should show featured products
+  {%- endcomment -%}
+  {% assign show_featured = false %}
+  {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
+    {% assign show_featured = true %}
+  {% endif %}
+
+  {%- comment -%}
   Build featured_ids array with delimiters for exact matching
   {%- endcomment -%}
   {% assign featured_ids = ',' %}
-  {% if featured_limit > 0 %}
+  {% if show_featured %}
     {% for f in featured_collection.products limit: featured_limit %}
       {% assign featured_ids = featured_ids | append: f.id | append: ',' %}
     {% endfor %}
   {% endif %}
 
   {%- comment -%}
-  Render featured products ONLY on page 1 with manual sort
+  Calculate how many regular products to show on page 1
   {%- endcomment -%}
-  {% if featured_limit > 0 and paginate.current_page == 1 and sort_by == 'manual' %}
+  {% assign regular_products_to_show = per_page %}
+  {% if show_featured %}
+    {% assign regular_products_to_show = per_page | minus: featured_limit %}
+    {% if regular_products_to_show < 0 %}
+      {% assign regular_products_to_show = 0 %}
+    {% endif %}
+  {% endif %}
+
+  {%- comment -%}
+  Render featured products on page 1
+  {%- endcomment -%}
+  {% if show_featured %}
     {% for f in featured_collection.products limit: featured_limit %}
       {% assign lazy_load = false %}
       <li
@@ -255,12 +274,13 @@
   {% endif %}
 
   {%- comment -%}
-  Render regular collection products, skipping featured ones on page 1 with manual sort
+  Render regular collection products
   {%- endcomment -%}
+  {% assign rendered_count = 0 %}
   {%- for product in collection.products -%}
-    {%- comment -%}Skip featured products ONLY on page 1 with manual sort{%- endcomment -%}
+    {%- comment -%}Skip featured products on page 1{%- endcomment -%}
     {% assign should_skip = false %}
-    {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
+    {% if show_featured %}
       {% assign product_id_check = ',' | append: product.id | append: ',' %}
       {% if featured_ids contains product_id_check %}
         {% assign should_skip = true %}
@@ -268,12 +288,17 @@
     {% endif %}
 
     {% unless should_skip %}
+      {%- comment -%}On page 1, limit regular products{%- endcomment -%}
+      {% if show_featured and rendered_count >= regular_products_to_show %}
+        {% break %}
+      {% endif %}
+
       {% assign lazy_load = false %}
       {%- if forloop.index > 2 -%}{% assign lazy_load = true %}{% endif -%}
 
       {% assign animation_order = forloop.index %}
-      {% if paginate.current_page == 1 and sort_by == 'manual' and featured_limit > 0 %}
-        {% assign animation_order = forloop.index | plus: featured_limit %}
+      {% if show_featured %}
+        {% assign animation_order = rendered_count | plus: 1 | plus: featured_limit %}
       {% endif %}
 
       <li
@@ -297,6 +322,7 @@
         %}
       </li>
       {% assign skip_card_product_styles = true %}
+      {% assign rendered_count = rendered_count | plus: 1 %}
     {% endunless %}
   {%- endfor -%}
 </ul>
