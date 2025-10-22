@@ -119,6 +119,34 @@
     width: 2rem;
     height: 2rem;
   }
+
+  /* Phone button styling */
+  .header__phone-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: #bf0d3e;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 2px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+    margin-right: 1rem;
+  }
+
+  .header__phone-button:hover {
+    background-color: #a00b35;
+    color: #ffffff;
+  }
+
+  @media screen and (min-width: 990px) {
+    .header__phone-button {
+      display: flex;
+    }
+  }
 </style>
 
 {%- style -%}
@@ -141,6 +169,15 @@
     .header {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .header {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
     }
   }
 {%- endstyle -%}
@@ -287,6 +324,10 @@
             {% render block %}
         {%- endcase -%}
       {%- endfor -%}
+
+      <a href="tel:+18145334109" class="header__phone-button">
+        +1 (814) 533-4109
+      </a>
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         <span class="svg-wrapper">{{'cart-white.svg' | inline_asset_content }}</span>
