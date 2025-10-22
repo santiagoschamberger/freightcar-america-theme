@@ -122,7 +122,7 @@
 
   /* Phone button styling */
   .header__phone-button {
-    display: none !important;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: #bf0d3e;
@@ -133,18 +133,20 @@
     font-size: 1.5rem;
     font-weight: 600;
     white-space: nowrap;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     margin-left: 2rem;
   }
 
   .header__phone-button:hover {
     background-color: #a00b35;
     color: #ffffff !important;
+    transform: translateY(-1px);
   }
 
-  @media screen and (min-width: 990px) {
+  /* Hide on mobile */
+  @media screen and (max-width: 989px) {
     .header__phone-button {
-      display: inline-flex !important;
+      display: none !important;
     }
   }
 
@@ -159,15 +161,32 @@
     }
   }
 
-  /* Increase header width */
-  .page-width {
-    max-width: 1400px;
+  /* Make header full width */
+  .header.page-width {
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin: 0 !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .header.page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .header:not(.drawer-menu).page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
   }
 </style>
 
 {%- style -%}
   .header {
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
+    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 20px {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 20px;
   }
 
   .section-header {
@@ -185,6 +204,8 @@
     .header {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 {%- endstyle -%}
