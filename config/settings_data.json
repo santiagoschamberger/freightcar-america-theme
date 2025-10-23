@@ -175,6 +175,11 @@
         "type": "shopify://apps/juphy-ai-chatbot/blocks/juphy-widget/f68438fc-3793-4355-a683-ded84ca39046",
         "disabled": false,
         "settings": {}
+      },
+      "17905063182753465337": {
+        "type": "shopify://apps/recently-viewed-pasilobus/blocks/recently_viewed/f0d9f660-2080-4769-ac84-218663dde2ef",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
