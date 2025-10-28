@@ -38,6 +38,25 @@
 
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  
+  {%- comment -%} Build featured product IDs list for ALL pages if on frontpage collection {%- endcomment -%}
+  {%- assign global_featured_product_ids = '' -%}
+  {%- assign has_active_filters = false -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.active_values.size > 0 -%}
+      {%- assign has_active_filters = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+  {%- if collection.handle == 'frontpage' and has_active_filters == false and current_sort == 'manual' -%}
+    {%- assign feat = collections['featured'] -%}
+    {%- if feat != nil and feat.products.size > 0 -%}
+      {%- for fp in feat.products limit: 35 -%}
+        {%- assign global_featured_product_ids = global_featured_product_ids | append: fp.id | append: ',' -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endif -%}
+  
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -155,23 +174,12 @@
               "
             >
               {%- assign skip_card_product_styles = false -%}
-              {%- assign featured_product_ids = '' -%}
 
-              {%- comment -%} FEATURED PRODUCTS FIRST (only show when no filters active and sort is featured) {%- endcomment -%}
-              {%- assign has_active_filters = false -%}
-              {%- for filter in collection.filters -%}
-                {%- if filter.active_values.size > 0 -%}
-                  {%- assign has_active_filters = true -%}
-                {%- endif -%}
-              {%- endfor -%}
-              {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
-              {%- if collection.handle == 'frontpage' and paginate.current_page == 1 and has_active_filters == false and current_sort == 'manual' -%}
+              {%- comment -%} FEATURED PRODUCTS FIRST (only show on page 1 when no filters active and sort is manual) {%- endcomment -%}
+              {%- if collection.handle == 'frontpage' and paginate.current_page == 1 and global_featured_product_ids != '' -%}
                 {%- assign feat = collections['featured'] -%}
                 {%- if feat != nil and feat.products.size > 0 -%}
                   {%- for fp in feat.products limit: 35 -%}
-                    {%- comment -%} Track featured product IDs to exclude later {%- endcomment -%}
-                    {%- assign featured_product_ids = featured_product_ids | append: fp.id | append: ',' -%}
-                    
                     <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                         {% if settings.animations_reveal_on_scroll %}
                           data-cascade
@@ -196,11 +204,11 @@
                 {%- endif -%}
               {%- endif -%}
 
-              {%- comment -%} REGULAR COLLECTION PRODUCTS {%- endcomment -%}
+              {%- comment -%} REGULAR COLLECTION PRODUCTS (exclude featured products on ALL pages) {%- endcomment -%}
               {%- for product in collection.products -%}
-                {%- comment -%} Skip if product was already shown in featured section {%- endcomment -%}
+                {%- comment -%} Skip if product is in the featured collection (on any page) {%- endcomment -%}
                 {%- assign product_id_string = product.id | append: ',' -%}
-                {%- unless featured_product_ids contains product_id_string -%}
+                {%- unless global_featured_product_ids contains product_id_string -%}
                   {% assign lazy_load = false %}
                   {%- if forloop.index > 2 -%}
                     {%- assign lazy_load = true -%}
