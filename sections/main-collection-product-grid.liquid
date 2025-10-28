@@ -155,6 +155,7 @@
               "
             >
               {%- assign skip_card_product_styles = false -%}
+              {%- assign featured_product_ids = '' -%}
 
               {%- comment -%} FEATURED PRODUCTS FIRST (only show when no filters active and sort is featured) {%- endcomment -%}
               {%- assign has_active_filters = false -%}
@@ -168,6 +169,9 @@
                 {%- assign feat = collections['featured'] -%}
                 {%- if feat != nil and feat.products.size > 0 -%}
                   {%- for fp in feat.products limit: 35 -%}
+                    {%- comment -%} Track featured product IDs to exclude later {%- endcomment -%}
+                    {%- assign featured_product_ids = featured_product_ids | append: fp.id | append: ',' -%}
+                    
                     <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                         {% if settings.animations_reveal_on_scroll %}
                           data-cascade
@@ -194,32 +198,36 @@
 
               {%- comment -%} REGULAR COLLECTION PRODUCTS {%- endcomment -%}
               {%- for product in collection.products -%}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true -%}
-                {%- endif -%}
+                {%- comment -%} Skip if product was already shown in featured section {%- endcomment -%}
+                {%- assign product_id_string = product.id | append: ',' -%}
+                {%- unless featured_product_ids contains product_id_string -%}
+                  {% assign lazy_load = false %}
+                  {%- if forloop.index > 2 -%}
+                    {%- assign lazy_load = true -%}
+                  {%- endif -%}
 
-                <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {% if settings.animations_reveal_on_scroll %}
-                    data-cascade
-                    style="--animation-order: {{ forloop.index }};"
-                  {% endif %}
-                >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
-                </li>
-                {%- assign skip_card_product_styles = true -%}
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ forloop.index }};"
+                    {% endif %}
+                  >
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  </li>
+                  {%- assign skip_card_product_styles = true -%}
+                {%- endunless -%}
               {%- endfor -%}
                
             </ul>
