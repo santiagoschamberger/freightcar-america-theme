@@ -147,7 +147,7 @@
   {%- else -%}
     {%- comment -%}Show message for non-logged-in customers{%- endcomment -%}
     <div class="price price--login-required {{ price_class }}">
-      <span class="price-item price-item--login-required">
+      <span class="price-item price-item--login-required" style="color: #C1272D; font-weight: 600;">
         {{ 'products.product.login_to_see_price' | t }}
       </span>
     </div>
