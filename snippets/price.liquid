@@ -50,6 +50,8 @@
 {% endif %}
 
 {%- unless target == null and placeholder == null -%}
+  {%- comment -%}Hide price if customer is not logged in{%- endcomment -%}
+  {%- if customer -%}
   <div
     class=" {{ money_price }}
       price
@@ -142,4 +144,12 @@
       </span>
     {%- endif -%}
   </div>
+  {%- else -%}
+    {%- comment -%}Show message for non-logged-in customers{%- endcomment -%}
+    <div class="price price--login-required {{ price_class }}">
+      <span class="price-item price-item--login-required">
+        {{ 'products.product.login_to_see_price' | t }}
+      </span>
+    </div>
+  {%- endif -%}
 {% endunless %}
