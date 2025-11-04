@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow": {
@@ -11,7 +20,7 @@
             "heading_size": "h0",
             "subheading": "FreightCar America's Running Repairs program is revolutionizing the game with a cutting-edge approach to parts delivery and service. Experience lightning-fast turnaround times, a wide range of top-quality selections, and unmatched reliability — all designed to keep you moving forward, faster.",
             "button_label": "Shop all",
-            "link": "shopify://collections/frontpage",
+            "link": "shopify://collections/catalog",
             "button_style_secondary": false,
             "box_align": "middle-left",
             "show_text_box": true,
