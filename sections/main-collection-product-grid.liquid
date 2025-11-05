@@ -179,7 +179,7 @@
               {%- if collection.handle == 'frontpage' and paginate.current_page == 1 and global_featured_product_ids != '' -%}
                 {%- assign feat = collections['featured'] -%}
                 {%- if feat != nil and feat.products.size > 0 -%}
-                  {%- for fp in feat.products limit: 35 -%}
+                  {%- for fp in feat.products reversed limit: 35 -%}
                     <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                         {% if settings.animations_reveal_on_scroll %}
                           data-cascade
