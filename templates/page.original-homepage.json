@@ -170,7 +170,7 @@
           "type": "column",
           "settings": {
             "title": "Step 2",
-            "text": "<p>Once you're ready to purchase, proceed to the checkout page. Shipping costs will be calculated at checkout. Any order over $3,000 will receive free shipping. </p><p>*Note: If you have a PO# associated with your order, please include it in the \"special notes\" field in the cart prior to the checkout page.</p>",
+            "text": "<p>Once you're ready to purchase, proceed to the checkout page. Shipping costs will be calculated at checkout. Any order over $6,000 will receive free shipping. </p><p>*Note: If you have a PO# associated with your order, please include it in the \"special notes\" field in the cart prior to the checkout page.</p>",
             "link_label": "",
             "link": ""
           }
