@@ -171,13 +171,13 @@
         "disabled": false,
         "settings": {}
       },
-      "17962279454735684210": {
-        "type": "shopify://apps/juphy-ai-chatbot/blocks/juphy-widget/f68438fc-3793-4355-a683-ded84ca39046",
+      "17905063182753465337": {
+        "type": "shopify://apps/recently-viewed-pasilobus/blocks/recently_viewed/f0d9f660-2080-4769-ac84-218663dde2ef",
         "disabled": false,
         "settings": {}
       },
-      "17905063182753465337": {
-        "type": "shopify://apps/recently-viewed-pasilobus/blocks/recently_viewed/f0d9f660-2080-4769-ac84-218663dde2ef",
+      "consentmo-gdpr-4fbe573f-a377-4fea-9801-3ee0858cae41": {
+        "type": "shopify://apps/consentmo-gdpr/blocks/gdpr_cookie_consent/4fbe573f-a377-4fea-9801-3ee0858cae41",
         "disabled": false,
         "settings": {}
       }
