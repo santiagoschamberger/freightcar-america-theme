@@ -127,32 +127,23 @@
       "type": "apps",
       "blocks": {
         "recently_viewed_pasilobus_recently_viewed_products_W8E4dc": {
-          "type": "shopify://apps/recently-viewed-pasilobus/blocks/recently_viewed_products/f0d9f660-2080-4769-ac84-218663dde2ef",
+          "type": "shopify://apps/social-proof/blocks/recently_viewed_products/f0d9f660-2080-4769-ac84-218663dde2ef",
           "settings": {
             "title": "Recently Viewed Products",
-            "heading_size": "h2",
+            "heading_fontsize": 24,
             "heading_alignment": "left",
-            "products_to_show": 8,
+            "number_of_products_to_show": 8,
             "columns_desktop": 4,
             "columns_mobile": "2",
-            "image_ratio": "adapt",
-            "exclude_current_product": true,
-            "show_vendor": false,
-            "show_product_price": true,
-            "show_secondary_image": false,
-            "text_alignment": "default",
             "enable_carousel_desktop": true,
             "enable_carousel_mobile": true,
             "carousel_arrow_position": "below",
             "use_theme_settings": true,
-            "card_background": "#ffffff",
-            "card_text_color": "#333333",
-            "card_price_color": "#333333",
-            "card_border_thickness": 1,
-            "card_border_color": "#e5e5e5",
-            "card_corner_radius": 0,
-            "padding_top": "36",
-            "padding_bottom": "36"
+            "exclude_current_product": true,
+            "show_vendor": false,
+            "show_product_price": true,
+            "padding_top": 36,
+            "padding_bottom": 36
           }
         }
       },
@@ -166,7 +157,7 @@
   },
   "order": [
     "main",
-    "176125333170dd4bb3",
-    "related-products"
+    "related-products",
+    "176125333170dd4bb3"
   ]
 }
