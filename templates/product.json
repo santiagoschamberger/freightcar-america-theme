@@ -133,7 +133,7 @@
             "heading_fontsize": 24,
             "heading_alignment": "left",
             "number_of_products_to_show": 8,
-            "columns_desktop": 4,
+            "columns_desktop": 3,
             "columns_mobile": "2",
             "enable_carousel_desktop": true,
             "enable_carousel_mobile": true,
