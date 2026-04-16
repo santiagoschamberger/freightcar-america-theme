@@ -89,9 +89,7 @@
         "description",
         "share"
       ],
-      "custom_css": [
-        "/* Product page only - single product H1 */@media only screen and (min-width: 750px) {.template-product .product__info-container .product__title h1 {font-size: 3rem !important; line-height: 1.05 !important; }}"
-      ],
+      "custom_css": [],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
