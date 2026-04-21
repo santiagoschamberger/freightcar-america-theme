@@ -27,7 +27,17 @@
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
   >
-    {% if recommendations.performed and recommendations.products_count > 0 %}
+    {%- liquid
+      assign has_custom_related = false
+      if product.metafields.custom.related_parts.value != blank
+        assign related_products = product.metafields.custom.related_parts.value
+        assign has_custom_related = true
+      elsif recommendations.performed and recommendations.products_count > 0
+        assign related_products = recommendations.products
+      endif
+    -%}
+
+    {% if has_custom_related or recommendations.performed and recommendations.products_count > 0 %}
       <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
         {{ section.settings.heading }}
       </h2>
@@ -36,10 +46,10 @@
         role="list"
       >
         {% assign skip_card_product_styles = false %}
-        {% for recommendation in recommendations.products %}
+        {% for related_product in related_products limit: section.settings.products_to_show %}
           <li class="grid__item">
             {% render 'card-product',
-              card_product: recommendation,
+              card_product: related_product,
               media_aspect_ratio: section.settings.image_ratio,
               image_shape: section.settings.image_shape,
               show_secondary_image: section.settings.show_secondary_image,
