@@ -20,6 +20,30 @@
     "collection_list_LYkMV9": {
       "type": "collection-list",
       "blocks": {
+        "featured_collection_EHaKpC": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "featured"
+          }
+        },
+        "featured_collection_Vmm3wL": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "bundles"
+          }
+        },
+        "featured_collection_k9Pt7f": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "essential-running-repair-parts-for-freight-cars-featured-fees-products"
+          }
+        },
+        "featured_collection_jDrRpW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "catalog"
+          }
+        },
         "featured_collection_3T3mBd": {
           "type": "featured_collection",
           "settings": {
@@ -70,6 +94,10 @@
         }
       },
       "block_order": [
+        "featured_collection_EHaKpC",
+        "featured_collection_Vmm3wL",
+        "featured_collection_k9Pt7f",
+        "featured_collection_jDrRpW",
         "featured_collection_3T3mBd",
         "featured_collection_MpWGMH",
         "featured_collection_aGL3Ra",
