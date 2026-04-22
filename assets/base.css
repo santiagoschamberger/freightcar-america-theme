@@ -3745,15 +3745,15 @@ details-disclosure > details {
   }
 }
 
-/* BUNDLES FIX */
-.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__inner {
+/* Bundles only */
+.collection-list-wrapper .collection-list__item--no-media .card__inner {
   display: flex !important;
-  flex: 1 1 auto !important;
   height: 100% !important;
+  width: 100% !important;
   background: transparent !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__inner > .card__content {
+.collection-list-wrapper .collection-list__item--no-media .card__inner > .card__content {
   display: grid !important;
   grid-template-rows: minmax(0, 1fr) max-content minmax(0, 1fr) !important;
   align-items: center !important;
@@ -3764,12 +3764,28 @@ details-disclosure > details {
   padding: 1rem !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card > .card__content {
+.collection-list-wrapper .collection-list__item--no-media .card > .card__content {
   display: none !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__information {
+.collection-list-wrapper .collection-list__item--no-media .card__information {
   width: 100% !important;
   padding: 0 2.4rem !important;
   background: transparent !important;
+}
+
+.collection-list-wrapper .collection-list__item--no-media .card__heading,
+.collection-list-wrapper .collection-list__item--no-media .card__heading a,
+.collection-list-wrapper .collection-list__item--no-media .full-unstyled-link {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 2rem !important;
+  line-height: 1.25 !important;
+}
+
+.collection-list-wrapper .collection-list__item--no-media .icon-wrap,
+.collection-list-wrapper .collection-list__item--no-media .icon,
+.collection-list-wrapper .collection-list__item--no-media svg {
+  color: #ffffff !important;
+  fill: currentColor !important;
 }
