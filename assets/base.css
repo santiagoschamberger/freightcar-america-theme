@@ -3797,3 +3797,12 @@ details-disclosure > details {
   color: #ffffff !important;
   fill: currentColor !important;
 }
+
+
+/* BUNDLES HOVER FIX */
+#Slide-template--25171566493990__collection_list_LYkMV9-2:hover .card,
+#Slide-template--25171566493990__collection_list_LYkMV9-2:hover .card__inner,
+#Slide-template--25171566493990__collection_list_LYkMV9-2:hover .card__inner > .card__content {
+  background: #0a477f !important;
+  border-color: #0a477f !important;
+}
