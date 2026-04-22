@@ -3660,14 +3660,25 @@ details-disclosure > details {
   }
 }
 
-/* COLLECTION LIST CARDS - image-less centered version */
+/* COLLECTION LIST CARDS - all square and consistent */
+.collection-list-wrapper .collection-list__item {
+  display: flex !important;
+}
+
+.collection-list-wrapper .collection-card-wrapper {
+  width: 100% !important;
+}
+
 .collection-list-wrapper .collection-card-wrapper .card {
   background: #063866 !important;
   border: 1px solid #063866 !important;
   border-radius: 0 !important;
   overflow: hidden !important;
   box-shadow: none !important;
-  min-height: 230px !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  min-height: unset !important;
+  height: auto !important;
   display: flex !important;
   flex-direction: column !important;
 }
@@ -3686,6 +3697,7 @@ details-disclosure > details {
   align-items: center !important;
   align-content: center !important;
   width: 100% !important;
+  height: 100% !important;
   flex-grow: 1 !important;
   background: #063866 !important;
   padding: 1rem !important;
@@ -3721,10 +3733,6 @@ details-disclosure > details {
 }
 
 @media screen and (max-width: 749px) {
-  .collection-list-wrapper .collection-card-wrapper .card {
-    min-height: 180px !important;
-  }
-
   .collection-list-wrapper .collection-card-wrapper .card__information {
     padding: 0 1.8rem !important;
   }
