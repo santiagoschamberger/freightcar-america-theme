@@ -3659,3 +3659,33 @@ details-disclosure > details {
     line-height: 1.05 !important;
   }
 }
+
+.collection-list__item .collection-card-wrapper .card {
+  background: #063866;
+  border: 1px solid #063866;
+  border-radius: 0;
+}
+
+.collection-list__item .collection-card-wrapper .card__content {
+  background: #063866;
+}
+
+.collection-list__item .collection-card-wrapper .card__heading a {
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.collection-list__item .collection-card-wrapper .card__heading .icon-wrap,
+.collection-list__item .collection-card-wrapper .card__heading svg {
+  color: #ffffff;
+}
+
+.collection-list__item .collection-card-wrapper .media {
+  background: #ffffff;
+}
+
+.collection-list__item .collection-card-wrapper:hover .card {
+  background: #0a477f;
+  border-color: #0a477f;
+}
