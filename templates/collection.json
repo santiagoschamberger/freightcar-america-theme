@@ -29,25 +29,25 @@
         "featured_collection_EHaKpC": {
           "type": "featured_collection",
           "settings": {
-            "collection": "featured"
+            "collection": "bundles"
           }
         },
-        "featured_collection_k9Pt7f": {
+        "featured_collection_E4MaXn": {
           "type": "featured_collection",
           "settings": {
-            "collection": "essential-running-repair-parts-for-freight-cars-featured-fees-products"
-          }
-        },
-        "featured_collection_jDrRpW": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "catalog"
+            "collection": "brake-system-components"
           }
         },
         "featured_collection_3T3mBd": {
           "type": "featured_collection",
           "settings": {
             "collection": "car-body-components"
+          }
+        },
+        "featured_collection_HnpPTk": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "coupler-draft-system-components"
           }
         },
         "featured_collection_MpWGMH": {
@@ -62,50 +62,22 @@
             "collection": "structural-hardware-components"
           }
         },
-        "featured_collection_HnpPTk": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "coupler-draft-system-components"
-          }
-        },
         "featured_collection_FPT7em": {
           "type": "featured_collection",
           "settings": {
             "collection": "truck-system-components"
-          }
-        },
-        "featured_collection_E4MaXn": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "brake-system-components"
-          }
-        },
-        "featured_collection_AgHpcn": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "fees-products"
-          }
-        },
-        "featured_collection_eCqQEY": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "all"
           }
         }
       },
       "block_order": [
         "featured_collection_8JEbyV",
         "featured_collection_EHaKpC",
-        "featured_collection_k9Pt7f",
-        "featured_collection_jDrRpW",
+        "featured_collection_E4MaXn",
         "featured_collection_3T3mBd",
+        "featured_collection_HnpPTk",
         "featured_collection_MpWGMH",
         "featured_collection_aGL3Ra",
-        "featured_collection_HnpPTk",
-        "featured_collection_FPT7em",
-        "featured_collection_E4MaXn",
-        "featured_collection_AgHpcn",
-        "featured_collection_eCqQEY"
+        "featured_collection_FPT7em"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
