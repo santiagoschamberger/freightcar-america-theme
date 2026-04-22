@@ -3670,29 +3670,44 @@ details-disclosure > details {
 }
 
 .collection-list-wrapper .collection-card-wrapper .card__inner {
-  position: relative !important;
   background: transparent !important;
 }
 
 .collection-list-wrapper .collection-card-wrapper .card__media {
   position: relative !important;
   z-index: 2 !important;
-  overflow: hidden !important;
   background: #ffffff !important;
   margin: 16px 16px 0 16px !important;
+  overflow: hidden !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper .media,
-.collection-list-wrapper .collection-card-wrapper .media--transparent,
-.collection-list-wrapper .collection-card-wrapper .media img {
-  position: relative !important;
-  z-index: 2 !important;
+/* reset ratio behavior that is making the image tiny */
+.collection-list-wrapper .collection-card-wrapper .card__inner.ratio {
+  display: block !important;
+}
+
+.collection-list-wrapper .collection-card-wrapper .card__inner.ratio::before {
+  content: none !important;
+}
+
+.collection-list-wrapper .collection-card-wrapper .media {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 260px !important;
   background: #ffffff !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper .card__content {
-  position: relative !important;
-  z-index: 3 !important;
+.collection-list-wrapper .collection-card-wrapper .media img {
+  width: 100% !important;
+  height: 260px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #ffffff !important;
+}
+
+.collection-list-wrapper .collection-card-wrapper .card__content,
+.collection-list-wrapper .collection-card-wrapper > .card__content {
   background: #063866 !important;
   padding: 18px 18px 20px !important;
 }
@@ -3715,11 +3730,9 @@ details-disclosure > details {
   fill: currentColor !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper:hover .card {
+.collection-list-wrapper .collection-card-wrapper:hover .card,
+.collection-list-wrapper .collection-card-wrapper:hover .card__content,
+.collection-list-wrapper .collection-card-wrapper:hover > .card__content {
   background: #0a477f !important;
   border-color: #0a477f !important;
-}
-
-.collection-list-wrapper .collection-card-wrapper:hover .card__content {
-  background: #0a477f !important;
 }
