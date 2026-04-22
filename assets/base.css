@@ -3660,7 +3660,7 @@ details-disclosure > details {
   }
 }
 
-/* COLLECTION LIST CARDS - final clean version */
+/* GENERAL - all cards except Bundles keep the original working approach */
 .collection-list-wrapper .collection-list__item {
   display: flex !important;
 }
@@ -3670,17 +3670,20 @@ details-disclosure > details {
 }
 
 .collection-list-wrapper .collection-card-wrapper .card {
-  position: relative !important;
-  width: 100% !important;
-  aspect-ratio: 1 / 1 !important;
   background: #063866 !important;
   border: 1px solid #063866 !important;
   border-radius: 0 !important;
   overflow: hidden !important;
   box-shadow: none !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  min-height: unset !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-/* hide all original image/internal structure */
+/* default behavior for all cards */
 .collection-list-wrapper .collection-card-wrapper .card__inner,
 .collection-list-wrapper .collection-card-wrapper .card__media,
 .collection-list-wrapper .collection-card-wrapper .media,
@@ -3688,21 +3691,23 @@ details-disclosure > details {
   display: none !important;
 }
 
-/* use ONLY the direct child card__content */
+.collection-list-wrapper .collection-card-wrapper .card__content,
 .collection-list-wrapper .collection-card-wrapper > .card__content {
-  position: absolute !important;
-  inset: 0 !important;
-  display: flex !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) max-content minmax(0, 1fr) !important;
   align-items: center !important;
+  align-content: center !important;
   width: 100% !important;
   height: 100% !important;
+  flex-grow: 1 !important;
   background: #063866 !important;
-  padding: 2.4rem !important;
+  padding: 1rem !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper > .card__content .card__information {
-  width: 100% !important;
+.collection-list-wrapper .collection-card-wrapper .card__information {
   background: transparent !important;
+  width: 100% !important;
+  padding: 0 2.4rem !important;
 }
 
 .collection-list-wrapper .collection-card-wrapper .card__heading,
@@ -3712,7 +3717,6 @@ details-disclosure > details {
   font-weight: 700 !important;
   font-size: 2rem !important;
   line-height: 1.25 !important;
-  text-decoration: none !important;
 }
 
 .collection-list-wrapper .collection-card-wrapper .icon-wrap,
@@ -3723,14 +3727,15 @@ details-disclosure > details {
 }
 
 .collection-list-wrapper .collection-card-wrapper:hover .card,
+.collection-list-wrapper .collection-card-wrapper:hover .card__content,
 .collection-list-wrapper .collection-card-wrapper:hover > .card__content {
   background: #0a477f !important;
   border-color: #0a477f !important;
 }
 
 @media screen and (max-width: 749px) {
-  .collection-list-wrapper .collection-card-wrapper > .card__content {
-    padding: 1.8rem !important;
+  .collection-list-wrapper .collection-card-wrapper .card__information {
+    padding: 0 1.8rem !important;
   }
 
   .collection-list-wrapper .collection-card-wrapper .card__heading,
