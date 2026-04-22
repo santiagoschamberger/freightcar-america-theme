@@ -3661,52 +3661,69 @@ details-disclosure > details {
 }
 
 
-/* COLLECTION GRID - custom look only for collection cards */
-.collection-list__item .collection-card-wrapper .card {
+/* Show collection grid only on /collections/catalog */
+body:not(.template-collection) .collection-list-wrapper {
+  display: none;
+}
+
+/* Collection cards custom style */
+.template-collection .collection-list__item .collection-card-wrapper .card {
   background: #063866;
   border: 1px solid #063866;
   border-radius: 0;
   overflow: hidden;
 }
 
-.collection-list__item .collection-card-wrapper .card__inner {
+.template-collection .collection-list__item .collection-card-wrapper .card__inner {
+  position: relative;
   background: #ffffff;
 }
 
-.collection-list__item .collection-card-wrapper .card__media,
-.collection-list__item .collection-card-wrapper .media,
-.collection-list__item .collection-card-wrapper .media--transparent {
+.template-collection .collection-list__item .collection-card-wrapper .card__media {
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.template-collection .collection-list__item .collection-card-wrapper .media,
+.template-collection .collection-list__item .collection-card-wrapper .media--transparent,
+.template-collection .collection-list__item .collection-card-wrapper .media img {
+  position: relative;
+  z-index: 2;
   background: #ffffff !important;
 }
 
-.collection-list__item .collection-card-wrapper .card__content {
+.template-collection .collection-list__item .collection-card-wrapper .card__content {
+  position: relative;
+  z-index: 3;
   background: #063866;
   padding: 18px;
 }
 
-.collection-list__item .collection-card-wrapper .card__information {
+.template-collection .collection-list__item .collection-card-wrapper .card__information {
   background: transparent;
 }
 
-.collection-list__item .collection-card-wrapper .card__heading,
-.collection-list__item .collection-card-wrapper .card__heading a,
-.collection-list__item .collection-card-wrapper .full-unstyled-link {
-  color: #ffffff !important;
+.template-collection .collection-list__item .collection-card-wrapper .card__heading,
+.template-collection .collection-list__item .collection-card-wrapper .card__heading a,
+.template-collection .collection-list__item .collection-card-wrapper .full-unstyled-link {
+  color: #fff !important;
   font-weight: 700;
 }
 
-.collection-list__item .collection-card-wrapper .icon-wrap,
-.collection-list__item .collection-card-wrapper .icon,
-.collection-list__item .collection-card-wrapper svg {
-  color: #ffffff !important;
+.template-collection .collection-list__item .collection-card-wrapper .icon-wrap,
+.template-collection .collection-list__item .collection-card-wrapper .icon,
+.template-collection .collection-list__item .collection-card-wrapper svg {
+  color: #fff !important;
   fill: currentColor;
 }
 
-.collection-list__item .collection-card-wrapper:hover .card {
+.template-collection .collection-list__item .collection-card-wrapper:hover .card {
   background: #0a477f;
   border-color: #0a477f;
 }
 
-.collection-list__item .collection-card-wrapper:hover .card__content {
+.template-collection .collection-list__item .collection-card-wrapper:hover .card__content {
   background: #0a477f;
 }
