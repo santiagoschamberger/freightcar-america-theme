@@ -3661,10 +3661,7 @@ details-disclosure > details {
 }
 
 
-/* Show collection grid only on /collections/catalog */
-body:not(.template-collection) .collection-list-wrapper {
-  display: none;
-}
+
 
 /* Collection cards custom style */
 .template-collection .collection-list__item .collection-card-wrapper .card {
