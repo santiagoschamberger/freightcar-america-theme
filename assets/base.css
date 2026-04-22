@@ -3745,15 +3745,15 @@ details-disclosure > details {
   }
 }
 
-/* HACK - Bundles only */
-#Slide-template--25171566493990__collection_list_LYkMV9-2 .card__inner {
+/* BUNDLES FIX */
+.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__inner {
   display: flex !important;
-  height: 100% !important;
   flex: 1 1 auto !important;
+  height: 100% !important;
   background: transparent !important;
 }
 
-#Slide-template--25171566493990__collection_list_LYkMV9-2 .card__inner > .card__content {
+.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__inner > .card__content {
   display: grid !important;
   grid-template-rows: minmax(0, 1fr) max-content minmax(0, 1fr) !important;
   align-items: center !important;
@@ -3764,11 +3764,11 @@ details-disclosure > details {
   padding: 1rem !important;
 }
 
-#Slide-template--25171566493990__collection_list_LYkMV9-2 > .card__content {
+.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card > .card__content {
   display: none !important;
 }
 
-#Slide-template--25171566493990__collection_list_LYkMV9-2 .card__information {
+.collection-list-wrapper .collection-card-wrapper:has(a[href="/collections/bundles"]) .card__information {
   width: 100% !important;
   padding: 0 2.4rem !important;
   background: transparent !important;
