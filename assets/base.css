@@ -3668,9 +3668,9 @@ details-disclosure > details {
   overflow: hidden !important;
   box-shadow: none !important;
   min-height: 230px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 
 .collection-list-wrapper .collection-card-wrapper .card__inner,
