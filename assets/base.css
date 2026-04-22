@@ -3660,7 +3660,7 @@ details-disclosure > details {
   }
 }
 
-/* COLLECTION LIST CARDS - all square and consistent */
+/* COLLECTION LIST CARDS - square, no image, centered */
 .collection-list-wrapper .collection-list__item {
   display: flex !important;
 }
@@ -3683,11 +3683,18 @@ details-disclosure > details {
   flex-direction: column !important;
 }
 
-.collection-list-wrapper .collection-card-wrapper .card__inner,
+/* IMPORTANT: do NOT hide card__inner */
 .collection-list-wrapper .collection-card-wrapper .card__media,
 .collection-list-wrapper .collection-card-wrapper .media,
 .collection-list-wrapper .collection-card-wrapper .media--transparent {
   display: none !important;
+}
+
+/* keep both possible content containers visible */
+.collection-list-wrapper .collection-card-wrapper .card__inner {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  background: transparent !important;
 }
 
 .collection-list-wrapper .collection-card-wrapper .card__content,
