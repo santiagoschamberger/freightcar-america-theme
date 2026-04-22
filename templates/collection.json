@@ -20,6 +20,12 @@
     "collection_list_LYkMV9": {
       "type": "collection-list",
       "blocks": {
+        "featured_collection_8JEbyV": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "all"
+          }
+        },
         "featured_collection_EHaKpC": {
           "type": "featured_collection",
           "settings": {
@@ -88,6 +94,7 @@
         }
       },
       "block_order": [
+        "featured_collection_8JEbyV",
         "featured_collection_EHaKpC",
         "featured_collection_k9Pt7f",
         "featured_collection_jDrRpW",
