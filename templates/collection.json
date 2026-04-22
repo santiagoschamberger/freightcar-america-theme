@@ -17,6 +17,82 @@
         "color_scheme": "scheme-1"
       }
     },
+    "collection_list_LYkMV9": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_3T3mBd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "car-body-components"
+          }
+        },
+        "featured_collection_MpWGMH": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "dump-door-system"
+          }
+        },
+        "featured_collection_aGL3Ra": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "structural-hardware-components"
+          }
+        },
+        "featured_collection_HnpPTk": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "coupler-draft-system-components"
+          }
+        },
+        "featured_collection_FPT7em": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "truck-system-components"
+          }
+        },
+        "featured_collection_E4MaXn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "brake-system-components"
+          }
+        },
+        "featured_collection_AgHpcn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "fees-products"
+          }
+        },
+        "featured_collection_eCqQEY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "all"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_3T3mBd",
+        "featured_collection_MpWGMH",
+        "featured_collection_aGL3Ra",
+        "featured_collection_HnpPTk",
+        "featured_collection_FPT7em",
+        "featured_collection_E4MaXn",
+        "featured_collection_AgHpcn",
+        "featured_collection_eCqQEY"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h0",
+        "image_ratio": "portrait",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "show_view_all": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -40,6 +116,7 @@
   },
   "order": [
     "banner",
+    "collection_list_LYkMV9",
     "product-grid"
   ]
 }
