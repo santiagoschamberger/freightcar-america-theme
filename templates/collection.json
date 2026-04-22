@@ -26,12 +26,6 @@
             "collection": "featured"
           }
         },
-        "featured_collection_dGT4VY": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "bundles"
-          }
-        },
         "featured_collection_k9Pt7f": {
           "type": "featured_collection",
           "settings": {
@@ -95,7 +89,6 @@
       },
       "block_order": [
         "featured_collection_EHaKpC",
-        "featured_collection_dGT4VY",
         "featured_collection_k9Pt7f",
         "featured_collection_jDrRpW",
         "featured_collection_3T3mBd",
