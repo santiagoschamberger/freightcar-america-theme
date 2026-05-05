@@ -3751,7 +3751,7 @@ details-disclosure > details {
 
 /* by Diane recently-viewed product cards: fix oversized/bleeding images */
 .grid__item .card__inner.ratio:has([data-rv-product]) {
-  --ratio-percent: 95% !important;
+  --ratio-percent: 90% !important;
   overflow: hidden !important;
 }
 
@@ -3764,9 +3764,9 @@ details-disclosure > details {
 
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: static !important;
-  width: 95% !important;
-  height: 95% !important;
-  max-width: 95% !important;
-  max-height: 95% !important;
+  width: 90% !important;
+  height: 90% !important;
+  max-width: 90% !important;
+  max-height: 90% !important;
   object-fit: contain !important;
 }
