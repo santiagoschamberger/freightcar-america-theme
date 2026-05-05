@@ -3765,14 +3765,7 @@ details-disclosure > details {
   overflow: hidden !important;
 }
 
-.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  position: static !important;
-  width: 90% !important;
-  height: 90% !important;
-  max-width: 90% !important;
-  max-height: 90% !important;
-  object-fit: contain !important;
-}
+
 
 
 /* Center the actual image inside the white box */
