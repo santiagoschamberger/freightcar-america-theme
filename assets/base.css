@@ -47,10 +47,6 @@
 
 
 
-
-
-
-
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
@@ -3749,3 +3745,33 @@ details-disclosure > details {
   }
 }
 
+
+
+
+
+/* by Diane, Recently viewed products: stop image box from bleeding outside card */
+.recently-viewed-products .card__inner,
+.recently-viewed-products .card__media,
+.recently-viewed-products .media {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Control the white image area */
+.recently-viewed-products .media {
+  height: 250px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Make the actual product image smaller */
+.recently-viewed-products .media img {
+  width: 80% !important;
+  height: 80% !important;
+  max-width: 80% !important;
+  max-height: 200px !important;
+  object-fit: contain !important;
+  position: static !important;
+}
