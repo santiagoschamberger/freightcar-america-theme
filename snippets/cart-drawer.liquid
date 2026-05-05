@@ -376,8 +376,19 @@
                                     data-is_pallet="{% if item.product.metafields.product.is_pallet %}1{% else %}0{% endif %}"
                                     data-no_of_units_per_pallet="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}{{ item.product.metafields.product.no_of_units_per_pallet }}{% else %}1{% endif %}"
                                     
+                                   {% comment %}
+                                     
+                                  this was this... changed by Diane
                                     data-min="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}{{ units_per_pallet }}{% else %}{{ item.variant.quantity_rule.min }}{% endif %}"
                                     min="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}{{ units_per_pallet }}{% else %}{{ item.variant.quantity_rule.min }}{% endif %}"
+                                    
+                                     {% endcomment %}
+                                    
+
+data-min="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}{{ units_per_pallet }}{% else %}{{ item.variant.quantity_rule.min }}{% endif %}"
+min="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}1{% else %}{{ item.variant.quantity_rule.min }}{% endif %}"
+
+                                    
                                     {% if item.variant.quantity_rule.max != null %}
                                       max="{{ item.variant.quantity_rule.max }}"
                                     {% endif %}
