@@ -3749,7 +3749,7 @@ details-disclosure > details {
 .recently-viewed-products img,
 .recently-viewed img,
 .product-recommendations img {
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
   object-fit: contain;
 }
@@ -3757,7 +3757,7 @@ details-disclosure > details {
 /* here I am forcing consistent image box */
 .recently-viewed-products .card__media,
 .recently-viewed .card__media {
-  height: 200px; /* adjust to taste */
+  height: 60px; /* adjust to taste */
   display: flex;
   align-items: center;
   justify-content: center;
