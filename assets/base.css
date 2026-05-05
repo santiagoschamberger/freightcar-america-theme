@@ -3749,29 +3749,31 @@ details-disclosure > details {
 
 
 
-/* by Diane, Recently viewed products: stop image box from bleeding outside card */
-.recently-viewed-products .card__inner,
-.recently-viewed-products .card__media,
-.recently-viewed-products .media {
-  width: 100% !important;
-  max-width: 100% !important;
+/* by Diane recently-viewed product cards: fix oversized/bleeding images */
+.recently-viewed-products .grid__item .card__inner.ratio {
+  --ratio-percent: 85% !important;
   overflow: hidden !important;
 }
 
-/* Control the white image area */
-.recently-viewed-products .media {
-  height: 250px !important;
+.recently-viewed-products .grid__item .card__media {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.recently-viewed-products .grid__item .media {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-/* Make the actual product image smaller */
-.recently-viewed-products .media img {
-  width: 80% !important;
-  height: 80% !important;
-  max-width: 80% !important;
-  max-height: 200px !important;
-  object-fit: contain !important;
+.recently-viewed-products .grid__item .media img {
   position: static !important;
+  width: 75% !important;
+  height: 75% !important;
+  max-width: 75% !important;
+  max-height: 75% !important;
+  object-fit: contain !important;
 }
