@@ -3772,3 +3772,7 @@ details-disclosure > details {
   max-height: 90% !important;
   object-fit: contain !important;
 }
+.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
+  display: block !important;
+  margin: 0 auto !important;
+}
