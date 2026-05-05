@@ -3772,3 +3772,21 @@ details-disclosure > details {
   max-height: 90% !important;
   object-fit: contain !important;
 }
+
+
+/* here I am resetting the unwanted left shift that doesn't allow all 3 images to show */
+.recently-viewed-carousel .recently-viewed-grid {
+  transform: translateX(0) !important;
+}
+
+/* this will show exactly 3 products fit on desktop */
+.recently-viewed-carousel .grid__item {
+  width: calc((100% - 56px) / 3) !important;
+  max-width: calc((100% - 56px) / 3) !important;
+  flex: 0 0 calc((100% - 56px) / 3) !important;
+}
+
+/* Space between the 3 cards */
+.recently-viewed-carousel .recently-viewed-grid {
+  gap: 28px !important;
+}
