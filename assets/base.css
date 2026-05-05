@@ -3770,3 +3770,7 @@ details-disclosure > details {
   max-height: 160px;
   width: auto;
 }
+.recently-viewed-products .card__media img {
+  position: relative !important;
+  object-fit: contain !important;
+}
