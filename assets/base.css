@@ -3819,3 +3819,12 @@ details-disclosure > details {
   appearance: none;
   margin: 0;
 }
+
+.catalog-card-qty__input {
+  display: block !important;
+  width: 50px !important;
+  height: 100% !important;
+  border: 0 !important;
+  text-align: center !important;
+  background: transparent !important;
+}
