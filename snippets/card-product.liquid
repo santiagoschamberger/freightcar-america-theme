@@ -420,6 +420,11 @@
                       value="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}{{ card_product.selected_or_first_available_variant.quantity_rule.min }}{% endif %}"
                       form="{{ product_form_id }}"
                     >
+
+                      <button type="button" class="catalog-card-qty__button" data-card-qty-plus>+</button>
+</div>
+
+
                   {% if is_pallet and units_per_pallet > 0 %}
                    <span style=" font-size: 11px; text-align: center; color: green; font-weight: bold; ">Sold in sets of {{ units_per_pallet }} units per {{ package_label }} .</span>
                     {% endif %}
