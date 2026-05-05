@@ -396,7 +396,10 @@
   {% endif %}
 {% endfor %}
 
-                   <input style="display:none;"
+                   <div class="catalog-card-qty">
+  <button type="button" class="catalog-card-qty__button" data-card-qty-minus>-</button>
+
+  <input
                       class="quantity__input"
                       type="number"
                       name="quantity"
