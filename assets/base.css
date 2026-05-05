@@ -3772,7 +3772,8 @@ details-disclosure > details {
   max-height: 90% !important;
   object-fit: contain !important;
 }
-.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  display: block !important;
-  margin: 0 auto !important;
+.grid__item .card__inner.ratio:has([data-rv-product]) .media {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
