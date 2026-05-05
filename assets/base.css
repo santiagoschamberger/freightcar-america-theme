@@ -3767,7 +3767,6 @@ details-disclosure > details {
 
 
 
-
 /* Center the actual image inside the white box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: relative !important;
@@ -3776,8 +3775,8 @@ details-disclosure > details {
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
-  width: 100% !important;
-  height: 100% !important;
+  width: 90% !important;
+  height: 90% !important;
   object-fit: contain !important;
   object-position: center center !important;
 }
