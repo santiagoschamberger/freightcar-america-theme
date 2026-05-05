@@ -10,10 +10,8 @@
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
 
-{%- if section.settings.quick_add == 'standard' -%}
-  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {%- if section.settings.quick_add == 'bulk' -%}
   <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
@@ -195,7 +193,7 @@
                         show_rating: section.settings.show_rating,
                         lazy_load: false,
                         skip_styles: skip_card_product_styles,
-                        quick_add: section.settings.quick_add,
+                        quick_add: 'standard',
                         section_id: section.id
                       -%}
                     </li>
@@ -230,7 +228,7 @@
                       show_rating: section.settings.show_rating,
                       lazy_load: lazy_load,
                       skip_styles: skip_card_product_styles,
-                      quick_add: section.settings.quick_add,
+                      quick_add: 'standard',
                       section_id: section.id
                     %}
                   </li>
