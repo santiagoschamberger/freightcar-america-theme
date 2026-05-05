@@ -3750,26 +3750,20 @@ details-disclosure > details {
 
 
 /* by Diane recently-viewed product cards: fix oversized/bleeding images */
-.recently-viewed-products .grid__item .card__inner.ratio {
+/* Recently viewed product cards: stronger fix */
+.grid__item .card__inner.ratio:has([data-rv-product]) {
   --ratio-percent: 85% !important;
   overflow: hidden !important;
 }
 
-.recently-viewed-products .grid__item .card__media {
-  width: 100% !important;
-  overflow: hidden !important;
-}
-
-.recently-viewed-products .grid__item .media {
+.grid__item .card__inner.ratio:has([data-rv-product]) .card__media,
+.grid__item .card__inner.ratio:has([data-rv-product]) .media {
   width: 100% !important;
   height: 100% !important;
   overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
 }
 
-.recently-viewed-products .grid__item .media img {
+.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: static !important;
   width: 75% !important;
   height: 75% !important;
