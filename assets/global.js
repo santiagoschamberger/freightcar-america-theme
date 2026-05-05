@@ -1389,3 +1389,47 @@ class CartPerformance {
     );
   }
 }
+
+
+
+document.addEventListener('click', function (event) {
+  const minusButton = event.target.closest('[data-card-qty-minus]');
+  const plusButton = event.target.closest('[data-card-qty-plus]');
+
+  if (!minusButton && !plusButton) return;
+
+  event.preventDefault();
+
+  const wrapper = event.target.closest('.catalog-card-qty');
+  if (!wrapper) return;
+
+  const input = wrapper.querySelector('.quantity__input');
+  if (!input) return;
+
+  const min = parseInt(input.getAttribute('min'), 10) || 1;
+  const max = parseInt(input.getAttribute('max'), 10);
+  const step = parseInt(input.getAttribute('step'), 10) || 1;
+
+  let currentValue = parseInt(input.value, 10) || min;
+  let newValue = currentValue;
+
+  if (plusButton) {
+    newValue = currentValue + step;
+  }
+
+  if (minusButton) {
+    newValue = currentValue - step;
+  }
+
+  if (newValue < min) {
+    newValue = min;
+  }
+
+  if (!isNaN(max) && newValue > max) {
+    newValue = max;
+  }
+
+  input.value = newValue;
+  input.setAttribute('value', newValue);
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+});
