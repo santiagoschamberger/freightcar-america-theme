@@ -363,7 +363,11 @@
                                     type="number"
                                     data-quantity-variant-id="{{ item.variant.id }}"
                                     name="updates[]"
-                                    value="{{ item.quantity }}"
+                                    {% comment %}
+                                      replaced by Diane: value="{{ item.quantity }}"
+                                    {% endcomment %}
+                                    
+                                    value="{% if item.product.metafields.product.is_pallet and item.product.metafields.product.no_of_units_per_pallet > 0 %}{{ item.quantity | divided_by: units_per_pallet }}{% else %}{{ item.quantity }}{% endif %}"
                                     {% # theme-check-disable %}
                                     data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
                                     
