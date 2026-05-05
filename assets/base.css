@@ -3751,48 +3751,27 @@ details-disclosure > details {
 
 /* by Diane recently-viewed product cards: fix oversized/bleeding images */
 
-/* Recently viewed image area */
+
+
 .grid__item .card__inner.ratio:has([data-rv-product]) {
   --ratio-percent: 90% !important;
   overflow: hidden !important;
 }
 
-/* Make the Shopify media layer fill the image box and center its contents */
-.grid__item .card__inner.ratio:has([data-rv-product]) .card__media {
-  position: absolute !important;
-  inset: 0 !important;
+.grid__item .card__inner.ratio:has([data-rv-product]) .card__media,
+.grid__item .card__inner.ratio:has([data-rv-product]) .media {
   width: 100% !important;
   height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
   overflow: hidden !important;
 }
 
-/* Make the white media box centered too */
-.grid__item .card__inner.ratio:has([data-rv-product]) .media {
-  position: relative !important;
+.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
+  position: static !important;
   width: 90% !important;
   height: 90% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
-}
-
-/* Center the actual image inside the white box */
-.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  width: 100% !important;
-  height: 100% !important;
+  max-width: 90% !important;
+  max-height: 90% !important;
   object-fit: contain !important;
-  object-position: center center !important;
 }
-
 
 
