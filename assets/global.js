@@ -243,7 +243,7 @@ class QuantityInput extends HTMLElement {
   }
 /*
   onButtonClick(event) {
-    debugger;
+
     event.preventDefault();
     const previousValue = this.input.value;
 
@@ -266,7 +266,6 @@ class QuantityInput extends HTMLElement {
   
 onButtonClick(event) {
     event.preventDefault();
-debugger;
     const previousValue = parseInt(this.input.value);
     const isPallet = this.input.dataset.is_pallet === "1";
     const unitsPerPallet = parseInt(this.input.dataset.no_of_units_per_pallet) || 1;
