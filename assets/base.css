@@ -47,6 +47,39 @@
 
 
 
+
+/* Recently viewed products fix by Diane */
+.recently-viewed-products img,
+.recently-viewed img,
+.product-recommendations img {
+  max-width: 90%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* here I am forcing consistent image box */
+.recently-viewed-products .card__media,
+.recently-viewed .card__media {
+  height: 60px; /* adjust to taste */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* and here I am making the images smaller inside */
+.recently-viewed-products .card__media img,
+.recently-viewed .card__media img {
+  max-height: 160px;
+  width: auto;
+}
+.recently-viewed-products .card__media img {
+  position: relative !important;
+  object-fit: contain !important;
+}
+
+
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
