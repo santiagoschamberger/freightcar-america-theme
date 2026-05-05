@@ -1389,3 +1389,38 @@ class CartPerformance {
     );
   }
 }
+
+
+document.addEventListener('click', function (event) {
+  const minus = event.target.closest('[data-card-qty-minus]');
+  const plus = event.target.closest('[data-card-qty-plus]');
+
+  if (!minus && !plus) return;
+
+  const wrapper = event.target.closest('.catalog-card-qty');
+  if (!wrapper) return;
+
+  const input = wrapper.querySelector('.quantity__input');
+  if (!input) return;
+
+  const min = parseInt(input.getAttribute('min'), 10) || 1;
+  const max = parseInt(input.getAttribute('max'), 10);
+  const step = parseInt(input.getAttribute('step'), 10) || 1;
+
+  let value = parseInt(input.value, 10) || min;
+
+  if (minus) {
+    value = Math.max(min, value - step);
+  }
+
+  if (plus) {
+    value = value + step;
+
+    if (!isNaN(max)) {
+      value = Math.min(max, value);
+    }
+  }
+
+  input.value = value;
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+});
