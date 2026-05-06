@@ -3822,54 +3822,6 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 /* end of the css for the Recently Viewed Products*/
 
 
-/* Recently Viewed Products: match You May Also Like card height */
-.grid__item .card__inner.ratio:has([data-rv-product]) {
-  --ratio-percent: 125% !important;
-  overflow: hidden !important;
-}
-
-/* Make the image container fill the card image area */
-.grid__item .card__inner.ratio:has([data-rv-product]) .card__media {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Center the media box */
-.grid__item .card__inner.ratio:has([data-rv-product]) .media {
-  position: relative !important;
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Center the actual image without forcing it to fill the box */
-.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-  inset: auto !important;
-  transform: none !important;
-
-  width: auto !important;
-  height: auto !important;
-  max-width: 88% !important;
-  max-height: 88% !important;
-
-  object-fit: contain !important;
-  object-position: center center !important;
-  display: block !important;
-  margin: auto !important;
-}
-
-
 
 
 
