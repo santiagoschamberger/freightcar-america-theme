@@ -3826,7 +3826,9 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   object-position: center center !important;
 }
 /* end of the css for the Recently Viewed Products*/
-
+.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
+  border: 2px solid red !important;
+}
 
 
 
