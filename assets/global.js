@@ -1425,7 +1425,6 @@ document.addEventListener('click', function (event) {
 
 */
 
-
 document.addEventListener('click', function (event) {
   const minusButton = event.target.closest('[data-card-qty-minus]');
   const plusButton = event.target.closest('[data-card-qty-plus]');
