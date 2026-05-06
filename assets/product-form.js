@@ -22,7 +22,7 @@ if (!customElements.get('product-form')) {
        /* debugger */;
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
        const quantityElement = document.querySelector(".quantity-cart");
-        debugger;
+        /* debugger; */
             var forceError = false;
             // for product detail
             if(quantityElement){
@@ -51,7 +51,7 @@ if (!customElements.get('product-form')) {
         }
         // profuct details
         if(this.form.quantity.dataset.is_listing && parseInt(this.form.quantity.dataset.is_listing) == 1){
-                debugger;
+                /* debugger; */
                  fetch("/cart.js")
                 .then(response => response.json())
                 .then(data => {
@@ -102,7 +102,7 @@ if (!customElements.get('product-form')) {
       }
 
       handleAddtoCart(current){
-        debugger;
+        /* debugger; */
         this.submitButton.setAttribute('aria-disabled', true);
         this.submitButton.classList.add('loading');
         this.querySelector('.loading__spinner').classList.remove('hidden');
