@@ -3754,7 +3754,7 @@ details-disclosure > details {
 
 
 .grid__item .card__inner.ratio:has([data-rv-product]) {
-  --ratio-percent: 125% !important;
+  --ratio-percent: 90% !important;
   overflow: hidden !important;
 }
 
