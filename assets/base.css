@@ -3814,8 +3814,8 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
-  width: 90% !important;
-  height: 90% !important;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
 }
