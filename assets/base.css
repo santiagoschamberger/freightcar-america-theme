@@ -3787,7 +3787,6 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 /* this makes the recently viewed products look like the You may also like section */
 
-/* Recently Viewed Products: match You May Also Like image sizing */
 .grid__item .card__inner.ratio:has([data-rv-product]) {
   --ratio-percent: 125% !important;
   overflow: hidden !important;
@@ -3806,8 +3805,6 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   height: 100% !important;
   overflow: hidden !important;
 }
-
-
 
 /* CENTERING THE IMAGE IN ITS CONTAINER*/
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
