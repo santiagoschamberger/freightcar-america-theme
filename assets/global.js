@@ -1389,3 +1389,35 @@ class CartPerformance {
     );
   }
 }
+
+
+
+document.addEventListener('click', function (event) {
+  const minusButton = event.target.closest('[data-card-box-minus]');
+  const plusButton = event.target.closest('[data-card-box-plus]');
+
+  if (!minusButton && !plusButton) return;
+
+  event.preventDefault();
+
+  const wrapper = event.target.closest('.catalog-card-qty');
+  if (!wrapper) return;
+
+  const displayInput = wrapper.querySelector('.catalog-card-qty__input');
+  const form = wrapper.closest('form');
+  const realQtyInput = form ? form.querySelector('.catalog-card-real-qty') : null;
+
+  if (!displayInput || !realQtyInput) return;
+
+  const unitsPerBox = parseInt(displayInput.dataset.unitsPerBox, 10) || 1;
+  const min = parseInt(displayInput.getAttribute('min'), 10) || 1;
+
+  let boxes = parseInt(displayInput.value, 10) || min;
+
+  if (plusButton) boxes += 1;
+  if (minusButton) boxes = Math.max(min, boxes - 1);
+
+  displayInput.value = boxes;
+  realQtyInput.value = boxes * unitsPerBox;
+  realQtyInput.setAttribute('value', boxes * unitsPerBox);
+});
