@@ -19,7 +19,7 @@ if (!customElements.get('product-form')) {
 
       onSubmitHandler(evt) {
         evt.preventDefault();
-        debugger;
+       /* debugger */;
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
        const quantityElement = document.querySelector(".quantity-cart");
         debugger;
