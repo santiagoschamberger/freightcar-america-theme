@@ -3784,53 +3784,43 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 
 
-
-/* this makes the recently viewed products look like the You may also like section */
-
+/* Recently Viewed Products: match You May Also Like ratio */
 .grid__item .card__inner.ratio:has([data-rv-product]) {
   --ratio-percent: 125% !important;
   overflow: hidden !important;
 }
 
+/* Center the media box evenly inside the image area */
 .grid__item .card__inner.ratio:has([data-rv-product]) .card__media {
   position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
+  inset: 16px !important;
+  width: auto !important;
+  height: auto !important;
   overflow: hidden !important;
 }
 
+/* Make inner media fill the centered box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media {
+  position: relative !important;
   width: 100% !important;
   height: 100% !important;
   overflow: hidden !important;
 }
 
-/* CENTERING THE IMAGE IN ITS CONTAINER*/
-/* Force the image to sit exactly in the center */
+/* Center actual image inside the box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   right: auto !important;
   bottom: auto !important;
-
   transform: translate(-50%, -50%) !important;
 
-  width: 88% !important;
-  height: 88% !important;
-  max-width: 88% !important;
-  max-height: 88% !important;
-
+  width: 100% !important;
+  height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
 }
-/* end of the css for the Recently Viewed Products*/
-.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  border: 2px solid red !important;
-}
-
-
 
 
 
