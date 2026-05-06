@@ -396,27 +396,30 @@
   {% endif %}
 {% endfor %}
 
-                   <input style="display:none;"
-                      class="quantity__input"
-                      type="number"
-                      name="quantity"
-                      id="Quantity-{{ section.id }}"
-                      data-product_id="{{card_product.id}}"
-                      data-is_listing="1"
-                      data-is_pallet="{% if is_pallet %}1{% else %}0{% endif %}"
-                      data-no_of_units_per_pallet="{{ units_per_pallet }}"
-                      data-cart-quantity="{{ cart_qty }}"
-                      data-max="{{ max_possible_qty }}"
-                      {% if card_product.metafields.product.is_pallet and card_product.metafields.product.no_of_units_per_pallet > 0 %}readonly{% endif %}
-                      data-min="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}{{ card_product.selected_or_first_available_variant.quantity_rule.min }}{% endif %}"
-                      min="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}{{ card_product.selected_or_first_available_variant.quantity_rule.min }}{% endif %}"
-                      {% if card_product.selected_or_first_available_variant.quantity_rule.max != null %}
-                        max="{{ max_possible_qty }}"
-                      {% endif %}
-                      step="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}{{ card_product.selected_or_first_available_variant.quantity_rule.increment }}{% endif %}"
-                      value="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}{{ card_product.selected_or_first_available_variant.quantity_rule.min }}{% endif %}"
-                      form="{{ product_form_id }}"
-                    >
+                   
+<div class="catalog-card-qty">
+  <button type="button" class="catalog-card-qty__button" data-card-box-minus>-</button>
+
+  <input
+    class="catalog-card-qty__input"
+    type="number"
+    value="1"
+    min="1"
+    step="1"
+    data-units-per-box="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+    aria-label="Quantity"
+  >
+
+  <button type="button" class="catalog-card-qty__button" data-card-box-plus>+</button>
+</div>
+
+<input
+  type="hidden"
+  class="quantity__input catalog-card-real-qty"
+  name="quantity"
+  value="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+  form="{{ product_form_id }}"
+>
                   {% if is_pallet and units_per_pallet > 0 %}
                    <span style=" font-size: 11px; text-align: center; color: green; font-weight: bold; ">Sold in sets of {{ units_per_pallet }} units per {{ package_label }} .</span>
                     {% endif %}
