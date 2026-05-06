@@ -3793,7 +3793,7 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 /* HERE I AM CENTERING the media box evenly inside the image area */
 .grid__item .card__inner.ratio:has([data-rv-product]) .card__media {
   position: absolute !important;
-  inset: 16px !important;
+  inset: 1px !important;
   width: auto !important;
   height: auto !important;
   overflow: hidden !important;
