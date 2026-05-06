@@ -3782,8 +3782,6 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 */
 
 
-
-
 /* Recently Viewed Products: match You May Also Like ratio */
 .grid__item .card__inner.ratio:has([data-rv-product]) {
   --ratio-percent: 125% !important;
