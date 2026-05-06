@@ -396,8 +396,13 @@
   {% endif %}
 {% endfor %}
 
-                   
-<div class="catalog-card-qty">
+   
+
+{%  comment %}
+  this worked fine, but showed catalog item amounts as 1 instead as 120 in a box
+
+
+  <div class="catalog-card-qty">
   <button type="button" class="catalog-card-qty__button" data-card-box-minus>-</button>
 
   <input
@@ -420,6 +425,29 @@
   value="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
   form="{{ product_form_id }}"
 >
+{% endcomment %}
+
+
+<div class="catalog-card-qty">
+  <button type="button" class="catalog-card-qty__button" data-card-qty-minus>-</button>
+
+  <input
+    class="quantity__input catalog-card-qty__input"
+    type="number"
+    name="quantity"
+    value="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+    min="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+    step="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+    data-units-per-box="{% if is_pallet and units_per_pallet > 1 %}{{ units_per_pallet }}{% else %}1{% endif %}"
+    form="{{ product_form_id }}"
+    aria-label="Quantity"
+  >
+
+  <button type="button" class="catalog-card-qty__button" data-card-qty-plus>+</button>
+</div>
+
+
+
                   {% if is_pallet and units_per_pallet > 0 %}
                    <span style=" font-size: 11px; text-align: center; color: green; font-weight: bold; ">Sold in sets of {{ units_per_pallet }} units per {{ package_label }} .</span>
                     {% endif %}
