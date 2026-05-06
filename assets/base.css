@@ -3749,8 +3749,8 @@ details-disclosure > details {
 
 
 
-/* by Diane recently-viewed product cards: fix oversized/bleeding images */
-
+/* by Diane recently-viewed product cards: fix oversized/bleeding images 
+THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAGES
 
 
 .grid__item .card__inner.ratio:has([data-rv-product]) {
@@ -3767,7 +3767,6 @@ details-disclosure > details {
 
 
 
-/* and now I will center the actual image inside the containing box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: relative !important;
   top: auto !important;
@@ -3780,6 +3779,45 @@ details-disclosure > details {
   object-fit: contain !important;
   object-position: center center !important;
 }
+*/
+
+
+
+
+
+/* this makes the recently viewed products look like the You may also like section */
+
+/* Recently Viewed Products: match You May Also Like image sizing */
+.grid__item .card__inner.ratio:has([data-rv-product]) {
+  --ratio-percent: 125% !important;
+  overflow: hidden !important;
+}
+
+.grid__item .card__inner.ratio:has([data-rv-product]) .card__media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.grid__item .card__inner.ratio:has([data-rv-product]) .media {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.grid__item .card__inner.ratio:has([data-rv-product]) .media img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+
+
 
 
 /* this makes the amount selector prettier */
