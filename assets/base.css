@@ -3807,15 +3807,21 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 }
 
 /* CENTERING THE IMAGE IN ITS CONTAINER*/
+/* Force the image to sit exactly in the center */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
   right: auto !important;
   bottom: auto !important;
-  transform: none !important;
-  width: 90% !important;
-  height: 90% !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  width: 88% !important;
+  height: 88% !important;
+  max-width: 88% !important;
+  max-height: 88% !important;
+
   object-fit: contain !important;
   object-position: center center !important;
 }
