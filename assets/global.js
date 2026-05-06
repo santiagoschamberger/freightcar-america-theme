@@ -1391,6 +1391,8 @@ class CartPerformance {
 
 
 
+/* this worked fine, but showed catalog item amounts as 1 instead as 120 in a box  
+
 document.addEventListener('click', function (event) {
   const minusButton = event.target.closest('[data-card-box-minus]');
   const plusButton = event.target.closest('[data-card-box-plus]');
@@ -1419,4 +1421,37 @@ document.addEventListener('click', function (event) {
   displayInput.value = boxes;
   realQtyInput.value = boxes * unitsPerBox;
   realQtyInput.setAttribute('value', boxes * unitsPerBox);
+});
+
+*/
+
+
+document.addEventListener('click', function (event) {
+  const minusButton = event.target.closest('[data-card-qty-minus]');
+  const plusButton = event.target.closest('[data-card-qty-plus]');
+
+  if (!minusButton && !plusButton) return;
+
+  event.preventDefault();
+
+  const wrapper = event.target.closest('.catalog-card-qty');
+  if (!wrapper) return;
+
+  const input = wrapper.querySelector('.catalog-card-qty__input');
+  if (!input) return;
+
+  const min = parseInt(input.getAttribute('min'), 10) || 1;
+  const step = parseInt(input.getAttribute('step'), 10) || 1;
+  const max = parseInt(input.getAttribute('max'), 10);
+
+  let value = parseInt(input.value, 10) || min;
+
+  if (plusButton) value += step;
+  if (minusButton) value = Math.max(min, value - step);
+
+  if (!isNaN(max)) value = Math.min(max, value);
+
+  input.value = value;
+  input.setAttribute('value', value);
+  input.dispatchEvent(new Event('change', { bubbles: true }));
 });
