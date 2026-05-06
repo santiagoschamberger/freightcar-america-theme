@@ -243,7 +243,7 @@ class QuantityInput extends HTMLElement {
   }
 /*
   onButtonClick(event) {
-    debugger;
+  
     event.preventDefault();
     const previousValue = this.input.value;
 
