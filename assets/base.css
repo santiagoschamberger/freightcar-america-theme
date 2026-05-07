@@ -3797,7 +3797,7 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   overflow: hidden !important;
 }
 
-/* Make inner media fill the centered box */
+/* here I am making the media get centered in the box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media {
   position: relative !important;
   width: 100% !important;
@@ -3805,7 +3805,7 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   overflow: hidden !important;
 }
 
-/* Center actual image inside the box */
+/* Centering the image inside the box */
 .grid__item .card__inner.ratio:has([data-rv-product]) .media img {
   position: absolute !important;
   top: 50% !important;
