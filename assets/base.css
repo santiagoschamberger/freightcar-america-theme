@@ -3895,7 +3895,7 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 
 
-
+/* making sure the Buy Again button is right-aligned in the individual order page */
 
 .customer.order .order-again-wrapper--bottom {
   display: flex !important;
