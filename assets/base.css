@@ -3895,9 +3895,24 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 
 
-.customer.order .order-again-wrapper {
-  margin-top: 2rem;
+
+
+.customer.order .order-again-wrapper--bottom {
   display: flex !important;
   justify-content: flex-end !important;
-  width: 100%;
+  width: 100% !important;
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.customer.order .order-again-wrapper--bottom .order-again-button {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  min-height: 4rem !important;
+  height: 4rem !important;
+  padding: 0 2.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
 }
