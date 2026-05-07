@@ -3855,14 +3855,20 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 
 /* this controls the BUY AGAIN button*/
-.order-history td.order-again-cell {
+.customer.account .order-history td.order-again-cell {
   vertical-align: middle !important;
-  text-align: center;
+  text-align: center !important;
+  padding-top: 1.2rem !important;
+  padding-bottom: 1.2rem !important;
 }
 
-.order-again-button {
+.customer.account .order-history .order-again-button {
   margin: 0 !important;
-  min-height: 40px;
-  padding: 0 18px 20px 18px;
-  white-space: nowrap;
+  min-height: 4rem !important;
+  height: 4rem !important;
+  padding: 0 2.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
 }
