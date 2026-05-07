@@ -3863,6 +3863,6 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 .order-again-button {
   margin: 0 !important;
   min-height: 40px;
-  padding: 0 18px;
+  padding: 0 18px 20px 18px;
   white-space: nowrap;
 }
