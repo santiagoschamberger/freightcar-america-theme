@@ -3851,3 +3851,18 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   text-align: center !important;
   background: transparent !important;
 }
+
+
+
+/* this controls the BUY AGAIN button*/
+.order-history td.order-again-cell {
+  vertical-align: middle !important;
+  text-align: center;
+}
+
+.order-again-button {
+  margin: 0 !important;
+  min-height: 40px;
+  padding: 0 18px;
+  white-space: nowrap;
+}
