@@ -333,23 +333,25 @@
 
 
 
-<button
-  type="button"
-  class="button order-again-button order-again-button--order-page"
-  data-order-again
-  data-items='[
-    {%- for line_item in order.line_items -%}
-      {%- if line_item.variant_id -%}
-        {
-          "id": {{ line_item.variant_id }},
-          "quantity": {{ line_item.quantity }}
-        }{%- unless forloop.last -%},{%- endunless -%}
-      {%- endif -%}
-    {%- endfor -%}
-  ]'
->
-  Order Again
-</button>
+<div class="order-again-wrapper order-again-wrapper--bottom">
+  <button
+    type="button"
+    class="button order-again-button order-again-button--order-page"
+    data-order-again
+    data-items='[
+      {%- for line_item in order.line_items -%}
+        {%- if line_item.variant_id -%}
+          {
+            "id": {{ line_item.variant_id }},
+            "quantity": {{ line_item.quantity }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]'
+  >
+    Order Again
+  </button>
+</div>
 
 
 
