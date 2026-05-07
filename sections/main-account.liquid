@@ -179,6 +179,59 @@
   </div>
 </div>
 
+
+{%  comment %}
+  this is the JS that will add the logic to the BUY AGAIn button
+{% endcomment %}
+
+<script>
+  document.addEventListener('click', async function(event) {
+    const button = event.target.closest('[data-order-again]');
+    if (!button) return;
+
+    event.preventDefault();
+
+    let items = [];
+
+    try {
+      items = JSON.parse(button.dataset.items);
+    } catch (error) {
+      console.error('Could not read order items:', error);
+      alert('Sorry, this order could not be added again.');
+      return;
+    }
+
+    if (!items.length) {
+      alert('This order has no available items to reorder.');
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Adding...';
+
+    try {
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ items: items })
+      });
+
+      window.location.href = '/cart';
+    } catch (error) {
+      console.error('Order again failed:', error);
+      button.disabled = false;
+      button.textContent = 'Order Again';
+      alert('Some items could not be added. Please check product availability and try again.');
+    }
+  });
+</script>
+
+
+
+
 {% schema %}
 {
   "name": "t:sections.main-account.name",
