@@ -3854,7 +3854,7 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
 
 
 
-/* this controls the BUY AGAIN button*/
+/* this controls the BUY AGAIN button and makes it stay in the same row as the order info-row */
 .customer.account .order-history td.order-again-cell {
   vertical-align: middle !important;
   text-align: center !important;
