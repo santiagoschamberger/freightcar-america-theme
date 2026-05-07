@@ -3872,3 +3872,17 @@ THIS WORKED! BUT THE IMAGES WERE SHORTER THAN THE YOU MAY ALSO LIKE SECTION IMAG
   justify-content: center !important;
   line-height: 1 !important;
 }
+
+
+/* this controls the BUY AGAIN button IN THE INDIVIDUAL ORDER PAGE */
+.customer.order .order-again-button--order-page {
+  margin-top: 1.2rem !important;
+  margin-bottom: 2.4rem !important;
+  min-height: 4rem !important;
+  height: 4rem !important;
+  padding: 0 2.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
