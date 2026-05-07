@@ -83,6 +83,34 @@
                   <td headers="RowOrder ColumnTotal" role="cell" data-label="{{ 'customer.orders.total' | t }}">
                     {{ order.total_net_amount | money_with_currency }}
                   </td>
+
+
+
+{% comment %}
+  this is the BUY AGAIN button, by Diane
+{% endcomment %}
+<td headers="RowOrder ColumnOrderAgain" role="cell" data-label="Order Again">
+  <button
+    type="button"
+    class="button order-again-button"
+    data-order-again
+    data-items='[
+      {%- for line_item in order.line_items -%}
+        {%- if line_item.variant_id -%}
+          {
+            "id": {{ line_item.variant_id }},
+            "quantity": {{ line_item.quantity }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]'
+  >
+    Order Again
+  </button>
+</td>
+
+
+
                 </tr>
               {%- endfor -%}
             </tbody>
