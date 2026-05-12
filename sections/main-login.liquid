@@ -171,6 +171,48 @@
 
 </div>
 
+
+
+
+{% comment %}
+  
+I just added this to try correct the double signin, the second time May 12th
+{% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const loginForm = document.querySelector('form[action*="/account/login"]');
+
+  if (!loginForm) return;
+
+  const emailInput = loginForm.querySelector('input[name="customer[email]"]');
+  const passwordInput = loginForm.querySelector('input[name="customer[password]"]');
+  const submitButton = loginForm.querySelector('button[type="submit"]');
+
+  function triggerAutofillEvents() {
+    [emailInput, passwordInput].forEach(function (input) {
+      if (input && input.value) {
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  }
+
+  setTimeout(triggerAutofillEvents, 300);
+  setTimeout(triggerAutofillEvents, 800);
+  setTimeout(triggerAutofillEvents, 1500);
+
+  if (submitButton) {
+    submitButton.addEventListener('mousedown', triggerAutofillEvents);
+    submitButton.addEventListener('click', triggerAutofillEvents);
+  }
+});
+</script>
+
+
+
+
+
 {% schema %}
 {
   "name": "t:sections.main-login.name",
