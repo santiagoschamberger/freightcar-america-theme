@@ -180,7 +180,8 @@ I just added this to try correct the double signin, the second time May 12th
 {% endcomment %}
 
 {% comment %}
-  Fix browser autofill issue where saved credentials may require clicking Log In twice.
+ this is the fix from May 28th, that final true makes the script run in the capture phase, meaning it fires before most other theme scripts.
+  And it fixes the browser autofill issue where saved credentials may require clicking Log In twice.
   This forces autofilled values to register before the form submits.
 {% endcomment %}
 
