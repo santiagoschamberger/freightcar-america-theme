@@ -179,34 +179,61 @@
 I just added this to try correct the double signin, the second time May 12th
 {% endcomment %}
 
+{% comment %}
+  Fix browser autofill issue where saved credentials may require clicking Log In twice.
+  This forces autofilled values to register before the form submits.
+{% endcomment %}
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const loginForm = document.querySelector('form[action*="/account/login"]');
+(function () {
+  function getLoginForm() {
+    return document.querySelector('form[action*="/account/login"]');
+  }
 
-  if (!loginForm) return;
+  function syncAutofilledLoginFields() {
+    var loginForm = getLoginForm();
 
-  const emailInput = loginForm.querySelector('input[name="customer[email]"]');
-  const passwordInput = loginForm.querySelector('input[name="customer[password]"]');
-  const submitButton = loginForm.querySelector('button[type="submit"]');
+    if (!loginForm) return;
 
-  function triggerAutofillEvents() {
+    var emailInput = loginForm.querySelector('input[name="customer[email]"]');
+    var passwordInput = loginForm.querySelector('input[name="customer[password]"]');
+
     [emailInput, passwordInput].forEach(function (input) {
-      if (input && input.value) {
+      if (!input) return;
+
+      if (input.value) {
+        input.setAttribute('value', input.value);
+
         input.dispatchEvent(new Event('input', { bubbles: true }));
         input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
       }
     });
   }
 
-  setTimeout(triggerAutofillEvents, 300);
-  setTimeout(triggerAutofillEvents, 800);
-  setTimeout(triggerAutofillEvents, 1500);
+  document.addEventListener('DOMContentLoaded', function () {
+    var loginForm = getLoginForm();
 
-  if (submitButton) {
-    submitButton.addEventListener('mousedown', triggerAutofillEvents);
-    submitButton.addEventListener('click', triggerAutofillEvents);
-  }
-});
+    if (!loginForm) return;
+
+    var submitButton = loginForm.querySelector('button[type="submit"]');
+
+    setTimeout(syncAutofilledLoginFields, 100);
+    setTimeout(syncAutofilledLoginFields, 400);
+    setTimeout(syncAutofilledLoginFields, 900);
+    setTimeout(syncAutofilledLoginFields, 1500);
+    setTimeout(syncAutofilledLoginFields, 2500);
+
+    if (submitButton) {
+      submitButton.addEventListener('pointerdown', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('mousedown', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('touchstart', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('click', syncAutofilledLoginFields, true);
+    }
+
+    loginForm.addEventListener('submit', syncAutofilledLoginFields, true);
+  });
+})();
 </script>
 
 
