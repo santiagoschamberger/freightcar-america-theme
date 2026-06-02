@@ -58,14 +58,12 @@
         </small>
       {%- endif -%}
 
-      
-{% comment %}
- this was replaced by Diane
-<button>
-{% endcomment %}
-      
+      {% comment %}
+        this was replaced by Diane
+        <button>
+      {% endcomment %}
 
-        <button type="submit">
+      <button type="submit">
         {{ 'customer.login_page.submit' | t }}
       </button>
 
@@ -87,6 +85,7 @@
         {{ 'customer.recover_password.success' | t }}
       </h3>
     {%- endif -%}
+
     {%- form 'customer_login', novalidate: 'novalidate' -%}
       {%- if form.errors -%}
         <h2 class="form__message" tabindex="-1" autofocus>
@@ -152,43 +151,51 @@
         </a>
       {%- endif -%}
 
-      
- 
-      
+      {% comment %}
+        this was replaced by Diane
+        <button>
+      {% endcomment %}
 
-{% comment %}
- this was replaced by Diane
-<button>
-{% endcomment %}
- 
-        <button type="submit">
+      <button type="submit">
         {{ 'customer.login_page.sign_in' | t }}
       </button>
-
-
     {%- endform -%}
   </div>
-
 </div>
 
-
-
 {% comment %}
-I just added this to try correct the double signin, the second time May 12th
+  Autofill login fix - updated version.
+
+  This helps with the browser autofill issue where saved credentials may appear visually filled in,
+  but the Shopify login form/theme scripts may not detect the values until the first interaction.
+
+  The script forces the autofilled email/password fields to dispatch input/change events on:
+  - page load
+  - focus/blur/input/change
+  - click/touch/pointer on submit
+  - form submit
+  - pageshow, for browser back-forward cache cases
 {% endcomment %}
-
-{% comment %}
- this is the fix from May 28th, that final true makes the script run in the capture phase, meaning it fires before most other theme scripts.
-  And it fixes the browser autofill issue where saved credentials may require clicking Log In twice.
-  This forces autofilled values to register before the form submits.
-{% endcomment %}
-
-
 
 <script>
 (function () {
   function getLoginForm() {
-    return document.querySelector('form[action*="/account/login"]');
+    return document.querySelector('form[action*="/account/login"], form[action*="/account"]');
+  }
+
+  function getLoginFields(form) {
+    return {
+      email: form ? form.querySelector('input[name="customer[email]"]') : null,
+      password: form ? form.querySelector('input[name="customer[password]"]') : null
+    };
+  }
+
+  function syncField(input) {
+    if (!input) return;
+
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
   }
 
   function syncAutofilledLoginFields() {
@@ -196,51 +203,60 @@ I just added this to try correct the double signin, the second time May 12th
 
     if (!loginForm) return;
 
-    var emailInput = loginForm.querySelector('input[name="customer[email]"]');
-    var passwordInput = loginForm.querySelector('input[name="customer[password]"]');
+    var fields = getLoginFields(loginForm);
 
-    [emailInput, passwordInput].forEach(function (input) {
-      if (!input) return;
-
-      if (input.value) {
-        input.setAttribute('value', input.value);
-
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-        input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
-      }
-    });
+    syncField(fields.email);
+    syncField(fields.password);
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function scheduleSync() {
+    syncAutofilledLoginFields();
+
+    setTimeout(syncAutofilledLoginFields, 50);
+    setTimeout(syncAutofilledLoginFields, 150);
+    setTimeout(syncAutofilledLoginFields, 300);
+  }
+
+  function initLoginAutofillFix() {
     var loginForm = getLoginForm();
 
     if (!loginForm) return;
 
-    var submitButton = loginForm.querySelector('button[type="submit"]');
+    var fields = getLoginFields(loginForm);
+    var submitButton = loginForm.querySelector('button[type="submit"], input[type="submit"]');
 
-    setTimeout(syncAutofilledLoginFields, 100);
-    setTimeout(syncAutofilledLoginFields, 400);
-    setTimeout(syncAutofilledLoginFields, 900);
-    setTimeout(syncAutofilledLoginFields, 1500);
-    setTimeout(syncAutofilledLoginFields, 2500);
+    [100, 300, 700, 1200, 2000, 3000].forEach(function (delay) {
+      setTimeout(syncAutofilledLoginFields, delay);
+    });
+
+    [fields.email, fields.password].forEach(function (field) {
+      if (!field) return;
+
+      field.addEventListener('focus', scheduleSync, true);
+      field.addEventListener('blur', scheduleSync, true);
+      field.addEventListener('input', scheduleSync, true);
+      field.addEventListener('change', scheduleSync, true);
+    });
 
     if (submitButton) {
-      submitButton.addEventListener('pointerdown', syncAutofilledLoginFields, true);
-      submitButton.addEventListener('mousedown', syncAutofilledLoginFields, true);
-      submitButton.addEventListener('touchstart', syncAutofilledLoginFields, true);
-      submitButton.addEventListener('click', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('pointerdown', scheduleSync, true);
+      submitButton.addEventListener('mousedown', scheduleSync, true);
+      submitButton.addEventListener('touchstart', scheduleSync, true);
+      submitButton.addEventListener('click', scheduleSync, true);
     }
 
-    loginForm.addEventListener('submit', syncAutofilledLoginFields, true);
-  });
+    loginForm.addEventListener('submit', scheduleSync, true);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLoginAutofillFix);
+  } else {
+    initLoginAutofillFix();
+  }
+
+  window.addEventListener('pageshow', scheduleSync);
 })();
 </script>
-
-
-
-
-
 
 {% schema %}
 {

@@ -58,12 +58,14 @@
         </small>
       {%- endif -%}
 
-      {% comment %}
-        this was replaced by Diane
-        <button>
-      {% endcomment %}
+      
+{% comment %}
+ this was replaced by Diane
+<button>
+{% endcomment %}
+      
 
-      <button type="submit">
+        <button type="submit">
         {{ 'customer.login_page.submit' | t }}
       </button>
 
@@ -85,7 +87,6 @@
         {{ 'customer.recover_password.success' | t }}
       </h3>
     {%- endif -%}
-
     {%- form 'customer_login', novalidate: 'novalidate' -%}
       {%- if form.errors -%}
         <h2 class="form__message" tabindex="-1" autofocus>
@@ -151,51 +152,43 @@
         </a>
       {%- endif -%}
 
-      {% comment %}
-        this was replaced by Diane
-        <button>
-      {% endcomment %}
-
-      <button type="submit">
-        {{ 'customer.login_page.sign_in' | t }}
-      </button>
-    {%- endform -%}
-  </div>
-</div>
+      
+ 
+      
 
 {% comment %}
-  Autofill login fix - updated version.
-
-  This helps with the browser autofill issue where saved credentials may appear visually filled in,
-  but the Shopify login form/theme scripts may not detect the values until the first interaction.
-
-  The script forces the autofilled email/password fields to dispatch input/change events on:
-  - page load
-  - focus/blur/input/change
-  - click/touch/pointer on submit
-  - form submit
-  - pageshow, for browser back-forward cache cases
+ this was replaced by Diane
+<button>
 {% endcomment %}
+ 
+        <button type="submit">
+        {{ 'customer.login_page.sign_in' | t }}
+      </button>
+
+
+    {%- endform -%}
+  </div>
+
+</div>
+
+
+
+{% comment %}
+I just added this to try correct the double signin, the second time May 12th
+{% endcomment %}
+
+{% comment %}
+ this is the fix from May 28th, that final true makes the script run in the capture phase, meaning it fires before most other theme scripts.
+  And it fixes the browser autofill issue where saved credentials may require clicking Log In twice.
+  This forces autofilled values to register before the form submits.
+{% endcomment %}
+
+
 
 <script>
 (function () {
   function getLoginForm() {
-    return document.querySelector('form[action*="/account/login"], form[action*="/account"]');
-  }
-
-  function getLoginFields(form) {
-    return {
-      email: form ? form.querySelector('input[name="customer[email]"]') : null,
-      password: form ? form.querySelector('input[name="customer[password]"]') : null
-    };
-  }
-
-  function syncField(input) {
-    if (!input) return;
-
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    input.dispatchEvent(new Event('change', { bubbles: true }));
-    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
+    return document.querySelector('form[action*="/account/login"]');
   }
 
   function syncAutofilledLoginFields() {
@@ -203,60 +196,51 @@
 
     if (!loginForm) return;
 
-    var fields = getLoginFields(loginForm);
+    var emailInput = loginForm.querySelector('input[name="customer[email]"]');
+    var passwordInput = loginForm.querySelector('input[name="customer[password]"]');
 
-    syncField(fields.email);
-    syncField(fields.password);
+    [emailInput, passwordInput].forEach(function (input) {
+      if (!input) return;
+
+      if (input.value) {
+        input.setAttribute('value', input.value);
+
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
+      }
+    });
   }
 
-  function scheduleSync() {
-    syncAutofilledLoginFields();
-
-    setTimeout(syncAutofilledLoginFields, 50);
-    setTimeout(syncAutofilledLoginFields, 150);
-    setTimeout(syncAutofilledLoginFields, 300);
-  }
-
-  function initLoginAutofillFix() {
+  document.addEventListener('DOMContentLoaded', function () {
     var loginForm = getLoginForm();
 
     if (!loginForm) return;
 
-    var fields = getLoginFields(loginForm);
-    var submitButton = loginForm.querySelector('button[type="submit"], input[type="submit"]');
+    var submitButton = loginForm.querySelector('button[type="submit"]');
 
-    [100, 300, 700, 1200, 2000, 3000].forEach(function (delay) {
-      setTimeout(syncAutofilledLoginFields, delay);
-    });
-
-    [fields.email, fields.password].forEach(function (field) {
-      if (!field) return;
-
-      field.addEventListener('focus', scheduleSync, true);
-      field.addEventListener('blur', scheduleSync, true);
-      field.addEventListener('input', scheduleSync, true);
-      field.addEventListener('change', scheduleSync, true);
-    });
+    setTimeout(syncAutofilledLoginFields, 100);
+    setTimeout(syncAutofilledLoginFields, 400);
+    setTimeout(syncAutofilledLoginFields, 900);
+    setTimeout(syncAutofilledLoginFields, 1500);
+    setTimeout(syncAutofilledLoginFields, 2500);
 
     if (submitButton) {
-      submitButton.addEventListener('pointerdown', scheduleSync, true);
-      submitButton.addEventListener('mousedown', scheduleSync, true);
-      submitButton.addEventListener('touchstart', scheduleSync, true);
-      submitButton.addEventListener('click', scheduleSync, true);
+      submitButton.addEventListener('pointerdown', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('mousedown', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('touchstart', syncAutofilledLoginFields, true);
+      submitButton.addEventListener('click', syncAutofilledLoginFields, true);
     }
 
-    loginForm.addEventListener('submit', scheduleSync, true);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLoginAutofillFix);
-  } else {
-    initLoginAutofillFix();
-  }
-
-  window.addEventListener('pageshow', scheduleSync);
+    loginForm.addEventListener('submit', syncAutofilledLoginFields, true);
+  });
 })();
 </script>
+
+
+
+
+
 
 {% schema %}
 {
