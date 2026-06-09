@@ -283,10 +283,10 @@
     "fca_experience_ehtCAX": {
       "type": "fca-experience",
       "settings": {
-        "title": "Our Experience, Your Advantage",
-        "red_highlight_text": "Your Advantage",
-        "description": "With over 100 years of railcar leadership, FreightCar America combines deep industry expertise with innovative thinking to deliver the parts that keep your team performing at their best. Our extensive network ensures fast and reliable delivery of parts, no matter where or when you need them",
-        "button_text": "Start Your Order Today",
+        "title": "Carly Railcar Components. Powered by FreightCar America.",
+        "red_highlight_text": "Powered by FreightCar America.",
+        "description": "For over 30 years, Carly Railcar Components has helped customers keep railcars moving through specialty sourcing, reconditioned parts programs, and responsive service. Today, Carly combines that expertise with FreightCar America's inventory investment, OEM partnerships, manufacturing capabilities, and nationwide reach—delivering a stronger aftermarket experience without losing the personal relationships customers value most. Learn more at <a href=\"https://carlyrailcar.com/\" target=\"_blank\">carlyrailcar.com.</a>",
+        "button_text": "",
         "button_url": "shopify://collections/catalog"
       }
     },
