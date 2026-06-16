@@ -22,6 +22,7 @@
   <h1 id="recover" tabindex="-1">
     {{ 'customer.recover_password.title' | t }}
   </h1>
+
   <div>
     <p>
       {{ 'customer.recover_password.subtext' | t }}
@@ -29,6 +30,7 @@
 
     {%- form 'recover_customer_password' -%}
       {% assign recover_success = form.posted_successfully? %}
+
       <div class="field">
         <input
           type="email"
@@ -49,6 +51,7 @@
           {{ 'customer.login_page.email' | t }}
         </label>
       </div>
+
       {%- if form.errors -%}
         <small id="RecoverEmail-email-error" class="form__message">
           <span class="svg-wrapper">
@@ -76,6 +79,7 @@
   <h1 id="login" tabindex="-1">
     {{ 'customer.login_page.title' | t }}
   </h1>
+
   <div>
     {%- if recover_success == true -%}
       <h3 class="form__message" tabindex="-1" autofocus>
@@ -156,7 +160,7 @@
         <button>
       {% endcomment %}
 
-      <button type="submit">
+      <button type="submit" id="CustomerLoginSubmit">
         {{ 'customer.login_page.sign_in' | t }}
       </button>
     {%- endform -%}
@@ -164,17 +168,25 @@
 </div>
 
 {% comment %}
-  Autofill login fix - updated version.
+  Login autofill double-click fix - v2
 
-  This helps with the browser autofill issue where saved credentials may appear visually filled in,
-  but the Shopify login form/theme scripts may not detect the values until the first interaction.
+  Root cause being targeted: in Edge/Chromium, autofilled credential fields
+  can remain in a state where the browser does not treat them as "interacted
+  with" until the user's first real (trusted) gesture on the page. That first
+  click can get consumed by the browser unlocking/validating the autofilled
+  fields instead of being delivered as a normal form submit, which is what
+  produces the "click sign in twice" behavior.
 
-  The script forces the autofilled email/password fields to dispatch input/change events on:
-  - page load
-  - focus/blur/input/change
-  - click/touch/pointer on submit
-  - form submit
-  - pageshow, for browser back-forward cache cases
+  Synthetic events (dispatchEvent) do NOT fix this, because the browser
+  only honors isTrusted: true gestures for this purpose.
+
+  Strategy: listen for the FIRST trusted pointerdown/mousedown on the submit
+  button. On that trusted gesture, re-read the actual current values of the
+  email/password inputs (which are reliably readable once the user has
+  interacted with the page), and if both are non-empty, programmatically
+  submit the form ourselves from within that trusted event handler - instead
+  of waiting for the click's default action, which is what gets lost, and
+  without adding artificial delays.
 {% endcomment %}
 
 <script>
@@ -190,62 +202,61 @@
     };
   }
 
-  function syncField(input) {
-    if (!input) return;
-
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    input.dispatchEvent(new Event('change', { bubbles: true }));
-    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
-  }
-
-  function syncAutofilledLoginFields() {
-    var loginForm = getLoginForm();
-
-    if (!loginForm) return;
-
-    var fields = getLoginFields(loginForm);
-
-    syncField(fields.email);
-    syncField(fields.password);
-  }
-
-  function scheduleSync() {
-    syncAutofilledLoginFields();
-
-    setTimeout(syncAutofilledLoginFields, 50);
-    setTimeout(syncAutofilledLoginFields, 150);
-    setTimeout(syncAutofilledLoginFields, 300);
+  function hasValues(fields) {
+    var emailVal = fields.email ? fields.email.value : '';
+    var passwordVal = fields.password ? fields.password.value : '';
+    return emailVal.length > 0 && (fields.password ? passwordVal.length > 0 : true);
   }
 
   function initLoginAutofillFix() {
     var loginForm = getLoginForm();
-
     if (!loginForm) return;
 
     var fields = getLoginFields(loginForm);
-    var submitButton = loginForm.querySelector('button[type="submit"], input[type="submit"]');
+    var submitButton = loginForm.querySelector('#CustomerLoginSubmit, button[type="submit"], input[type="submit"]');
+    if (!submitButton) return;
 
-    [100, 300, 700, 1200, 2000, 3000].forEach(function (delay) {
-      setTimeout(syncAutofilledLoginFields, delay);
-    });
+    var hasSubmittedViaGesture = false;
 
-    [fields.email, fields.password].forEach(function (field) {
-      if (!field) return;
+    function onFirstTrustedGesture(event) {
+      // Only act on real, browser-trusted user gestures.
+      if (!event.isTrusted) return;
 
-      field.addEventListener('focus', scheduleSync, true);
-      field.addEventListener('blur', scheduleSync, true);
-      field.addEventListener('input', scheduleSync, true);
-      field.addEventListener('change', scheduleSync, true);
-    });
+      // Avoid double-submitting if this fires more than once before
+      // the form actually navigates away.
+      if (hasSubmittedViaGesture) return;
 
-    if (submitButton) {
-      submitButton.addEventListener('pointerdown', scheduleSync, true);
-      submitButton.addEventListener('mousedown', scheduleSync, true);
-      submitButton.addEventListener('touchstart', scheduleSync, true);
-      submitButton.addEventListener('click', scheduleSync, true);
+      var currentFields = getLoginFields(loginForm);
+
+      if (hasValues(currentFields)) {
+        // Fields are populated (autofilled or typed) and this is a real
+        // user gesture on the submit button: submit immediately instead
+        // of waiting for the default click action, which is what can get
+        // lost on the first click in some Edge/Chromium autofill states.
+        hasSubmittedViaGesture = true;
+
+        if (typeof loginForm.requestSubmit === 'function') {
+          loginForm.requestSubmit(submitButton);
+        } else {
+          loginForm.submit();
+        }
+      }
+      // If fields are empty, do nothing special - let the normal click/submit
+      // flow proceed as it would have anyway.
     }
 
-    loginForm.addEventListener('submit', scheduleSync, true);
+    // pointerdown fires before click and before any focus/blur side effects
+    // from clicking the button, so we catch the gesture as early as possible.
+    submitButton.addEventListener('pointerdown', onFirstTrustedGesture, true);
+
+    // Fallback for browsers/cases where pointerdown isn't supported as expected.
+    submitButton.addEventListener('mousedown', onFirstTrustedGesture, true);
+
+    // Reset the guard if the form didn't actually navigate away (e.g. validation
+    // error returned by Shopify), so a second real click still works normally.
+    window.addEventListener('pageshow', function () {
+      hasSubmittedViaGesture = false;
+    });
   }
 
   if (document.readyState === 'loading') {
@@ -253,8 +264,6 @@
   } else {
     initLoginAutofillFix();
   }
-
-  window.addEventListener('pageshow', scheduleSync);
 })();
 </script>
 
