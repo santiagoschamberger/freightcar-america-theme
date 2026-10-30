@@ -118,22 +118,7 @@
 
 {% if access_denied %}
     {% if bss_lock_action == 'bss_hide_price' %}
-        {% render 'bss-lock-content-element',            
-            bss_lock_access_denied: bss_lock_access_denied,
-            bss_lock_requires_customer: bss_lock_requires_customer,
-            bss_lock_requires_passcode: bss_lock_requires_passcode,
-            bss_lock_requires_customer_tag: bss_lock_requires_customer_tag,
-            passcode_condition_id: passcode_condition_id,
-            current_lock_element_id: current_lock_element_id,
-            condition_type: condition_type,
-            passcode_condition_ids: passcode_condition_ids,
-            cart_attributes_success_names: cart_attributes_success_names,
-            cart_attributes_check_names: cart_attributes_check_names,
-            bss_lock_ltsp_redirect_url: bss-lock-ltsp-redirect-url,
-            bss_lock_ids: bss_lock_ids,
-            bss_opened_lock_ids: bss_opened_lock_ids,
-            {{ bss_lock_ptvp_handle }}
-        %}
+        {% render 'bss-lock-content-element', bss_lock_access_denied: bss_lock_access_denied, bss_lock_requires_customer: bss_lock_requires_customer, bss_lock_requires_passcode: bss_lock_requires_passcode, bss_lock_requires_customer_tag: bss_lock_requires_customer_tag, passcode_condition_id: passcode_condition_id, current_lock_element_id: current_lock_element_id, condition_type: condition_type, passcode_condition_ids: passcode_condition_ids, cart_attributes_success_names: cart_attributes_success_names, cart_attributes_check_names: cart_attributes_check_names, bss_lock_ltsp_redirect_url: bss-lock-ltsp-redirect-url, bss_lock_ids: bss_lock_ids, bss_opened_lock_ids: bss_opened_lock_ids %}
         {% break %}
     {% endif %}
     {% if bss_cv %}
@@ -159,3 +144,29 @@
 		{% endcapture -%}
     {{ bss_lock | strip }}
 {%- endif %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'bss-lock-content-element',            \n            bss_lock_access_denied:
+    bss_lock_access_denied,\n            bss_lock_requires_customer: bss_lock_requires_customer,\n
+    \           bss_lock_requires_passcode: bss_lock_requires_passcode,\n            bss_lock_requires_customer_tag:
+    bss_lock_requires_customer_tag,\n            passcode_condition_id: passcode_condition_id,\n
+    \           current_lock_element_id: current_lock_element_id,\n            condition_type:
+    condition_type,\n            passcode_condition_ids: passcode_condition_ids,\n
+    \           cart_attributes_success_names: cart_attributes_success_names,\n            cart_attributes_check_names:
+    cart_attributes_check_names,\n            bss_lock_ltsp_redirect_url: bss-lock-ltsp-redirect-url,\n
+    \           bss_lock_ids: bss_lock_ids,\n            bss_opened_lock_ids: bss_opened_lock_ids,\n
+    \           {{ bss_lock_ptvp_handle }}\n        %}"
+  to: "{% render 'bss-lock-content-element', bss_lock_access_denied: bss_lock_access_denied,
+    bss_lock_requires_customer: bss_lock_requires_customer, bss_lock_requires_passcode:
+    bss_lock_requires_passcode, bss_lock_requires_customer_tag: bss_lock_requires_customer_tag,
+    passcode_condition_id: passcode_condition_id, current_lock_element_id: current_lock_element_id,
+    condition_type: condition_type, passcode_condition_ids: passcode_condition_ids,
+    cart_attributes_success_names: cart_attributes_success_names, cart_attributes_check_names:
+    cart_attributes_check_names, bss_lock_ltsp_redirect_url: bss-lock-ltsp-redirect-url,
+    bss_lock_ids: bss_lock_ids, bss_opened_lock_ids: bss_opened_lock_ids %}"
+  position: 5017..5702
+{% endcomment %}
