@@ -542,7 +542,7 @@
         "free_shipping_total_label": "Arranged separately"
       },
       "shipping": {
-        "free_rate_label": " Arranged separately"
+        "free_rate_label": " "
       }
     }
   }
