@@ -539,10 +539,10 @@
   "shopify": {
     "checkout": {
       "order_summary": {
-        "free_shipping_total_label": " "
+        "free_shipping_total_label": "Arranged separately"
       },
       "shipping": {
-        "free_rate_label": " "
+        "free_rate_label": " Arranged separately"
       }
     }
   }
